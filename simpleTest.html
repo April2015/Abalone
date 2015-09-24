@@ -5,7 +5,8 @@
   <script src="ts_output_readonly_do_NOT_change_manually/src/gameLogic.js"></script>
   <script>
   angular.module('myApp', []);
-  var move = gameLogic.createMove(undefined, 0, 0, 0);
+  var move = gameLogic.createMove(undefined, {isInline: true, direction:  {-1, 1},
+    selfMarbles: [{8, 4}, {7, 5}, {6, 6}], opponentMarbles: []}, 0);
   console.log("move=", move);
   var params = {turnIndexBeforeMove: 0,
     stateBeforeMove: {},
