@@ -1,4 +1,4 @@
-describe("In TicTacToe", function () {
+describe("In Abalone", function () {
     function expectMove(turnIndexBeforeMove, stateBeforeMove, move, isOk) {
         expect(gameLogic.isMoveOk({
             turnIndexBeforeMove: turnIndexBeforeMove,
@@ -14,120 +14,536 @@ describe("In TicTacToe", function () {
     function expectIllegalMove(turnIndexBeforeMove, stateBeforeMove, move) {
         expectMove(turnIndexBeforeMove, stateBeforeMove, move, false);
     }
-    it("placing X in 0x0 from initial state is legal", function () {
+    it("moving 3 black marbles in a line from initial state is legal", function () {
         expectMoveOk(0, {}, [{ setTurn: { turnIndex: 1 } },
-            { set: { key: 'board', value: [['X', '', ''],
-                        ['', '', ''],
-                        ['', '', '']] } },
-            { set: { key: 'delta', value: { row: 0, col: 0 } } }]);
+            { set: { key: 'action', value: { isInline: true, direction: { row: -1, col: 1 },
+                        selfMarbles: [{ row: 8, col: 4 }, { row: 7, col: 5 }, { row: 6, col: 6 }],
+                        opponentMarbles: [] } } },
+            { set: { key: 'state', value: { board: [
+                            ['', '', '', '', 'W', '', 'W', '', 'O', '', 'B', '', 'B', '', '', '', ''],
+                            ['', '', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', '', '', ''],
+                            ['', '', 'O', '', 'W', '', 'W', '', 'O', '', 'B', '', 'B', '', 'O', '', ''],
+                            ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', ''],
+                            ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O'],
+                            ['', 'O', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', 'O', '', 'O', ''],
+                            ['', '', 'O', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'O', '', ''],
+                            ['', '', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'W', '', '', ''],
+                            ['', '', '', '', 'O', '', 'B', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+                        removedMarbles: { black: 0, white: 0 } } } }]);
     });
-    it("placing O in 0x1 after X placed X in 0x0 is legal", function () {
-        expectMoveOk(1, { board: [['X', '', ''],
-                ['', '', ''],
-                ['', '', '']], delta: { row: 0, col: 0 } }, [{ setTurn: { turnIndex: 0 } },
-            { set: { key: 'board', value: [['X', 'O', ''],
-                        ['', '', ''],
-                        ['', '', '']] } },
-            { set: { key: 'delta', value: { row: 0, col: 1 } } }]);
+    it("an inline move with 3 pushing 1 is legal", function () {
+        expectMoveOk(1, { board: [
+                ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', '', '', ''],
+                ['', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'B', '', 'B', '', '', ''],
+                ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                ['', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', ''],
+                ['O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O'],
+                ['', 'O', '', 'O', '', 'O', '', 'W', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', ''],
+                ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            removedMarbles: { black: 0, white: 2 } }, [{ setTurn: { turnIndex: 0 } },
+            { set: { key: 'action', value: { isInline: true, direction: { row: -1, col: -1 },
+                        selfMarbles: [{ row: 4, col: 10 }, { row: 3, col: 9 },
+                            { row: 2, col: 8 }],
+                        opponentMarbles: [{ row: 1, col: 7 }] } } },
+            { set: { key: 'state', value: { board: [
+                            ['', '', '', '', 'O', '', 'B', '', 'B', '', 'O', '', 'O', '', '', '', ''],
+                            ['', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', ''],
+                            ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                            ['', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', ''],
+                            ['O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O'],
+                            ['', 'O', '', 'O', '', 'O', '', 'W', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                            ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                            ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', ''],
+                            ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        removedMarbles: { black: 0, white: 2 } } } }]);
     });
-    it("placing an O in a non-empty position is illegal", function () {
-        expectIllegalMove(1, { board: [['X', '', ''],
-                ['', '', ''],
-                ['', '', '']], delta: { row: 0, col: 0 } }, [{ setTurn: { turnIndex: 0 } },
-            { set: { key: 'board', value: [['O', '', ''],
-                        ['', '', ''],
-                        ['', '', '']] } },
-            { set: { key: 'delta', value: { row: 0, col: 0 } } }]);
+    it("an inline move with 4 pushing 1 is illegal", function () {
+        expectIllegalMove(1, { board: [
+                ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', '', '', ''],
+                ['', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'B', '', 'B', '', '', ''],
+                ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                ['', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', ''],
+                ['O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O'],
+                ['', 'O', '', 'O', '', 'O', '', 'W', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', ''],
+                ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            removedMarbles: { black: 0, white: 2 } }, [{ setTurn: { turnIndex: 0 } },
+            { set: { key: 'action', value: { isInline: true, direction: { row: -1, col: -1 },
+                        selfMarbles: [{ row: 5, col: 11 }, { row: 4, col: 10 }, { row: 3, col: 9 },
+                            { row: 2, col: 8 }],
+                        opponentMarbles: [{ row: 1, col: 7 }] } } },
+            { set: { key: 'state', value: { board: [
+                            ['', '', '', '', 'O', '', 'B', '', 'B', '', 'O', '', 'O', '', '', '', ''],
+                            ['', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', ''],
+                            ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                            ['', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', ''],
+                            ['O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O'],
+                            ['', 'O', '', 'O', '', 'O', '', 'W', '', 'B', '', 'O', '', 'W', '', 'O', ''],
+                            ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                            ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', ''],
+                            ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        removedMarbles: { black: 0, white: 2 } } } }]);
     });
-    it("cannot move after the game is over", function () {
-        expectIllegalMove(1, { board: [['X', 'O', ''],
-                ['X', 'O', ''],
-                ['X', '', '']], delta: { row: 2, col: 0 } }, [{ setTurn: { turnIndex: 0 } },
-            { set: { key: 'board', value: [['X', 'O', ''],
-                        ['X', 'O', ''],
-                        ['X', 'O', '']] } },
-            { set: { key: 'delta', value: { row: 2, col: 1 } } }]);
+    it("an inline move with 3 pushing 3 is illegal", function () {
+        expectIllegalMove(1, { board: [
+                ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', '', '', ''],
+                ['', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'B', '', 'B', '', '', ''],
+                ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                ['', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', ''],
+                ['O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O'],
+                ['', 'O', '', 'O', '', 'O', '', 'W', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', ''],
+                ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            removedMarbles: { black: 0, white: 2 } }, [{ setTurn: { turnIndex: 0 } },
+            { set: { key: 'action', value: { isInline: true, direction: { row: 0, col: 2 },
+                        selfMarbles: [{ row: 3, col: 5 }, { row: 3, col: 7 }, { row: 3, col: 9 }],
+                        opponentMarbles: [{ row: 3, col: 11 }, { row: 3, col: 13 }, { row: 3, col: 15 }] } } },
+            { set: { key: 'state', value: { board: [
+                            ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', '', '', ''],
+                            ['', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'B', '', 'B', '', '', ''],
+                            ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                            ['', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', ''],
+                            ['O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O'],
+                            ['', 'O', '', 'O', '', 'O', '', 'W', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                            ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                            ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', ''],
+                            ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        removedMarbles: { black: 1, white: 2 } } } }]);
     });
-    it("placing O in 2x1 is legal", function () {
-        expectMoveOk(1, { board: [['O', 'X', ''],
-                ['X', 'O', ''],
-                ['X', '', '']], delta: { row: 2, col: 0 } }, [{ setTurn: { turnIndex: 0 } },
-            { set: { key: 'board', value: [['O', 'X', ''],
-                        ['X', 'O', ''],
-                        ['X', 'O', '']] } },
-            { set: { key: 'delta', value: { row: 2, col: 1 } } }]);
+    it("an inline move with 2 pushing 1 to open space is legal", function () {
+        expectMoveOk(0, { board: [
+                ['', '', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', '', '', ''],
+                ['', '', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', '', '', ''],
+                ['', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', ''],
+                ['', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', 'O', ''],
+                ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O'],
+                ['', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'O', '', 'O', '', 'O', ''],
+                ['', '', 'O', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', '', ''],
+                ['', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
+                ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+            removedMarbles: { black: 0, white: 0 } }, [{ setTurn: { turnIndex: 1 } },
+            { set: { key: 'action', value: { isInline: true, direction: { row: 1, col: -1 },
+                        selfMarbles: [{ row: 0, col: 12 }, { row: 1, col: 11 }],
+                        opponentMarbles: [{ row: 2, col: 10 }] } } },
+            { set: { key: 'state', value: { board: [
+                            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'O', '', '', '', ''],
+                            ['', '', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', '', '', ''],
+                            ['', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', '', ''],
+                            ['', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'O', '', 'O', '', 'O', ''],
+                            ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O'],
+                            ['', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'O', '', 'O', '', 'O', ''],
+                            ['', '', 'O', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', '', ''],
+                            ['', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
+                            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+                        removedMarbles: { black: 0, white: 0 } } } }]);
     });
-    it("X wins by placing X in 2x0 is legal", function () {
-        expectMoveOk(0, { board: [['X', 'O', ''],
-                ['X', 'O', ''],
-                ['', '', '']], delta: { row: 1, col: 1 } }, [{ endMatch: { endMatchScores: [1, 0] } },
-            { set: { key: 'board', value: [['X', 'O', ''],
-                        ['X', 'O', ''],
-                        ['X', '', '']] } },
-            { set: { key: 'delta', value: { row: 2, col: 0 } } }]);
+    it("an inline move that removes opponent's inside marble is illegal", function () {
+        expectIllegalMove(0, { board: [
+                ['', '', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', '', '', ''],
+                ['', '', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', '', '', ''],
+                ['', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', ''],
+                ['', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', 'O', ''],
+                ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O'],
+                ['', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'O', '', 'O', '', 'O', ''],
+                ['', '', 'O', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', '', ''],
+                ['', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
+                ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+            removedMarbles: { black: 0, white: 0 } }, [{ setTurn: { turnIndex: 1 } },
+            { set: { key: 'action', value: { isInline: true, direction: { row: 1, col: -1 },
+                        selfMarbles: [{ row: 0, col: 12 }, { row: 1, col: 11 }],
+                        opponentMarbles: [{ row: 2, col: 10 }] } } },
+            { set: { key: 'state', value: { board: [
+                            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'O', '', '', '', ''],
+                            ['', '', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', '', '', ''],
+                            ['', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', '', ''],
+                            ['', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', 'O', ''],
+                            ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O'],
+                            ['', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'O', '', 'O', '', 'O', ''],
+                            ['', '', 'O', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', '', ''],
+                            ['', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
+                            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+                        removedMarbles: { black: 0, white: 1 } } } }]);
     });
-    it("O wins by placing O in 1x1 is legal", function () {
-        expectMoveOk(1, { board: [['X', 'X', 'O'],
-                ['X', '', ''],
-                ['O', '', '']], delta: { row: 0, col: 1 } }, [{ endMatch: { endMatchScores: [0, 1] } },
-            { set: { key: 'board', value: [['X', 'X', 'O'],
-                        ['X', 'O', ''],
-                        ['O', '', '']] } },
-            { set: { key: 'delta', value: { row: 1, col: 1 } } }]);
+    it("an inline move with 3 pushing 2 off edge is legal", function () {
+        expectMoveOk(0, { board: [
+                ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', '', '', ''],
+                ['', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'B', '', 'B', '', '', ''],
+                ['', '', 'O', '', 'W', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                ['', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', ''],
+                ['O', '', 'O', '', 'O', '', 'W', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O'],
+                ['', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'W', '', 'W', '', '', ''],
+                ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            removedMarbles: { black: 0, white: 0 } }, [{ setTurn: { turnIndex: 1 } },
+            { set: { key: 'action', value: { isInline: true, direction: { row: 1, col: 1 },
+                        selfMarbles: [{ row: 4, col: 8 }, { row: 5, col: 9 }, { row: 6, col: 10 }],
+                        opponentMarbles: [{ row: 7, col: 11 }, { row: 8, col: 12 }] } } },
+            { set: { key: 'state', value: { board: [
+                            ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', '', '', ''],
+                            ['', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'B', '', 'B', '', '', ''],
+                            ['', '', 'O', '', 'W', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                            ['', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', ''],
+                            ['O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O'],
+                            ['', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                            ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                            ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', ''],
+                            ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        removedMarbles: { black: 0, white: 1 } } } }]);
     });
-    it("the game ties when there are no more empty cells", function () {
-        expectMoveOk(0, { board: [['X', 'O', 'X'],
-                ['X', 'O', 'O'],
-                ['O', 'X', '']], delta: { row: 2, col: 0 } }, [{ endMatch: { endMatchScores: [0, 0] } },
-            { set: { key: 'board', value: [['X', 'O', 'X'],
-                        ['X', 'O', 'O'],
-                        ['O', 'X', 'X']] } },
-            { set: { key: 'delta', value: { row: 2, col: 2 } } }]);
+    it("an inline move with 3 pushing 2 to open space is legal", function () {
+        expectMoveOk(1, { board: [
+                ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', '', '', ''],
+                ['', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'B', '', 'B', '', '', ''],
+                ['', '', 'O', '', 'W', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                ['', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', ''],
+                ['O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O'],
+                ['', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', ''],
+                ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            removedMarbles: { black: 0, white: 1 } }, [{ setTurn: { turnIndex: 0 } },
+            { set: { key: 'action', value: { isInline: true, direction: { row: 1, col: 1 },
+                        selfMarbles: [{ row: 2, col: 4 }, { row: 3, col: 5 }, { row: 4, col: 6 }],
+                        opponentMarbles: [{ row: 5, col: 7 }, { row: 6, col: 8 }] } } },
+            { set: { key: 'state', value: { board: [
+                            ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', '', '', ''],
+                            ['', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'B', '', 'B', '', '', ''],
+                            ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                            ['', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', ''],
+                            ['O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O'],
+                            ['', 'O', '', 'O', '', 'O', '', 'W', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                            ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                            ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'W', '', '', ''],
+                            ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        removedMarbles: { black: 0, white: 1 } } } }]);
     });
-    it("null move is illegal", function () {
-        expectIllegalMove(0, {}, null);
+    it("an inline move with 3 pushing 1 blocked by some marble is illegal", function () {
+        expectIllegalMove(1, { board: [
+                ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', '', '', ''],
+                ['', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'B', '', 'B', '', '', ''],
+                ['', '', 'O', '', 'W', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                ['', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', ''],
+                ['O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O'],
+                ['', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', ''],
+                ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            removedMarbles: { black: 0, white: 1 } }, [{ setTurn: { turnIndex: 0 } },
+            { set: { key: 'action', value: { isInline: true, direction: { row: 1, col: 1 },
+                        selfMarbles: [{ row: 2, col: 4 }, { row: 3, col: 5 }, { row: 4, col: 6 }],
+                        opponentMarbles: [{ row: 5, col: 7 }] } } },
+            { set: { key: 'state', value: { board: [
+                            ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', '', '', ''],
+                            ['', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'B', '', 'B', '', '', ''],
+                            ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                            ['', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', ''],
+                            ['O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O'],
+                            ['', 'O', '', 'O', '', 'O', '', 'W', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                            ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                            ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'W', '', '', ''],
+                            ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        removedMarbles: { black: 0, white: 1 } } } }]);
     });
-    it("move without board is illegal", function () {
-        expectIllegalMove(0, {}, [{ setTurn: { turnIndex: 1 } }]);
+    it("Using opponent's marbles to push yours is illegal", function () {
+        expectIllegalMove(1, { board: [
+                ['', '', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', '', '', ''],
+                ['', '', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', '', '', ''],
+                ['', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', ''],
+                ['', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', 'O', ''],
+                ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O'],
+                ['', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'O', '', 'O', '', 'O', ''],
+                ['', '', 'O', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', '', ''],
+                ['', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
+                ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+            removedMarbles: { black: 0, white: 0 } }, [{ setTurn: { turnIndex: 0 } },
+            { set: { key: 'action', value: { isInline: true, direction: { row: 1, col: -1 },
+                        selfMarbles: [{ row: 0, col: 12 }, { row: 1, col: 11 }],
+                        opponentMarbles: [{ row: 2, col: 10 }] } } },
+            { set: { key: 'state', value: { board: [
+                            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'O', '', '', '', ''],
+                            ['', '', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', '', '', ''],
+                            ['', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', '', ''],
+                            ['', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'O', '', 'O', '', 'O', ''],
+                            ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O'],
+                            ['', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'O', '', 'O', '', 'O', ''],
+                            ['', '', 'O', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', '', ''],
+                            ['', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
+                            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+                        removedMarbles: { black: 0, white: 0 } } } }]);
     });
-    it("move without delta is illegal", function () {
-        expectIllegalMove(0, {}, [{ setTurn: { turnIndex: 1 } },
-            { set: { key: 'board', value: [['X', '', ''],
-                        ['', '', ''],
-                        ['', '', '']] } }]);
+    it("an inline move with 2 pushing 1 blocked by some marble is illegal", function () {
+        expectIllegalMove(1, { board: [
+                ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', '', '', ''],
+                ['', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'B', '', 'B', '', '', ''],
+                ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', ''],
+                ['', 'O', '', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', ''],
+                ['O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B'],
+                ['', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'B', '', '', ''],
+                ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '']],
+            removedMarbles: { black: 0, white: 3 } }, [{ setTurn: { turnIndex: 0 } },
+            { set: { key: 'action', value: { isInline: true, direction: { row: -1, col: 1 },
+                        selfMarbles: [{ row: 7, col: 7 }, { row: 6, col: 8 }],
+                        opponentMarbles: [{ row: 5, col: 9 }] } } },
+            { set: { key: 'state', value: { board: [
+                            ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', '', '', ''],
+                            ['', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'B', '', 'B', '', '', ''],
+                            ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', ''],
+                            ['', 'O', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'O', '', 'O', ''],
+                            ['O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', '', 'B'],
+                            ['', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'W', '', 'W', '', 'O', ''],
+                            ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                            ['', '', '', 'B', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', '', ''],
+                            ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '']],
+                        removedMarbles: { black: 0, white: 3 } } } }]);
     });
-    it("placing X outside the board (in 3x0) is illegal", function () {
-        expectIllegalMove(0, {}, [{ setTurn: { turnIndex: 1 } },
-            { set: { key: 'board', value: [['X', '', ''],
-                        ['', '', ''],
-                        ['', '', '']] } },
-            { set: { key: 'delta', value: { row: 3, col: 0 } } }]);
+    it("an inline move with marbles given in the opposite direction is illegal", function () {
+        expectIllegalMove(1, { board: [
+                ['', '', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'O', '', '', '', ''],
+                ['', '', '', 'W', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', '', ''],
+                ['', '', 'O', '', 'W', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                ['', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', ''],
+                ['O', '', 'O', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O'],
+                ['', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                ['', '', '', 'B', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
+                ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+            removedMarbles: { black: 0, white: 0 } }, [{ setTurn: { turnIndex: 0 } },
+            { set: { key: 'action', value: { isInline: true, direction: { row: 1, col: 1 },
+                        selfMarbles: [{ row: 3, col: 5 }, { row: 2, col: 4 }, { row: 1, col: 3 }],
+                        opponentMarbles: [] } } },
+            { set: { key: 'state', value: { board: [
+                            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'O', '', '', '', ''],
+                            ['', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', '', ''],
+                            ['', '', 'O', '', 'W', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                            ['', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', ''],
+                            ['O', '', 'O', '', 'O', '', 'W', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O'],
+                            ['', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                            ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                            ['', '', '', 'B', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
+                            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+                        removedMarbles: { black: 0, white: 0 } } } }]);
     });
-    it("placing X in 0x0 but setTurn to yourself is illegal", function () {
-        expectIllegalMove(0, {}, [{ setTurn: { turnIndex: 0 } },
-            { set: { key: 'board', value: [['X', '', ''],
-                        ['', '', ''],
-                        ['', '', '']] } },
-            { set: { key: 'delta', value: { row: 0, col: 0 } } }]);
+    it("an inline move with marbles given in the same direction is legal", function () {
+        expectMoveOk(1, { board: [
+                ['', '', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'O', '', '', '', ''],
+                ['', '', '', 'W', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', '', ''],
+                ['', '', 'O', '', 'W', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                ['', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', ''],
+                ['O', '', 'O', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O'],
+                ['', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                ['', '', '', 'B', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
+                ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+            removedMarbles: { black: 0, white: 0 } }, [{ setTurn: { turnIndex: 0 } },
+            { set: { key: 'action', value: { isInline: true, direction: { row: 1, col: 1 },
+                        selfMarbles: [{ row: 1, col: 3 }, { row: 2, col: 4 }, { row: 3, col: 5 }],
+                        opponentMarbles: [] } } },
+            { set: { key: 'state', value: { board: [
+                            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'O', '', '', '', ''],
+                            ['', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', '', ''],
+                            ['', '', 'O', '', 'W', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                            ['', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', ''],
+                            ['O', '', 'O', '', 'O', '', 'W', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O'],
+                            ['', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                            ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                            ['', '', '', 'B', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
+                            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+                        removedMarbles: { black: 0, white: 0 } } } }]);
     });
-    it("placing X in 0x0 but setting the board wrong is illegal", function () {
-        expectIllegalMove(0, {}, [{ setTurn: { turnIndex: 1 } },
-            { set: { key: 'board', value: [['X', 'X', ''],
-                        ['', '', ''],
-                        ['', '', '']] } },
-            { set: { key: 'delta', value: { row: 0, col: 0 } } }]);
+    it("an inline move ejecting your own marbles  is illegal", function () {
+        expectIllegalMove(1, { board: [
+                ['', '', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'O', '', '', '', ''],
+                ['', '', '', 'W', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', '', ''],
+                ['', '', 'O', '', 'W', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                ['', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', ''],
+                ['O', '', 'O', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O'],
+                ['', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                ['', '', '', 'B', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
+                ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+            removedMarbles: { black: 0, white: 0 } }, [{ setTurn: { turnIndex: 0 } },
+            { set: { key: 'action', value: { isInline: true, direction: { row: -1, col: -1 },
+                        selfMarbles: [{ row: 3, col: 5 }, { row: 2, col: 4 }, { row: 1, col: 3 }],
+                        opponentMarbles: [] } } },
+            { set: { key: 'state', value: { board: [
+                            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'O', '', '', '', ''],
+                            ['', '', '', 'W', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', '', ''],
+                            ['', '', 'O', '', 'W', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                            ['', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', ''],
+                            ['O', '', 'O', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O'],
+                            ['', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                            ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                            ['', '', '', 'B', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
+                            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+                        removedMarbles: { black: 0, white: 1 } } } }]);
     });
-    it("getPossibleMoves returns exactly one cell", function () {
-        var board = [['O', 'O', 'X'],
-            ['X', 'X', 'O'],
-            ['O', 'X', '']];
-        // var possibleMoves = gameLogic.getPossibleMoves(board, 0);
-        // var expectedMove = [{endMatch: {endMatchScores: [0, 0]}},
-        //     {set: {key: 'board', value:
-        //       [['O', 'O', 'X'],
-        //        ['X', 'X', 'O'],
-        //        ['O', 'X', 'X']]}},
-        //     {set: {key: 'delta', value: {row: 2, col: 2}}}];
-        // expect(angular.equals(possibleMoves, [expectedMove])).toBe(true);
+    it("a broadside move of 2 marbles to open space is legal", function () {
+        expectMoveOk(0, { board: [
+                ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', '', '', ''],
+                ['', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'B', '', 'B', '', '', ''],
+                ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', ''],
+                ['', 'O', '', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', ''],
+                ['O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B'],
+                ['', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'B', '', '', ''],
+                ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '']],
+            removedMarbles: { black: 0, white: 3 } }, [{ setTurn: { turnIndex: 1 } },
+            { set: { key: 'action', value: { isInline: false, direction: { row: -1, col: -1 },
+                        selfMarbles: [{ row: 7, col: 11 }, { row: 7, col: 13 }],
+                        opponentMarbles: [] } } },
+            { set: { key: 'state', value: { board: [
+                            ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', '', '', ''],
+                            ['', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'B', '', 'B', '', '', ''],
+                            ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', ''],
+                            ['', 'O', '', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', ''],
+                            ['O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B'],
+                            ['', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                            ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'B', '', 'B', '', 'O', '', ''],
+                            ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'O', '', 'O', '', '', ''],
+                            ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '']],
+                        removedMarbles: { black: 0, white: 3 } } } }]);
+    });
+    it("a broadside move of 2 marbles to filled space is illegal", function () {
+        expectIllegalMove(0, { board: [
+                ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', '', '', ''],
+                ['', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'B', '', 'B', '', '', ''],
+                ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', ''],
+                ['', 'O', '', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', ''],
+                ['O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B'],
+                ['', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'B', '', '', ''],
+                ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '']],
+            removedMarbles: { black: 0, white: 3 } }, [{ setTurn: { turnIndex: 1 } },
+            { set: { key: 'action', value: { isInline: false, direction: { row: -1, col: -1 },
+                        selfMarbles: [{ row: 7, col: 9 }, { row: 7, col: 11 }],
+                        opponentMarbles: [] } } },
+            { set: { key: 'state', value: { board: [
+                            ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', '', '', ''],
+                            ['', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'B', '', 'B', '', '', ''],
+                            ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', ''],
+                            ['', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', ''],
+                            ['O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B'],
+                            ['', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                            ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                            ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'O', '', 'B', '', '', ''],
+                            ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '']],
+                        removedMarbles: { black: 0, white: 3 } } } }]);
+    });
+    it("a broadside move of 2 marbles not next to each other is illegal", function () {
+        expectIllegalMove(0, { board: [
+                ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', '', '', ''],
+                ['', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'B', '', 'B', '', '', ''],
+                ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', ''],
+                ['', 'O', '', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', ''],
+                ['O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B'],
+                ['', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'B', '', '', ''],
+                ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '']],
+            removedMarbles: { black: 0, white: 3 } }, [{ setTurn: { turnIndex: 1 } },
+            { set: { key: 'action', value: { isInline: false, direction: { row: 0, col: 2 },
+                        selfMarbles: [{ row: 7, col: 3 }, { row: 8, col: 8 }],
+                        opponentMarbles: [] } } },
+            { set: { key: 'state', value: { board: [
+                            ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', '', '', ''],
+                            ['', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'B', '', 'B', '', '', ''],
+                            ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', ''],
+                            ['', 'O', '', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', 'O', '', 'O', ''],
+                            ['O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B'],
+                            ['', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'W', '', 'W', '', 'O', ''],
+                            ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
+                            ['', '', '', 'O', '', 'B', '', 'W', '', 'B', '', 'B', '', 'B', '', '', ''],
+                            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'W', '', '', '', '']],
+                        removedMarbles: { black: 0, white: 3 } } } }]);
+    });
+    it("moving 1 marble to open space broadside is legal", function () {
+        expectMoveOk(1, { board: [
+                ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', ''],
+                ['', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', '', ''],
+                ['', '', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                ['', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'B', '', 'B', '', 'O', ''],
+                ['O', '', 'O', '', 'B', '', 'W', '', 'W', '', 'O', '', 'O', '', 'O', '', 'O'],
+                ['', 'O', '', 'O', '', 'W', '', 'W', '', 'O', '', 'W', '', 'B', '', 'O', ''],
+                ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', ''],
+                ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', ''],
+                ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '']],
+            removedMarbles: { black: 1, white: 5 } }, [{ setTurn: { turnIndex: 0 } },
+            { set: { key: 'action', value: { isInline: false, direction: { row: -1, col: -1 },
+                        selfMarbles: [{ row: 1, col: 11 }],
+                        opponentMarbles: [] } } },
+            { set: { key: 'state', value: { board: [
+                            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', '', '', ''],
+                            ['', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', ''],
+                            ['', '', 'O', '', 'B', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                            ['', 'O', '', 'B', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', ''],
+                            ['O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'O', '', 'O', '', 'O', '', 'O'],
+                            ['', 'O', '', 'O', '', 'W', '', 'W', '', 'O', '', 'W', '', 'B', '', 'O', ''],
+                            ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', ''],
+                            ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', ''],
+                            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '']],
+                        removedMarbles: { black: 1, white: 5 } } } }]);
+    });
+    it("moving 3 marbles not in the same line is illegal", function () {
+        expectIllegalMove(0, { board: [
+                ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', ''],
+                ['', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', '', ''],
+                ['', '', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                ['', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'B', '', 'B', '', 'O', ''],
+                ['O', '', 'O', '', 'B', '', 'W', '', 'W', '', 'O', '', 'O', '', 'O', '', 'O'],
+                ['', 'O', '', 'O', '', 'W', '', 'W', '', 'O', '', 'W', '', 'B', '', 'O', ''],
+                ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', ''],
+                ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', ''],
+                ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '']],
+            removedMarbles: { black: 1, white: 5 } }, [{ setTurn: { turnIndex: 1 } },
+            { set: { key: 'action', value: { isInline: false, direction: { row: -1, col: -1 },
+                        selfMarbles: [{ row: 4, col: 4 }, { row: 3, col: 5 }, { row: 3, col: 7 }],
+                        opponentMarbles: [] } } },
+            { set: { key: 'state', value: { board: [
+                            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', ''],
+                            ['', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', '', ''],
+                            ['', '', 'O', '', 'B', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
+                            ['', 'O', '', 'B', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', ''],
+                            ['O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'O', '', 'O', '', 'O', '', 'O'],
+                            ['', 'O', '', 'O', '', 'W', '', 'W', '', 'O', '', 'W', '', 'B', '', 'O', ''],
+                            ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', ''],
+                            ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', ''],
+                            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '']],
+                        removedMarbles: { black: 1, white: 5 } } } }]);
+    });
+    it("moving in a finished game is illegal", function () {
+        expectIllegalMove(0, { board: [
+                ['', '', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'O', '', '', '', ''],
+                ['', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'O', '', '', ''],
+                ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', ''],
+                ['', 'O', '', 'O', '', 'B', '', 'B', '', 'O', '', 'O', '', 'B', '', 'O', ''],
+                ['O', '', 'O', '', 'B', '', 'W', '', 'W', '', 'O', '', 'O', '', 'O', '', 'O'],
+                ['', 'O', '', 'O', '', 'W', '', 'W', '', 'O', '', 'W', '', 'B', '', 'O', ''],
+                ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', ''],
+                ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', ''],
+                ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '']],
+            removedMarbles: { black: 1, white: 6 } }, [{ setTurn: { turnIndex: 1 } },
+            { set: { key: 'action', value: { isInline: true, direction: { row: -1, col: 1 },
+                        selfMarbles: [{ row: 8, col: 12 }],
+                        opponentMarbles: [] } } },
+            { set: { key: 'state', value: { board: [
+                            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'O', '', '', '', ''],
+                            ['', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'O', '', '', ''],
+                            ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', ''],
+                            ['', 'O', '', 'O', '', 'B', '', 'B', '', 'O', '', 'O', '', 'B', '', 'O', ''],
+                            ['O', '', 'O', '', 'B', '', 'W', '', 'W', '', 'O', '', 'O', '', 'O', '', 'O'],
+                            ['', 'O', '', 'O', '', 'W', '', 'W', '', 'O', '', 'W', '', 'B', '', 'O', ''],
+                            ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', ''],
+                            ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'B', '', '', ''],
+                            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', '']],
+                        removedMarbles: { black: 1, white: 6 } } } }]);
     });
 });
