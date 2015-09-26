@@ -2,32 +2,91 @@ var gameLogic;
 (function (gameLogic) {
     gameLogic.ROWS = 9;
     gameLogic.COLS = 17;
-    function abs(a) {
-        if (a >= 0)
-            return a;
-        return -a;
+    gameLogic.PLACES = [{ row: 0, col: 4 }, { row: 0, col: 6 }, { row: 0, col: 8 },
+        { row: 0, col: 10 }, { row: 0, col: 12 }, { row: 1, col: 3 }, { row: 1, col: 5 }, { row: 1, col: 7 },
+        { row: 1, col: 9 }, { row: 1, col: 11 }, { row: 1, col: 13 }, { row: 2, col: 2 }, { row: 2, col: 4 },
+        { row: 2, col: 6 }, { row: 2, col: 8 }, { row: 2, col: 10 }, { row: 2, col: 12 }, { row: 2, col: 14 },
+        { row: 3, col: 1 }, { row: 3, col: 3 }, { row: 3, col: 5 }, { row: 3, col: 7 },
+        { row: 3, col: 9 }, { row: 3, col: 11 }, { row: 3, col: 13 }, { row: 3, col: 15 },
+        { row: 4, col: 2 }, { row: 4, col: 2 }, { row: 4, col: 4 }, { row: 4, col: 6 }, { row: 4, col: 8 },
+        { row: 4, col: 10 }, { row: 4, col: 12 }, { row: 4, col: 14 }, { row: 4, col: 16 },
+        { row: 5, col: 1 }, { row: 5, col: 3 }, { row: 5, col: 5 }, { row: 5, col: 7 },
+        { row: 5, col: 9 }, { row: 5, col: 11 }, { row: 5, col: 13 }, { row: 5, col: 15 },
+        { row: 6, col: 2 }, { row: 6, col: 4 }, { row: 6, col: 6 }, { row: 6, col: 8 }, { row: 6, col: 10 },
+        { row: 6, col: 12 }, { row: 6, col: 14 },
+        { row: 7, col: 3 }, { row: 7, col: 5 }, { row: 7, col: 7 },
+        { row: 7, col: 9 }, { row: 7, col: 11 }, { row: 7, col: 13 },
+        { row: 8, col: 4 }, { row: 8, col: 6 }, { row: 8, col: 8 },
+        { row: 8, col: 10 }, { row: 8, col: 12 }];
+    // function abs(a:number): number {
+    //     if (a >= 0) return a;
+    //     return  -a;
+    // }
+    function getEmptyBoard() {
+        var board = [];
+        for (var i = 0; i < gameLogic.ROWS; i++) {
+            board[i] = [];
+            for (var j = 0; j < gameLogic.COLS; j++) {
+                board[i][j] = '';
+            }
+        }
+        for (var _i = 0; _i < gameLogic.PLACES.length; _i++) {
+            var place = gameLogic.PLACES[_i];
+            var i = place.row;
+            var j = place.col;
+            board[i][j] = 'O';
+        }
+        return board;
     }
     /** Returns the initial Abalone board called Belgian daisy, which is a 9x17 matrix
     containing 14 'B's(belonging to the black party), 14 'W's(belonging to the white party),
     'O' (open space that 'B' and 'W' can moved to), ''(space that does not exist in a physical board). */
     function getInitialBoard() {
-        var board = [
-            ['', '', '', '', 'W', '', 'W', '', 'O', '', 'B', '', 'B', '', '', '', ''],
-            ['', '', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', '', '', ''],
-            ['', '', 'O', '', 'W', '', 'W', '', 'O', '', 'B', '', 'B', '', 'O', '', ''],
-            ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', ''],
-            ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O'],
-            ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', ''],
-            ['', '', 'O', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'O', '', ''],
-            ['', '', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'W', '', '', ''],
-            ['', '', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', '', '', '']];
+        var board = getEmptyBoard();
+        board[0][4] = 'W';
+        board[0][6] = 'W';
+        board[0][10] = 'B';
+        board[0][12] = 'B';
+        board[1][3] = 'W';
+        board[1][5] = 'W';
+        board[1][7] = 'W';
+        board[1][9] = 'B';
+        board[1][11] = 'B';
+        board[1][13] = 'B';
+        board[2][4] = 'W';
+        board[2][6] = 'W';
+        board[2][10] = 'B';
+        board[2][12] = 'B';
+        board[6][4] = 'B';
+        board[6][6] = 'B';
+        board[6][10] = 'W';
+        board[6][12] = 'W';
+        board[7][3] = 'B';
+        board[7][5] = 'B';
+        board[7][7] = 'B';
+        board[7][9] = 'W';
+        board[1][11] = 'W';
+        board[7][13] = 'W';
+        board[8][4] = 'B';
+        board[8][6] = 'B';
+        board[8][10] = 'W';
+        board[8][12] = 'W';
         return board;
     }
     gameLogic.getInitialBoard = getInitialBoard;
+    //  [['', '', '', '', 'W', '', 'W', '', 'O', '', 'B', '', 'B', '', '', '', '' ],
+    //   ['', '', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', '', '', '' ],
+    //   ['', '', 'O', '', 'W', '', 'W', '', 'O', '', 'B', '', 'B', '', 'O', '', '' ],
+    //   ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
+    //   ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O' ],
+    //   ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
+    //   ['', '', 'O', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'O', '', '' ],
+    //   ['', '', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'W', '', '', '' ],
+    //   ['', '', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', '', '', '' ]]
     function getWinner(state) {
-        if (state.removedMarbles.black === 6)
+        if (state.blackRemoved === 6)
             return 'W';
-        if (state.removedMarbles.white === 6)
+        if (state.whiteRemoved === 6)
             return 'B';
         return '';
     }
@@ -35,42 +94,62 @@ var gameLogic;
     function isStateValid(state) {
         var board = angular.copy(state.board);
         var numOfBs = 0, numOfWs = 0;
-        if (board.length !== gameLogic.ROWS)
+        if (board.length !== gameLogic.ROWS) {
             return false;
+        }
         for (var i = 0; i < gameLogic.ROWS; i++) {
             if (board[i].length !== gameLogic.COLS)
                 return false;
-            var l = abs(i - 4);
-            var r = gameLogic.COLS - abs(i - 4);
-            for (var j = l; j < r; j += 2) {
-                var c = board[i][j];
-                if (c !== 'O' && c !== 'B' && c !== 'W') {
-                    return false;
-                }
-                if (c === 'B')
-                    numOfBs++;
-                if (c === 'W')
-                    numOfWs++;
-                board[i][j] = 'O';
-            }
         }
-        if (numOfBs + state.removedMarbles.black !== 14
-            || numOfWs + state.removedMarbles.white !== 14)
+        for (var _i = 0; _i < gameLogic.PLACES.length; _i++) {
+            var place = gameLogic.PLACES[_i];
+            var i = place.row;
+            var j = place.col;
+            var cell = board[i][j];
+            if (cell !== 'O' && cell !== 'B' && cell !== 'W') {
+                return false;
+            }
+            if (cell === 'B')
+                numOfBs++;
+            if (cell === 'W')
+                numOfWs++;
+            board[i][j] = 'O';
+        }
+        // if (board.length !== ROWS) return false;
+        // for (let i = 0; i < ROWS; i++) {
+        //     // if (board[i].length !== COLS) return false;
+        //     let l = abs(i-4);
+        //     let r = COLS-abs(i-4);
+        //     for (let j = l; j < r; j += 2) {
+        //         if (board[i][j] !== 'O' && board[i][j] !== 'B' && board[i][j] !== 'W') {
+        //           return false;
+        //         }
+        //         if (board[i][j] === 'B') numOfBs ++;
+        //         if (board[i][j] === 'W') numOfWs ++;
+        //         board[i][j] = 'O';
+        //     }
+        // }
+        if (numOfBs + state.blackRemoved !== 14
+            || numOfWs + state.whiteRemoved !== 14)
             return false;
-        var emptyboard = [
-            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', ''],
-            ['', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', ''],
-            ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', ''],
-            ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', ''],
-            ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O'],
-            ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', ''],
-            ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', ''],
-            ['', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', ''],
-            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', '']];
+        var emptyboard = getEmptyBoard();
+        // if (board !== emptyboard) {
+        //   throw new Error("is equal!");
+        //   return false
+        // }
         if (!angular.equals(board, emptyboard))
             return false;
         return true;
     }
+    // [['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', '' ],
+    //   ['', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '' ],
+    //   ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '' ],
+    //   ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
+    //   ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O' ],
+    //   ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
+    //   ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '' ],
+    //   ['', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '' ],
+    //   ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', '' ]]
     function isDirectionValid(direction) {
         var directionSet = [{ row: 0, col: 2 }, { row: 0, col: -2 },
             { row: 1, col: 1 }, { row: -1, col: -1 }, { row: 1, col: -1 }, { row: -1, col: 1 }];
@@ -187,8 +266,9 @@ var gameLogic;
         if (!stateBeforeMove) {
             // Initially (at the beginning of the match), the board in state is undefined.
             var initialBoard = getInitialBoard();
-            var initialState = { board: initialBoard, removedMarbles: { black: 0, white: 0 } };
-            stateBeforeMove = initialState;
+            // let initialState: IState = {board: initialBoard, blackRemoved : 0, whiteRemoved : 0};
+            // stateBeforeMove = initialState;
+            stateBeforeMove = { board: initialBoard, blackRemoved: 0, whiteRemoved: 0 };
         }
         if (!isStateValid(stateBeforeMove))
             throw new Error("The given state is invalid");
@@ -222,10 +302,10 @@ var gameLogic;
                 var col_3 = action.opponentMarbles[len - 1].col + action.direction.col;
                 if (row_3 < 0 || row_3 >= gameLogic.ROWS || col_3 < 0 || col_3 >= gameLogic.COLS) {
                     if (turnIndexBeforeMove === 0) {
-                        stateAfterMove.removedMarbles.white++;
+                        stateAfterMove.whiteRemoved++;
                     }
                     else
-                        stateAfterMove.removedMarbles.black++;
+                        stateAfterMove.blackRemoved++;
                 }
                 else {
                     stateAfterMove.board[row_3][col_3] = (turnIndexBeforeMove === 0 ? 'W' : 'B');
@@ -260,7 +340,7 @@ var gameLogic;
         //     ['', '', 'O', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'O', '', '' ],
         //     ['', '', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'W', '', '', '' ],
         //     ['', '', '', '', 'O', '', 'B', '', 'O', '', 'W', '', 'W', '', '', '', '' ]],
-        //     removedMarbles: {black : 0, white : 0}}}}];
+        //     blackRemoved : 0, whiteRemoved : 0}}}];
         //     if (angular.equals(move, fakeMove)) {
         //         throw new Error("Test! Why?");
         //     }

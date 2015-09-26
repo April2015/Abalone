@@ -1,17 +1,13 @@
- type Board = string[][];
+type Board = string[][];
 interface BoardDelta {
   row: number;
   col: number;
 }
 
-interface RemovedMarbles {
-  black: number;
-  white: number;
-}
-
 interface IState {
   board?: Board;
-  removedMarbles?: RemovedMarbles;
+  blackRemoved: number;
+  whiteRemoved: number;
 }
 
 interface Action {
@@ -22,35 +18,75 @@ interface Action {
 }
 
 module gameLogic {
-  export const ROWS = 9;
-  export const COLS = 17;
+  export const ROWS: number = 9;
+  export const COLS: number = 17;
+  export const PLACES: BoardDelta[] = [{row: 0, col: 4}, {row: 0, col: 6}, {row: 0, col: 8},
+  {row: 0, col: 10}, {row: 0, col: 12}, {row: 1, col: 3}, {row: 1, col: 5}, {row: 1, col: 7},
+  {row: 1, col: 9}, {row: 1, col: 11}, {row: 1, col: 13}, {row: 2, col: 2}, {row: 2, col: 4},
+  {row: 2, col: 6}, {row: 2, col: 8}, {row: 2, col: 10}, {row: 2, col: 12}, {row: 2, col: 14},
+  {row: 3, col: 1}, {row: 3, col: 3}, {row: 3, col: 5}, {row: 3, col: 7},
+  {row: 3, col: 9}, {row: 3, col: 11}, {row: 3, col: 13}, {row: 3, col: 15},
+  {row: 4, col: 2}, {row: 4, col: 2}, {row: 4, col: 4},{row: 4, col: 6}, {row: 4, col: 8},
+  {row: 4, col: 10}, {row: 4, col: 12}, {row: 4, col: 14}, {row: 4, col: 16},
+  {row: 5, col: 1}, {row: 5, col: 3}, {row: 5, col: 5}, {row: 5, col: 7},
+  {row: 5, col: 9}, {row: 5, col: 11}, {row: 5, col: 13}, {row: 5, col: 15},
+  {row: 6, col: 2}, {row: 6, col: 4}, {row: 6, col: 6}, {row: 6, col: 8}, {row: 6, col: 10},
+  {row: 6, col: 12}, {row: 6, col: 14},
+  {row: 7, col: 3}, {row: 7, col: 5}, {row: 7, col: 7},
+  {row: 7, col: 9}, {row: 7, col: 11}, {row: 7, col: 13},
+   {row: 8, col: 4}, {row: 8, col: 6}, {row: 8, col: 8},
+  {row: 8, col: 10}, {row: 8, col: 12} ];
 
-  function abs(a:number): number {
-      if (a >= 0) return a;
-      return  -a;
+  // function abs(a:number): number {
+  //     if (a >= 0) return a;
+  //     return  -a;
+  // }
+
+  function getEmptyBoard(): Board {
+    let board: Board = [];
+    for (let i = 0; i < ROWS; i++) {
+        board[i] = [];
+        for (let j = 0; j < COLS; j++) {
+            board[i][j] = '';
+        }
+    }
+    for (let place of PLACES) {
+      let i = place.row;
+      let j = place.col;
+      board[i][j] = 'O';
+    }
+    return board;
   }
 
   /** Returns the initial Abalone board called Belgian daisy, which is a 9x17 matrix
   containing 14 'B's(belonging to the black party), 14 'W's(belonging to the white party),
   'O' (open space that 'B' and 'W' can moved to), ''(space that does not exist in a physical board). */
   export function getInitialBoard(): Board {
-    let board: Board = [
-            ['', '', '', '', 'W', '', 'W', '', 'O', '', 'B', '', 'B', '', '', '', '' ],
-            ['', '', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', '', '', '' ],
-            ['', '', 'O', '', 'W', '', 'W', '', 'O', '', 'B', '', 'B', '', 'O', '', '' ],
-            ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
-            ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O' ],
-            ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
-            ['', '', 'O', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'O', '', '' ],
-            ['', '', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'W', '', '', '' ],
-            ['', '', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', '', '', '' ]];
+    let board = getEmptyBoard();
+    board[0][4] = 'W'; board[0][6] = 'W'; board[0][10] = 'B'; board[0][12] = 'B';
+    board[1][3] = 'W'; board[1][5] = 'W'; board[1][7] = 'W'; board[1][9] = 'B'; board[1][11] = 'B'; board[1][13] = 'B';
+    board[2][4] = 'W'; board[2][6] = 'W'; board[2][10] = 'B'; board[2][12] = 'B';
+    board[6][4] = 'B'; board[6][6] = 'B'; board[6][10] = 'W'; board[6][12] = 'W';
+    board[7][3] = 'B'; board[7][5] = 'B'; board[7][7] = 'B'; board[7][9] = 'W'; board[1][11] = 'W'; board[7][13] = 'W';
+    board[8][4] = 'B'; board[8][6] = 'B'; board[8][10] = 'W'; board[8][12] = 'W';
     return board;
   }
 
+
+        //  [['', '', '', '', 'W', '', 'W', '', 'O', '', 'B', '', 'B', '', '', '', '' ],
+        //   ['', '', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', '', '', '' ],
+        //   ['', '', 'O', '', 'W', '', 'W', '', 'O', '', 'B', '', 'B', '', 'O', '', '' ],
+        //   ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
+        //   ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O' ],
+        //   ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
+        //   ['', '', 'O', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'O', '', '' ],
+        //   ['', '', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'W', '', '', '' ],
+        //   ['', '', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', '', '', '' ]]
+
   function getWinner(state: IState): string {
-    if (state.removedMarbles.black === 6)
+    if (state.blackRemoved === 6)
       return 'W';
-    if (state.removedMarbles.white === 6)
+    if (state.whiteRemoved === 6)
       return 'B';
     return '';
   }
@@ -59,38 +95,59 @@ module gameLogic {
   function isStateValid (state: IState): boolean {
     let board = angular.copy(state.board);
     let numOfBs: number = 0, numOfWs: number = 0;
-    if (board.length !== ROWS) return false;
-    for (let i = 0; i < ROWS; i++) {
-        if (board[i].length !== COLS) return false;
-        let l = abs(i-4);
-        let r = COLS-abs(i-4);
-        for (let j = l; j < r; j += 2) {
-            let c = board[i][j];
-            if (c !== 'O' && c !== 'B' && c !== 'W') {
-              return false;
-            }
-            if (c === 'B') numOfBs ++;
-            if (c === 'W') numOfWs ++;
-            board[i][j] = 'O';
-        }
+    if (board.length !== ROWS) {
+      return false;
     }
+    for (let i = 0; i < ROWS; i++) {
+      if (board[i].length !== COLS) return false;
+    }
+    for (let place of PLACES) {
+      let i = place.row;
+      let j = place.col;
+      let cell = board[i][j];
+      if (cell !== 'O' && cell !== 'B' && cell !== 'W') {
+          return false;
+      }
+      if (cell === 'B') numOfBs ++;
+      if (cell === 'W') numOfWs ++;
+      board[i][j] = 'O';
+    }
+    // if (board.length !== ROWS) return false;
+    // for (let i = 0; i < ROWS; i++) {
+    //     // if (board[i].length !== COLS) return false;
+    //     let l = abs(i-4);
+    //     let r = COLS-abs(i-4);
+    //     for (let j = l; j < r; j += 2) {
+    //         if (board[i][j] !== 'O' && board[i][j] !== 'B' && board[i][j] !== 'W') {
+    //           return false;
+    //         }
+    //         if (board[i][j] === 'B') numOfBs ++;
+    //         if (board[i][j] === 'W') numOfWs ++;
+    //         board[i][j] = 'O';
+    //     }
+    // }
 
-    if (numOfBs + state.removedMarbles.black !== 14
-      || numOfWs + state.removedMarbles.white !== 14) return false;
-    let emptyboard: Board = [
-            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', '' ],
-            ['', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '' ],
-            ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '' ],
-            ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
-            ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O' ],
-            ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
-            ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '' ],
-            ['', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '' ],
-            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', '' ]];
-
+    if (numOfBs + state.blackRemoved !== 14
+      || numOfWs + state.whiteRemoved !== 14) return false;
+    let emptyboard = getEmptyBoard();
+    // if (board !== emptyboard) {
+    //   throw new Error("is equal!");
+    //   return false
+    // }
     if (!angular.equals(board, emptyboard)) return false;
     return true;
   }
+
+
+        // [['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', '' ],
+        //   ['', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '' ],
+        //   ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '' ],
+        //   ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
+        //   ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O' ],
+        //   ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
+        //   ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '' ],
+        //   ['', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '' ],
+        //   ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', '' ]]
 
   function isDirectionValid (direction: BoardDelta) : boolean {
     let directionSet: BoardDelta[] = [{row: 0, col: 2}, {row: 0, col: -2},
@@ -215,9 +272,11 @@ module gameLogic {
     stateBeforeMove: IState, action: Action, turnIndexBeforeMove: number): IMove {
     if (!stateBeforeMove) {
       // Initially (at the beginning of the match), the board in state is undefined.
-      let initialBoard: Board = getInitialBoard();
-      let initialState: IState = {board: initialBoard, removedMarbles: {black : 0, white : 0}};
-      stateBeforeMove = initialState;
+       let initialBoard: Board = getInitialBoard();
+      // let initialState: IState = {board: initialBoard, blackRemoved : 0, whiteRemoved : 0};
+      // stateBeforeMove = initialState;
+      stateBeforeMove = {board: initialBoard, blackRemoved : 0, whiteRemoved : 0};
+
     }
     if (!isStateValid(stateBeforeMove))
       throw new Error("The given state is invalid");
@@ -255,8 +314,8 @@ module gameLogic {
            let col = action.opponentMarbles[len-1].col + action.direction.col;
            if (row < 0 || row >= ROWS || col < 0 || col >= COLS) {
              if (turnIndexBeforeMove === 0) {
-                 stateAfterMove.removedMarbles.white++;
-             } else stateAfterMove.removedMarbles.black++;
+                 stateAfterMove.whiteRemoved ++;
+             } else stateAfterMove.blackRemoved++;
            } else {
              stateAfterMove.board[row][col] = (turnIndexBeforeMove === 0? 'W' : 'B');
            }
@@ -291,7 +350,7 @@ module gameLogic {
     //     ['', '', 'O', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'O', '', '' ],
     //     ['', '', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'W', '', '', '' ],
     //     ['', '', '', '', 'O', '', 'B', '', 'O', '', 'W', '', 'W', '', '', '', '' ]],
-    //     removedMarbles: {black : 0, white : 0}}}}];
+    //     blackRemoved : 0, whiteRemoved : 0}}}];
     //     if (angular.equals(move, fakeMove)) {
     //         throw new Error("Test! Why?");
     //     }
