@@ -26,7 +26,7 @@ module gameLogic {
   {row: 2, col: 6}, {row: 2, col: 8}, {row: 2, col: 10}, {row: 2, col: 12}, {row: 2, col: 14},
   {row: 3, col: 1}, {row: 3, col: 3}, {row: 3, col: 5}, {row: 3, col: 7},
   {row: 3, col: 9}, {row: 3, col: 11}, {row: 3, col: 13}, {row: 3, col: 15},
-  {row: 4, col: 2}, {row: 4, col: 2}, {row: 4, col: 4},{row: 4, col: 6}, {row: 4, col: 8},
+  {row: 4, col: 0}, {row: 4, col: 2}, {row: 4, col: 4},{row: 4, col: 6}, {row: 4, col: 8},
   {row: 4, col: 10}, {row: 4, col: 12}, {row: 4, col: 14}, {row: 4, col: 16},
   {row: 5, col: 1}, {row: 5, col: 3}, {row: 5, col: 5}, {row: 5, col: 7},
   {row: 5, col: 9}, {row: 5, col: 11}, {row: 5, col: 13}, {row: 5, col: 15},
@@ -34,13 +34,8 @@ module gameLogic {
   {row: 6, col: 12}, {row: 6, col: 14},
   {row: 7, col: 3}, {row: 7, col: 5}, {row: 7, col: 7},
   {row: 7, col: 9}, {row: 7, col: 11}, {row: 7, col: 13},
-   {row: 8, col: 4}, {row: 8, col: 6}, {row: 8, col: 8},
+  {row: 8, col: 4}, {row: 8, col: 6}, {row: 8, col: 8},
   {row: 8, col: 10}, {row: 8, col: 12} ];
-
-  // function abs(a:number): number {
-  //     if (a >= 0) return a;
-  //     return  -a;
-  // }
 
   function getEmptyBoard(): Board {
     let board: Board = [];
@@ -67,21 +62,10 @@ module gameLogic {
     board[1][3] = 'W'; board[1][5] = 'W'; board[1][7] = 'W'; board[1][9] = 'B'; board[1][11] = 'B'; board[1][13] = 'B';
     board[2][4] = 'W'; board[2][6] = 'W'; board[2][10] = 'B'; board[2][12] = 'B';
     board[6][4] = 'B'; board[6][6] = 'B'; board[6][10] = 'W'; board[6][12] = 'W';
-    board[7][3] = 'B'; board[7][5] = 'B'; board[7][7] = 'B'; board[7][9] = 'W'; board[1][11] = 'W'; board[7][13] = 'W';
+    board[7][3] = 'B'; board[7][5] = 'B'; board[7][7] = 'B'; board[7][9] = 'W'; board[7][11] = 'W'; board[7][13] = 'W';
     board[8][4] = 'B'; board[8][6] = 'B'; board[8][10] = 'W'; board[8][12] = 'W';
     return board;
   }
-
-
-        //  [['', '', '', '', 'W', '', 'W', '', 'O', '', 'B', '', 'B', '', '', '', '' ],
-        //   ['', '', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', '', '', '' ],
-        //   ['', '', 'O', '', 'W', '', 'W', '', 'O', '', 'B', '', 'B', '', 'O', '', '' ],
-        //   ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
-        //   ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O' ],
-        //   ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
-        //   ['', '', 'O', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'O', '', '' ],
-        //   ['', '', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'W', '', '', '' ],
-        //   ['', '', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', '', '', '' ]]
 
   function getWinner(state: IState): string {
     if (state.blackRemoved === 6)
@@ -91,7 +75,8 @@ module gameLogic {
     return '';
   }
 
-// Check if a given state is valid
+
+//Check if a given state is valid
   function isStateValid (state: IState): boolean {
     let board = angular.copy(state.board);
     let numOfBs: number = 0, numOfWs: number = 0;
@@ -112,81 +97,47 @@ module gameLogic {
       if (cell === 'W') numOfWs ++;
       board[i][j] = 'O';
     }
-    // if (board.length !== ROWS) return false;
-    // for (let i = 0; i < ROWS; i++) {
-    //     // if (board[i].length !== COLS) return false;
-    //     let l = abs(i-4);
-    //     let r = COLS-abs(i-4);
-    //     for (let j = l; j < r; j += 2) {
-    //         if (board[i][j] !== 'O' && board[i][j] !== 'B' && board[i][j] !== 'W') {
-    //           return false;
-    //         }
-    //         if (board[i][j] === 'B') numOfBs ++;
-    //         if (board[i][j] === 'W') numOfWs ++;
-    //         board[i][j] = 'O';
-    //     }
-    // }
 
     if (numOfBs + state.blackRemoved !== 14
       || numOfWs + state.whiteRemoved !== 14) return false;
     let emptyboard = getEmptyBoard();
-    // if (board !== emptyboard) {
-    //   throw new Error("is equal!");
-    //   return false
-    // }
     if (!angular.equals(board, emptyboard)) return false;
     return true;
   }
-
-
-        // [['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', '' ],
-        //   ['', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '' ],
-        //   ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '' ],
-        //   ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
-        //   ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O' ],
-        //   ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
-        //   ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '' ],
-        //   ['', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '' ],
-        //   ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', '' ]]
 
   function isDirectionValid (direction: BoardDelta) : boolean {
     let directionSet: BoardDelta[] = [{row: 0, col: 2}, {row: 0, col: -2},
     {row: 1, col: 1}, {row: -1, col: -1}, {row: 1, col: -1}, {row: -1, col: 1}];
     for (let direction_pattern of directionSet) {
-      if (angular.equals(direction,direction_pattern)) {
+      if (angular.equals(direction,direction_pattern))
           return true;
-      }
     }
     return false;
   }
 
   function isStepValid (stateBeforeMove: IState, action: Action, turnIndexBeforeMove: number): boolean {
     let board = stateBeforeMove.board;
-    if (action.selfMarbles.length > 3 || action.selfMarbles.length === 0) {
-      throw new Error("You should move 1, 2, 3 marbles!");
-    }
-    if (action.selfMarbles.length <= action.opponentMarbles.length) {
-      throw new Error("You can only push away less of your opponent's marbles than yours!");
-    }
+    if (action.selfMarbles.length > 3 || action.selfMarbles.length === 0)
+      return false;
+    if (action.selfMarbles.length <= action.opponentMarbles.length)
+      return false;
     if (!isDirectionValid(action.direction))
-      throw new Error("The direction is wrong!");
+      return false;
 
 // check the color of the marbles to be moved
     for (let i = 0; i < action.selfMarbles.length; i++) {
         let row = action.selfMarbles[i].row;
         let col = action.selfMarbles[i].col;
-        if (row < 0 || row >= ROWS || col < 0 || col >= COLS)
-          throw new Error("You are reaching a nonexisting position in the board!");
-        if (board[row][col] !== (turnIndexBeforeMove === 0? 'B' : 'W') )
-          throw new Error("You should move your own marbles!");
+        if (row < 0 || row >= ROWS || col < 0 || col >= COLS
+          || board[row][col] !== (turnIndexBeforeMove === 0? 'B' : 'W'))
+          return false;
     }
     for (let i = 0; i < action.opponentMarbles.length; i++) {
         let row = action.opponentMarbles[i].row;
         let col = action.opponentMarbles[i].col;
-        if (row < 0 || row >= ROWS || col < 0 || col >= COLS)
-          throw new Error("You are reaching a nonexisting position in the board!");
-        if (board[row][col] !== (turnIndexBeforeMove === 0? 'W' : 'B'))
-          throw new Error("You should push away your opponent's marbles!");
+        if (row < 0 || row >= ROWS || col < 0 || col >= COLS
+          || board[row][col] !== (turnIndexBeforeMove === 0? 'W' : 'B'))
+          return false;
     }
 
 /* Check if the marbles to be moved are aligned in the same line and next to each other.
@@ -196,32 +147,28 @@ module gameLogic {
 */
     if (!action.isInline) {
       if (action.opponentMarbles.length !== 0)
-        throw new Error("Your cannot push away your opponent's marbles in a broadside move!");
-
+        return false;
       for (let i = 0; i < action.selfMarbles.length; i++) {
           let row = action.selfMarbles[i].row + action.direction.row;
           let col = action.selfMarbles[i].col + action.direction.col;
           if (row < 0 || row >= ROWS || col < 0 || col >= COLS || board[row][col] !== 'O')
-            throw new Error("You should move your marbles to open space!");
+            return false;
       }
-
+      let temp_direc1: BoardDelta;
       if (action.selfMarbles.length > 1) {
         let row_delta1 = action.selfMarbles[1].row - action.selfMarbles[0].row;
         let col_delta1 = action.selfMarbles[1].col - action.selfMarbles[0].col;
-        let temp_direc1: BoardDelta = {row: row_delta1, col: col_delta1};
+        temp_direc1 = {row: row_delta1, col: col_delta1};
         if (!isDirectionValid(temp_direc1))
-          throw new Error("Marbles should be neighbors to each other!");
+          return false;
+        }
         if (action.selfMarbles.length === 3) {
           let row_delta2 = action.selfMarbles[2].row - action.selfMarbles[1].row;
           let col_delta2 = action.selfMarbles[2].col - action.selfMarbles[1].col;
           let temp_direc2: BoardDelta = {row: row_delta2, col: col_delta2};
-          if (!isDirectionValid(temp_direc2))
-            throw new Error("Marbles should be neighbors to each other!");
-          if (temp_direc1 !== temp_direc2) {
-            throw new Error("Marbles should be in the same line!");
-          }
+          if (temp_direc1 !== temp_direc2)
+            return false;
         }
-      }
     }
 
     if (action.isInline) {
@@ -230,35 +177,33 @@ module gameLogic {
           let col = action.selfMarbles[i-1].col + action.direction.col;
           if (row !== action.selfMarbles[i].row
             || col !== action.selfMarbles[i].col)
-            throw new Error("Marbles should be placed along the moving direction!");
+            return false;
       }
       let len = action.selfMarbles.length;
       let row = action.selfMarbles[len-1].row + action.direction.row;
       let col = action.selfMarbles[len-1].col + action.direction.col;
       if (row < 0 || row >= ROWS || col < 0 || col >= COLS)
-          throw new Error("You cannot eject your own marbles!");
+        return false;
 
       len = action.opponentMarbles.length;
       if (len === 0 && board[row][col] !== 'O')
-         throw new Error("You should move your marbles to open space!");
+        return false;
       if (len > 0 &&
         (action.opponentMarbles[0].row !== row || action.opponentMarbles[0].col !== col)) {
-          throw new Error("You can only push your opponent's marbles in the nbhd!");
+          return false;
       }
       if (len === 2) {
             let row_delta = action.opponentMarbles[1].row - action.opponentMarbles[0].row;
             let col_delta = action.opponentMarbles[1].col - action.opponentMarbles[0].col;
-            if (row_delta !== action.direction.row
-              || col_delta !== action.direction.col)
-              throw new Error("Marbles should be neighbors to each other!");
+            if (row_delta !== action.direction.row || col_delta !== action.direction.col)
+              return false;
       }
       if (len > 0) {
            let row = action.opponentMarbles[len-1].row + action.direction.row;
            let col = action.opponentMarbles[len-1].col + action.direction.col;
            if (row >= 0 && row < ROWS && col >= 0 && col < COLS
-             && board[row][col] !== 'O') {
-             throw new Error("You should push marbles to open space or off edge!");
-           }
+             && board[row][col] !== 'O')
+               return false;
       }
     }
     return true;
@@ -271,12 +216,8 @@ module gameLogic {
   export function createMove(
     stateBeforeMove: IState, action: Action, turnIndexBeforeMove: number): IMove {
     if (!stateBeforeMove) {
-      // Initially (at the beginning of the match), the board in state is undefined.
-       let initialBoard: Board = getInitialBoard();
-      // let initialState: IState = {board: initialBoard, blackRemoved : 0, whiteRemoved : 0};
-      // stateBeforeMove = initialState;
+      let initialBoard: Board = getInitialBoard();
       stateBeforeMove = {board: initialBoard, blackRemoved : 0, whiteRemoved : 0};
-
     }
     if (!isStateValid(stateBeforeMove))
       throw new Error("The given state is invalid");
@@ -313,15 +254,14 @@ module gameLogic {
            let row = action.opponentMarbles[len-1].row + action.direction.row;
            let col = action.opponentMarbles[len-1].col + action.direction.col;
            if (row < 0 || row >= ROWS || col < 0 || col >= COLS) {
-             if (turnIndexBeforeMove === 0) {
+             if (turnIndexBeforeMove === 0)
                  stateAfterMove.whiteRemoved ++;
-             } else stateAfterMove.blackRemoved++;
+             else stateAfterMove.blackRemoved++;
            } else {
              stateAfterMove.board[row][col] = (turnIndexBeforeMove === 0? 'W' : 'B');
            }
       }
     }
-
     let winner = getWinner(stateAfterMove);
     let firstOperation: IOperation;
     if (winner === 'B' || winner === 'W') {
@@ -335,25 +275,6 @@ module gameLogic {
     let move: IMove = [firstOperation,
             {set: {key: 'action', value: action}},
             {set: {key: 'state', value: stateAfterMove}}];
-    // let fakeMove: IMove = [{setTurn: {turnIndex: 1}},
-    //     {set: {key: 'action', value: {isInline: true, direction:  {row: -1, col: 1},
-    //     selfMarbles: [{row: 8, col: 4}, {row: 7, col: 5}, {row: 6, col: 6}],
-    //                          opponentMarbles: []}}},
-    //     {set: {key: 'state', value:
-    //     {board: [
-    //     ['', '', '', '', 'W', '', 'W', '', 'O', '', 'B', '', 'B', '', '', '', '' ],
-    //     ['', '', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', '', '', '' ],
-    //     ['', '', 'O', '', 'W', '', 'W', '', 'O', '', 'B', '', 'B', '', 'O', '', '' ],
-    //     ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
-    //     ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O' ],
-    //     ['', 'O', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
-    //     ['', '', 'O', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'O', '', '' ],
-    //     ['', '', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'W', '', '', '' ],
-    //     ['', '', '', '', 'O', '', 'B', '', 'O', '', 'W', '', 'W', '', '', '', '' ]],
-    //     blackRemoved : 0, whiteRemoved : 0}}}];
-    //     if (angular.equals(move, fakeMove)) {
-    //         throw new Error("Test! Why?");
-    //     }
     return move;
   }
 
@@ -367,20 +288,15 @@ module gameLogic {
 
     // We can assume that turnIndexBeforeMove and stateBeforeMove are legal, and we need
     // to verify that move is legal.
-    // try {
-    //   let action: Action = move[1].set.value;
-    //   let expectedMove = createMove(stateBeforeMove, action, turnIndexBeforeMove);
-    //   if (!angular.equals(move, expectedMove)) {
-    //     return false;
-    //   }
-    // } catch (e) {
-    //   // if there are any exceptions then the move is illegal
-    //   return false;
-    // }
-    let action: Action = move[1].set.value;
-    let expectedMove = createMove(stateBeforeMove, action, turnIndexBeforeMove);
-    if (angular.equals(move, expectedMove)) {
-      return true;
+    try {
+      let action: Action = move[1].set.value;
+      let expectedMove = createMove(stateBeforeMove, action, turnIndexBeforeMove);
+      if (angular.equals(move, expectedMove)) {
+        return true;
+      }
+    } catch (e) {
+      // if there are any exceptions then the move is illegal
+      return false;
     }
     return false;
   }

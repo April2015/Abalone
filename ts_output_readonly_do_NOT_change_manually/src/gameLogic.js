@@ -8,7 +8,7 @@ var gameLogic;
         { row: 2, col: 6 }, { row: 2, col: 8 }, { row: 2, col: 10 }, { row: 2, col: 12 }, { row: 2, col: 14 },
         { row: 3, col: 1 }, { row: 3, col: 3 }, { row: 3, col: 5 }, { row: 3, col: 7 },
         { row: 3, col: 9 }, { row: 3, col: 11 }, { row: 3, col: 13 }, { row: 3, col: 15 },
-        { row: 4, col: 2 }, { row: 4, col: 2 }, { row: 4, col: 4 }, { row: 4, col: 6 }, { row: 4, col: 8 },
+        { row: 4, col: 0 }, { row: 4, col: 2 }, { row: 4, col: 4 }, { row: 4, col: 6 }, { row: 4, col: 8 },
         { row: 4, col: 10 }, { row: 4, col: 12 }, { row: 4, col: 14 }, { row: 4, col: 16 },
         { row: 5, col: 1 }, { row: 5, col: 3 }, { row: 5, col: 5 }, { row: 5, col: 7 },
         { row: 5, col: 9 }, { row: 5, col: 11 }, { row: 5, col: 13 }, { row: 5, col: 15 },
@@ -18,10 +18,6 @@ var gameLogic;
         { row: 7, col: 9 }, { row: 7, col: 11 }, { row: 7, col: 13 },
         { row: 8, col: 4 }, { row: 8, col: 6 }, { row: 8, col: 8 },
         { row: 8, col: 10 }, { row: 8, col: 12 }];
-    // function abs(a:number): number {
-    //     if (a >= 0) return a;
-    //     return  -a;
-    // }
     function getEmptyBoard() {
         var board = [];
         for (var i = 0; i < gameLogic.ROWS; i++) {
@@ -65,7 +61,7 @@ var gameLogic;
         board[7][5] = 'B';
         board[7][7] = 'B';
         board[7][9] = 'W';
-        board[1][11] = 'W';
+        board[7][11] = 'W';
         board[7][13] = 'W';
         board[8][4] = 'B';
         board[8][6] = 'B';
@@ -74,15 +70,6 @@ var gameLogic;
         return board;
     }
     gameLogic.getInitialBoard = getInitialBoard;
-    //  [['', '', '', '', 'W', '', 'W', '', 'O', '', 'B', '', 'B', '', '', '', '' ],
-    //   ['', '', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', '', '', '' ],
-    //   ['', '', 'O', '', 'W', '', 'W', '', 'O', '', 'B', '', 'B', '', 'O', '', '' ],
-    //   ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
-    //   ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O' ],
-    //   ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
-    //   ['', '', 'O', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'O', '', '' ],
-    //   ['', '', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'W', '', '', '' ],
-    //   ['', '', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', '', '', '' ]]
     function getWinner(state) {
         if (state.blackRemoved === 6)
             return 'W';
@@ -90,7 +77,7 @@ var gameLogic;
             return 'B';
         return '';
     }
-    // Check if a given state is valid
+    //Check if a given state is valid
     function isStateValid(state) {
         var board = angular.copy(state.board);
         var numOfBs = 0, numOfWs = 0;
@@ -115,78 +102,46 @@ var gameLogic;
                 numOfWs++;
             board[i][j] = 'O';
         }
-        // if (board.length !== ROWS) return false;
-        // for (let i = 0; i < ROWS; i++) {
-        //     // if (board[i].length !== COLS) return false;
-        //     let l = abs(i-4);
-        //     let r = COLS-abs(i-4);
-        //     for (let j = l; j < r; j += 2) {
-        //         if (board[i][j] !== 'O' && board[i][j] !== 'B' && board[i][j] !== 'W') {
-        //           return false;
-        //         }
-        //         if (board[i][j] === 'B') numOfBs ++;
-        //         if (board[i][j] === 'W') numOfWs ++;
-        //         board[i][j] = 'O';
-        //     }
-        // }
         if (numOfBs + state.blackRemoved !== 14
             || numOfWs + state.whiteRemoved !== 14)
             return false;
         var emptyboard = getEmptyBoard();
-        // if (board !== emptyboard) {
-        //   throw new Error("is equal!");
-        //   return false
-        // }
         if (!angular.equals(board, emptyboard))
             return false;
         return true;
     }
-    // [['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', '' ],
-    //   ['', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '' ],
-    //   ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '' ],
-    //   ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
-    //   ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O' ],
-    //   ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
-    //   ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '' ],
-    //   ['', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '' ],
-    //   ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', '' ]]
     function isDirectionValid(direction) {
         var directionSet = [{ row: 0, col: 2 }, { row: 0, col: -2 },
             { row: 1, col: 1 }, { row: -1, col: -1 }, { row: 1, col: -1 }, { row: -1, col: 1 }];
         for (var _i = 0; _i < directionSet.length; _i++) {
             var direction_pattern = directionSet[_i];
-            if (angular.equals(direction, direction_pattern)) {
+            if (angular.equals(direction, direction_pattern))
                 return true;
-            }
         }
         return false;
     }
     function isStepValid(stateBeforeMove, action, turnIndexBeforeMove) {
         var board = stateBeforeMove.board;
-        if (action.selfMarbles.length > 3 || action.selfMarbles.length === 0) {
-            throw new Error("You should move 1, 2, 3 marbles!");
-        }
-        if (action.selfMarbles.length <= action.opponentMarbles.length) {
-            throw new Error("You can only push away less of your opponent's marbles than yours!");
-        }
+        if (action.selfMarbles.length > 3 || action.selfMarbles.length === 0)
+            return false;
+        if (action.selfMarbles.length <= action.opponentMarbles.length)
+            return false;
         if (!isDirectionValid(action.direction))
-            throw new Error("The direction is wrong!");
+            return false;
         // check the color of the marbles to be moved
         for (var i = 0; i < action.selfMarbles.length; i++) {
             var row = action.selfMarbles[i].row;
             var col = action.selfMarbles[i].col;
-            if (row < 0 || row >= gameLogic.ROWS || col < 0 || col >= gameLogic.COLS)
-                throw new Error("You are reaching a nonexisting position in the board!");
-            if (board[row][col] !== (turnIndexBeforeMove === 0 ? 'B' : 'W'))
-                throw new Error("You should move your own marbles!");
+            if (row < 0 || row >= gameLogic.ROWS || col < 0 || col >= gameLogic.COLS
+                || board[row][col] !== (turnIndexBeforeMove === 0 ? 'B' : 'W'))
+                return false;
         }
         for (var i = 0; i < action.opponentMarbles.length; i++) {
             var row = action.opponentMarbles[i].row;
             var col = action.opponentMarbles[i].col;
-            if (row < 0 || row >= gameLogic.ROWS || col < 0 || col >= gameLogic.COLS)
-                throw new Error("You are reaching a nonexisting position in the board!");
-            if (board[row][col] !== (turnIndexBeforeMove === 0 ? 'W' : 'B'))
-                throw new Error("You should push away your opponent's marbles!");
+            if (row < 0 || row >= gameLogic.ROWS || col < 0 || col >= gameLogic.COLS
+                || board[row][col] !== (turnIndexBeforeMove === 0 ? 'W' : 'B'))
+                return false;
         }
         /* Check if the marbles to be moved are aligned in the same line and next to each other.
             Moreover, if it is an in-line move, we require that selfMarbles[0],selfMarbles[1],
@@ -195,29 +150,27 @@ var gameLogic;
         */
         if (!action.isInline) {
             if (action.opponentMarbles.length !== 0)
-                throw new Error("Your cannot push away your opponent's marbles in a broadside move!");
+                return false;
             for (var i = 0; i < action.selfMarbles.length; i++) {
                 var row = action.selfMarbles[i].row + action.direction.row;
                 var col = action.selfMarbles[i].col + action.direction.col;
                 if (row < 0 || row >= gameLogic.ROWS || col < 0 || col >= gameLogic.COLS || board[row][col] !== 'O')
-                    throw new Error("You should move your marbles to open space!");
+                    return false;
             }
+            var temp_direc1;
             if (action.selfMarbles.length > 1) {
                 var row_delta1 = action.selfMarbles[1].row - action.selfMarbles[0].row;
                 var col_delta1 = action.selfMarbles[1].col - action.selfMarbles[0].col;
-                var temp_direc1 = { row: row_delta1, col: col_delta1 };
+                temp_direc1 = { row: row_delta1, col: col_delta1 };
                 if (!isDirectionValid(temp_direc1))
-                    throw new Error("Marbles should be neighbors to each other!");
-                if (action.selfMarbles.length === 3) {
-                    var row_delta2 = action.selfMarbles[2].row - action.selfMarbles[1].row;
-                    var col_delta2 = action.selfMarbles[2].col - action.selfMarbles[1].col;
-                    var temp_direc2 = { row: row_delta2, col: col_delta2 };
-                    if (!isDirectionValid(temp_direc2))
-                        throw new Error("Marbles should be neighbors to each other!");
-                    if (temp_direc1 !== temp_direc2) {
-                        throw new Error("Marbles should be in the same line!");
-                    }
-                }
+                    return false;
+            }
+            if (action.selfMarbles.length === 3) {
+                var row_delta2 = action.selfMarbles[2].row - action.selfMarbles[1].row;
+                var col_delta2 = action.selfMarbles[2].col - action.selfMarbles[1].col;
+                var temp_direc2 = { row: row_delta2, col: col_delta2 };
+                if (temp_direc1 !== temp_direc2)
+                    return false;
             }
         }
         if (action.isInline) {
@@ -226,34 +179,32 @@ var gameLogic;
                 var col_1 = action.selfMarbles[i - 1].col + action.direction.col;
                 if (row_1 !== action.selfMarbles[i].row
                     || col_1 !== action.selfMarbles[i].col)
-                    throw new Error("Marbles should be placed along the moving direction!");
+                    return false;
             }
             var len = action.selfMarbles.length;
             var row = action.selfMarbles[len - 1].row + action.direction.row;
             var col = action.selfMarbles[len - 1].col + action.direction.col;
             if (row < 0 || row >= gameLogic.ROWS || col < 0 || col >= gameLogic.COLS)
-                throw new Error("You cannot eject your own marbles!");
+                return false;
             len = action.opponentMarbles.length;
             if (len === 0 && board[row][col] !== 'O')
-                throw new Error("You should move your marbles to open space!");
+                return false;
             if (len > 0 &&
                 (action.opponentMarbles[0].row !== row || action.opponentMarbles[0].col !== col)) {
-                throw new Error("You can only push your opponent's marbles in the nbhd!");
+                return false;
             }
             if (len === 2) {
                 var row_delta = action.opponentMarbles[1].row - action.opponentMarbles[0].row;
                 var col_delta = action.opponentMarbles[1].col - action.opponentMarbles[0].col;
-                if (row_delta !== action.direction.row
-                    || col_delta !== action.direction.col)
-                    throw new Error("Marbles should be neighbors to each other!");
+                if (row_delta !== action.direction.row || col_delta !== action.direction.col)
+                    return false;
             }
             if (len > 0) {
                 var row_2 = action.opponentMarbles[len - 1].row + action.direction.row;
                 var col_2 = action.opponentMarbles[len - 1].col + action.direction.col;
                 if (row_2 >= 0 && row_2 < gameLogic.ROWS && col_2 >= 0 && col_2 < gameLogic.COLS
-                    && board[row_2][col_2] !== 'O') {
-                    throw new Error("You should push marbles to open space or off edge!");
-                }
+                    && board[row_2][col_2] !== 'O')
+                    return false;
             }
         }
         return true;
@@ -264,10 +215,7 @@ var gameLogic;
      */
     function createMove(stateBeforeMove, action, turnIndexBeforeMove) {
         if (!stateBeforeMove) {
-            // Initially (at the beginning of the match), the board in state is undefined.
             var initialBoard = getInitialBoard();
-            // let initialState: IState = {board: initialBoard, blackRemoved : 0, whiteRemoved : 0};
-            // stateBeforeMove = initialState;
             stateBeforeMove = { board: initialBoard, blackRemoved: 0, whiteRemoved: 0 };
         }
         if (!isStateValid(stateBeforeMove))
@@ -301,9 +249,8 @@ var gameLogic;
                 var row_3 = action.opponentMarbles[len - 1].row + action.direction.row;
                 var col_3 = action.opponentMarbles[len - 1].col + action.direction.col;
                 if (row_3 < 0 || row_3 >= gameLogic.ROWS || col_3 < 0 || col_3 >= gameLogic.COLS) {
-                    if (turnIndexBeforeMove === 0) {
+                    if (turnIndexBeforeMove === 0)
                         stateAfterMove.whiteRemoved++;
-                    }
                     else
                         stateAfterMove.blackRemoved++;
                 }
@@ -325,25 +272,6 @@ var gameLogic;
         var move = [firstOperation,
             { set: { key: 'action', value: action } },
             { set: { key: 'state', value: stateAfterMove } }];
-        // let fakeMove: IMove = [{setTurn: {turnIndex: 1}},
-        //     {set: {key: 'action', value: {isInline: true, direction:  {row: -1, col: 1},
-        //     selfMarbles: [{row: 8, col: 4}, {row: 7, col: 5}, {row: 6, col: 6}],
-        //                          opponentMarbles: []}}},
-        //     {set: {key: 'state', value:
-        //     {board: [
-        //     ['', '', '', '', 'W', '', 'W', '', 'O', '', 'B', '', 'B', '', '', '', '' ],
-        //     ['', '', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', '', '', '' ],
-        //     ['', '', 'O', '', 'W', '', 'W', '', 'O', '', 'B', '', 'B', '', 'O', '', '' ],
-        //     ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
-        //     ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O' ],
-        //     ['', 'O', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', 'O', '', 'O', '' ],
-        //     ['', '', 'O', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'O', '', '' ],
-        //     ['', '', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'W', '', '', '' ],
-        //     ['', '', '', '', 'O', '', 'B', '', 'O', '', 'W', '', 'W', '', '', '', '' ]],
-        //     blackRemoved : 0, whiteRemoved : 0}}}];
-        //     if (angular.equals(move, fakeMove)) {
-        //         throw new Error("Test! Why?");
-        //     }
         return move;
     }
     gameLogic.createMove = createMove;
@@ -356,20 +284,16 @@ var gameLogic;
         //let stateAfterMove = params.stateAfterMove;
         // We can assume that turnIndexBeforeMove and stateBeforeMove are legal, and we need
         // to verify that move is legal.
-        // try {
-        //   let action: Action = move[1].set.value;
-        //   let expectedMove = createMove(stateBeforeMove, action, turnIndexBeforeMove);
-        //   if (!angular.equals(move, expectedMove)) {
-        //     return false;
-        //   }
-        // } catch (e) {
-        //   // if there are any exceptions then the move is illegal
-        //   return false;
-        // }
-        var action = move[1].set.value;
-        var expectedMove = createMove(stateBeforeMove, action, turnIndexBeforeMove);
-        if (angular.equals(move, expectedMove)) {
-            return true;
+        try {
+            var action = move[1].set.value;
+            var expectedMove = createMove(stateBeforeMove, action, turnIndexBeforeMove);
+            if (angular.equals(move, expectedMove)) {
+                return true;
+            }
+        }
+        catch (e) {
+            // if there are any exceptions then the move is illegal
+            return false;
         }
         return false;
     }
