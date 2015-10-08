@@ -77,7 +77,7 @@ describe("aiService", function () {
     //     ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', '' ],
     //     ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '' ]],
     //   blackRemoved: 1, whiteRemoved: 5};
-    //   let move = aiService.createComputerMove(state, 0, {maxDepth: 3});
+    //   let move = aiService.createComputerMove(state, 0, {maxDepth: 2});
     //   let action: Action = {isInline: false, direction:  {row: -1, col: -1},
     //    selfMarbles: [{row: 2, col: 12}, {row: 3, col: 11}],
     //    opponentMarbles: []};

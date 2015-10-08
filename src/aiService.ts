@@ -8,9 +8,6 @@ module aiService {
         {millisecondsLimit: 1000})
   }
 
-  /**
-   * Returns all the possible moves for the given board and turnIndexBeforeMove.
-   */
   export function getPossibleMoves(state: IState, turnIndexBeforeMove: number): IMove[] {
     let possibleMoves: IMove[] = [];
     let board = state.board;
@@ -79,28 +76,23 @@ module aiService {
         if (len <= 1 || k > 2) {
             continue;
         }
-        for (let l = 0; l < 5; l++) {
-            if (l === k || l === k + 3) {
-                  continue;
-            }
-            try {
-              let action: Action = {isInline: false, direction:  gameLogic.DIREC[l],
-              selfMarbles: selfMarbles, opponentMarbles: []};
-              possibleMoves.push(gameLogic.createMove(state, action, turnIndexBeforeMove));
-            } catch (e) {}
-        }
-        if (len === 3) {
-            selfMarbles.pop();
-            for (let l = 0; l < 5; l++) {
-                if (l === k || l === k + 3) {
-                      continue;
+        for (; len >= 2; ) {
+          for (let l = 0; l < 5; l++) {
+              if (l === k || l === k + 3) {
+                    continue;
+              }
+              try {
+                let action: Action = {isInline: false, direction:  gameLogic.DIREC[l],
+                selfMarbles: selfMarbles, opponentMarbles: []};
+                if (gameLogic.isStepValid(state, action, turnIndexBeforeMove)) {
+                    possibleMoves.push(gameLogic.createMove(state, action, turnIndexBeforeMove));
                 }
-                try {
-                  let action: Action = {isInline: false, direction:  gameLogic.DIREC[l],
-                  selfMarbles: selfMarbles, opponentMarbles: []};;
-                  possibleMoves.push(gameLogic.createMove(state, action, turnIndexBeforeMove));
-                } catch (e) {}
-            }
+              } catch (e) {}
+          }
+          if (len === 3) {
+              selfMarbles.pop();
+          }
+          len--;
         }
       }
     }

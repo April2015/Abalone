@@ -15,7 +15,7 @@ describe("aiService", function() {
     let expectedMove = gameLogic.createMove(state, move[1].set.value, 0);
     expect(angular.equals(move, expectedMove)).toBe(true);
   });
-
+  
   it("Black finds an immediate winning move in less than a second", function() {
     let state: IState = {board: [
       ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'W', '', '', '', '' ],
@@ -82,7 +82,7 @@ describe("aiService", function() {
   //     ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', '' ],
   //     ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '' ]],
   //   blackRemoved: 1, whiteRemoved: 5};
-  //   let move = aiService.createComputerMove(state, 0, {maxDepth: 3});
+  //   let move = aiService.createComputerMove(state, 0, {maxDepth: 2});
   //   let action: Action = {isInline: false, direction:  {row: -1, col: -1},
   //    selfMarbles: [{row: 2, col: 12}, {row: 3, col: 11}],
   //    opponentMarbles: []};
@@ -101,6 +101,5 @@ describe("aiService", function() {
   //    blackRemoved: 1, whiteRemoved: 5}}}];
   //   expect(angular.equals(move, expectedMove)).toBe(true);
   // });
-
 
 });

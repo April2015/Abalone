@@ -7,9 +7,6 @@ var aiService;
         { millisecondsLimit: 1000 });
     }
     aiService.findComputerMove = findComputerMove;
-    /**
-     * Returns all the possible moves for the given board and turnIndexBeforeMove.
-     */
     function getPossibleMoves(state, turnIndexBeforeMove) {
         var possibleMoves = [];
         var board = state.board;
@@ -80,19 +77,7 @@ var aiService;
                 if (len <= 1 || k > 2) {
                     continue;
                 }
-                for (var l = 0; l < 5; l++) {
-                    if (l === k || l === k + 3) {
-                        continue;
-                    }
-                    try {
-                        var action = { isInline: false, direction: gameLogic.DIREC[l],
-                            selfMarbles: selfMarbles, opponentMarbles: [] };
-                        possibleMoves.push(gameLogic.createMove(state, action, turnIndexBeforeMove));
-                    }
-                    catch (e) { }
-                }
-                if (len === 3) {
-                    selfMarbles.pop();
+                for (; len >= 2;) {
                     for (var l = 0; l < 5; l++) {
                         if (l === k || l === k + 3) {
                             continue;
@@ -100,11 +85,16 @@ var aiService;
                         try {
                             var action = { isInline: false, direction: gameLogic.DIREC[l],
                                 selfMarbles: selfMarbles, opponentMarbles: [] };
-                            ;
-                            possibleMoves.push(gameLogic.createMove(state, action, turnIndexBeforeMove));
+                            if (gameLogic.isStepValid(state, action, turnIndexBeforeMove)) {
+                                possibleMoves.push(gameLogic.createMove(state, action, turnIndexBeforeMove));
+                            }
                         }
                         catch (e) { }
                     }
+                    if (len === 3) {
+                        selfMarbles.pop();
+                    }
+                    len--;
                 }
             }
         }
