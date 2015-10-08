@@ -42,12 +42,7 @@ var aiService;
                         var action = { isInline: true, direction: direction,
                             selfMarbles: selfMarbles, opponentMarbles: [] };
                         try {
-                            var move = gameLogic.createMove(state, action, turnIndexBeforeMove);
-                            if (gameLogic.getWinner(move[2].set.value) !== '') {
-                                possibleMoves = [move];
-                                return possibleMoves;
-                            }
-                            possibleMoves.push(move);
+                            possibleMoves.push(gameLogic.createMove(state, action, turnIndexBeforeMove));
                         }
                         catch (e) { }
                     }

@@ -63,10 +63,24 @@ describe("aiService", function() {
       ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '' ]],
     blackRemoved: 1, whiteRemoved: 5};
     let move = aiService.createComputerMove(state, 0, {maxDepth: 1});
-    let action: Action = {isInline: false, direction:  {row: -1, col: -1},
-     selfMarbles: [{row: 2, col: 12}, {row: 3, col: 11}],
-     opponentMarbles: []};
     let expectedMove = gameLogic.createMove(state, move[1].set.value, 0);
+     expect(angular.equals(move, expectedMove)).toBe(true);
+  });
+
+  it("Expect an inline move by white", function(){
+    let state: IState = {board: [
+      ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', '' ],
+      ['', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', 'O', '', '', '' ],
+      ['', '', 'O', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', 'O', '', '' ],
+      ['', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '' ],
+      ['O', '', 'O', '', 'O', '', 'O', '', 'B', '', 'W', '', 'B', '', 'B', '', 'O' ],
+      ['', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'W', '', 'O', '', 'O', '' ],
+      ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'O', '', '' ],
+      ['', '', '', 'O', '', 'B', '', 'W', '', 'W', '', 'W', '', 'B', '', '', '' ],
+      ['', '', '', '', 'B', '', 'O', '', 'O', '', 'B', '', 'B', '', '', '', '' ]],
+    blackRemoved: 0, whiteRemoved: 4};
+    let move = aiService.createComputerMove(state, 1, {maxDepth: 1});
+    let expectedMove = gameLogic.createMove(state, move[1].set.value, 1);
      expect(angular.equals(move, expectedMove)).toBe(true);
   });
 
