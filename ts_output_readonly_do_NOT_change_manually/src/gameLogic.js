@@ -2,6 +2,8 @@ var gameLogic;
 (function (gameLogic) {
     gameLogic.ROWS = 9;
     gameLogic.COLS = 17;
+    gameLogic.DIREC = [{ row: 0, col: 2 }, { row: 0, col: -2 },
+        { row: 1, col: 1 }, { row: -1, col: -1 }, { row: 1, col: -1 }, { row: -1, col: 1 }];
     gameLogic.PLACES = [{ row: 0, col: 4 }, { row: 0, col: 6 }, { row: 0, col: 8 },
         { row: 0, col: 10 }, { row: 0, col: 12 }, { row: 1, col: 3 }, { row: 1, col: 5 }, { row: 1, col: 7 },
         { row: 1, col: 9 }, { row: 1, col: 11 }, { row: 1, col: 13 }, { row: 2, col: 2 }, { row: 2, col: 4 },
@@ -111,10 +113,8 @@ var gameLogic;
         return true;
     }
     function isDirectionValid(direction) {
-        var directionSet = [{ row: 0, col: 2 }, { row: 0, col: -2 },
-            { row: 1, col: 1 }, { row: -1, col: -1 }, { row: 1, col: -1 }, { row: -1, col: 1 }];
-        for (var _i = 0; _i < directionSet.length; _i++) {
-            var direction_pattern = directionSet[_i];
+        for (var _i = 0; _i < gameLogic.DIREC.length; _i++) {
+            var direction_pattern = gameLogic.DIREC[_i];
             if (angular.equals(direction, direction_pattern))
                 return true;
         }
@@ -184,10 +184,9 @@ var gameLogic;
             var len = action.selfMarbles.length;
             var row = action.selfMarbles[len - 1].row + action.direction.row;
             var col = action.selfMarbles[len - 1].col + action.direction.col;
-            if (row < 0 || row >= gameLogic.ROWS || col < 0 || col >= gameLogic.COLS)
-                return false;
             len = action.opponentMarbles.length;
-            if (len === 0 && board[row][col] !== 'O')
+            if (row < 0 || row >= gameLogic.ROWS || col < 0 || col >= gameLogic.COLS ||
+                (len === 0 && board[row][col] !== 'O'))
                 return false;
             if (len > 0 &&
                 (action.opponentMarbles[0].row !== row || action.opponentMarbles[0].col !== col)) {
@@ -209,6 +208,7 @@ var gameLogic;
         }
         return true;
     }
+    gameLogic.isStepValid = isStepValid;
     /**
      * Returns the move that should be performed when player
      * with index turnIndexBeforeMove makes a move in cell row X col.

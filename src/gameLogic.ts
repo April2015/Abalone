@@ -20,6 +20,8 @@ interface Action {
 module gameLogic {
   export const ROWS: number = 9;
   export const COLS: number = 17;
+  export const DIREC: BoardDelta[] = [{row: 0, col: 2}, {row: 0, col: -2},
+  {row: 1, col: 1}, {row: -1, col: -1}, {row: 1, col: -1}, {row: -1, col: 1}];
   export const PLACES: BoardDelta[] = [{row: 0, col: 4}, {row: 0, col: 6}, {row: 0, col: 8},
   {row: 0, col: 10}, {row: 0, col: 12}, {row: 1, col: 3}, {row: 1, col: 5}, {row: 1, col: 7},
   {row: 1, col: 9}, {row: 1, col: 11}, {row: 1, col: 13}, {row: 2, col: 2}, {row: 2, col: 4},
@@ -106,16 +108,14 @@ module gameLogic {
   }
 
   function isDirectionValid (direction: BoardDelta) : boolean {
-    let directionSet: BoardDelta[] = [{row: 0, col: 2}, {row: 0, col: -2},
-    {row: 1, col: 1}, {row: -1, col: -1}, {row: 1, col: -1}, {row: -1, col: 1}];
-    for (let direction_pattern of directionSet) {
+    for (let direction_pattern of DIREC) {
       if (angular.equals(direction,direction_pattern))
           return true;
     }
     return false;
   }
 
-  function isStepValid (stateBeforeMove: IState, action: Action, turnIndexBeforeMove: number): boolean {
+  export function isStepValid (stateBeforeMove: IState, action: Action, turnIndexBeforeMove: number): boolean {
     let board = stateBeforeMove.board;
     if (action.selfMarbles.length > 3 || action.selfMarbles.length === 0)
       return false;
@@ -182,11 +182,9 @@ module gameLogic {
       let len = action.selfMarbles.length;
       let row = action.selfMarbles[len-1].row + action.direction.row;
       let col = action.selfMarbles[len-1].col + action.direction.col;
-      if (row < 0 || row >= ROWS || col < 0 || col >= COLS)
-        return false;
-
       len = action.opponentMarbles.length;
-      if (len === 0 && board[row][col] !== 'O')
+      if (row < 0 || row >= ROWS || col < 0 || col >= COLS ||
+        (len === 0 && board[row][col] !== 'O'))
         return false;
       if (len > 0 &&
         (action.opponentMarbles[0].row !== row || action.opponentMarbles[0].col !== col)) {

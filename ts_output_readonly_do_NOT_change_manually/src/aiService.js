@@ -1,24 +1,84 @@
 var aiService;
 (function (aiService) {
+    /** Returns the move that the computer player should do for the given updateUI. */
+    function findComputerMove(updateUI) {
+        return createComputerMove(updateUI.stateAfterMove, updateUI.turnIndexAfterMove, 
+        // at most 1 second for the AI to choose a move (but might be much quicker)
+        { millisecondsLimit: 1000 });
+    }
+    aiService.findComputerMove = findComputerMove;
+    /**
+     * Returns all the possible moves for the given board and turnIndexBeforeMove.
+     * Returns an empty array if the game is over.
+     */
+    function getPossibleMoves(state, turnIndexBeforeMove) {
+        var possibleMoves = [];
+        var board = state.board;
+        var BorW = (turnIndexBeforeMove === 0 ? 'B' : 'W');
+        for (var _i = 0, _a = gameLogic.PLACES; _i < _a.length; _i++) {
+            var delta = _a[_i];
+            var i = delta.row;
+            var j = delta.col;
+            if (board[i][j] !== BorW) {
+                continue;
+            }
+            for (var _b = 0, _c = gameLogic.DIREC; _b < _c.length; _b++) {
+                var direction = _c[_b];
+                var i0 = i;
+                var j0 = j;
+                var selfMarbles = [delta];
+                for (var k = 0; k < 2; k++) {
+                    i0 += direction.row;
+                    j0 += direction.col;
+                    if (i0 < 0 || i0 >= gameLogic.ROWS || j0 < 0 || j0 >= gameLogic.COLS
+                        || board[i0][j0] !== BorW)
+                        break;
+                    selfMarbles.push({ row: i0, col: j0 });
+                }
+                var len = selfMarbles.length;
+                i0 = i + len * direction.row;
+                j0 = j + len * direction.col;
+                if (i0 < 0 || i0 >= gameLogic.ROWS || j0 < 0 || j0 >= gameLogic.COLS
+                    || board[i0][j0] === '' || board[i0][j0] === BorW)
+                    continue;
+                if (board[i0][j0] === 'O') {
+                    var action = { isInline: true, direction: direction,
+                        selfMarbles: selfMarbles, opponentMarbles: [] };
+                    try {
+                        possibleMoves.push(gameLogic.createMove(state, action, turnIndexBeforeMove));
+                    }
+                    catch (e) { }
+                }
+                if (board[i0][j0] === (turnIndexBeforeMove === 0 ? 'W' : 'B')) {
+                    var opponentMarbles = [{ row: i0, col: j0 }];
+                    i0 += direction.row;
+                    j0 += direction.col;
+                    if (i0 >= 0 && i0 < gameLogic.ROWS && j0 >= 0 && j0 < gameLogic.COLS
+                        && board[i0][j0] === (turnIndexBeforeMove === 0 ? 'W' : 'B')) {
+                        opponentMarbles.push({ row: i0, col: j0 });
+                    }
+                    var action = { isInline: true, direction: direction,
+                        selfMarbles: selfMarbles, opponentMarbles: opponentMarbles };
+                    try {
+                        possibleMoves.push(gameLogic.createMove(state, action, turnIndexBeforeMove));
+                    }
+                    catch (e) { }
+                }
+            }
+        }
+        return possibleMoves;
+    }
+    aiService.getPossibleMoves = getPossibleMoves;
     /**
      * Returns the move that the computer player should do for the given board.
      * alphaBetaLimits is an object that sets a limit on the alpha-beta search,
      * and it has either a millisecondsLimit or maxDepth field:
      * millisecondsLimit is a time limit, and maxDepth is a depth limit.
      */
-    function createComputerMove(board, playerIndex, alphaBetaLimits) {
-        // We use alpha-beta search, where the search states are TicTacToe moves.
-        // Recal that a TicTacToe move has 3 operations:
-        // 0) endMatch or setTurn
-        // 1) {set: {key: 'board', value: ...}}
-        // 2) {set: {key: 'delta', value: ...}}]
-        // return alphaBetaService.alphaBetaDecision(
-        //     [null, {set: {key: 'board', value: board}}],
-        //     playerIndex, getNextStates, getStateScoreForIndex0,
-        //     // If you want to see debugging output in the console, then surf to game.html?debug
-        //     window.location.search === '?debug' ? getDebugStateToString : null,
-        //     alphaBetaLimits);
-        return [];
+    function createComputerMove(state, playerIndex, alphaBetaLimits) {
+        return alphaBetaService.alphaBetaDecision([null, null, { set: { key: 'state', value: state } }], playerIndex, getNextStates, getStateScoreForIndex0, 
+        // If you want to see debugging output in the console, then surf to index.html?debug
+        window.location.search === '?debug' ? getDebugStateToString : null, alphaBetaLimits);
     }
     aiService.createComputerMove = createComputerMove;
     function getStateScoreForIndex0(move, playerIndex) {
@@ -30,10 +90,10 @@ var aiService;
         }
         return 0;
     }
-    /*  function getNextStates(move: IMove, playerIndex: number): IMove[] {
-        return gameLogic.getPossibleMoves(move[1].set.value, playerIndex);
-      } */
+    function getNextStates(move, playerIndex) {
+        return getPossibleMoves(move[2].set.value, playerIndex);
+    }
     function getDebugStateToString(move) {
-        return "\n" + move[1].set.value.join("\n") + "\n";
+        return "\n" + move[2].set.value.board.join("\n") + "\n";
     }
 })(aiService || (aiService = {}));

@@ -31,7 +31,7 @@ var game;
         });
     }
     function sendComputerMove() {
-        gameService.makeMove(aiService.createComputerMove(state.board, turnIndex, 
+        gameService.makeMove(aiService.createComputerMove(state, turnIndex, 
         // at most 1 second for the AI to choose a move (but might be much quicker)
         { millisecondsLimit: 1000 }));
     }
@@ -54,7 +54,7 @@ var game;
             // because if we call aiService now
             // then the animation will be paused until the javascript finishes.
             //The correction is made by myself
-            if (!state.removedMarbles) {
+            if (!state.blackRemoved) {
                 // This is the first move in the match, so
                 // there is not going to be an animation, so
                 // call sendComputerMove() now (can happen in ?onlyAIs mode)
@@ -93,7 +93,7 @@ var game;
     }
     game.isPieceO = isPieceO;
 })(game || (game = {}));
-angular.module('myApp', ['ngTouch', 'ui.bootstrap'])
+angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])
     .run(['initGameServices', function (initGameServices) {
         $rootScope['game'] = game;
         translate.setLanguage('en', {
