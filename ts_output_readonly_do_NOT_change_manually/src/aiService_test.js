@@ -65,6 +65,22 @@ describe("aiService", function () {
         var expectedMove = gameLogic.createMove(state, move[1].set.value, 0);
         expect(angular.equals(move, expectedMove)).toBe(true);
     });
+    it("All possible moves by Black", function () {
+        var state = { board: [
+                ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'W', '', '', '', ''],
+                ['', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', '', ''],
+                ['', '', 'O', '', 'O', '', 'O', '', 'B', '', 'O', '', 'B', '', 'O', '', ''],
+                ['', 'O', '', 'O', '', 'B', '', 'B', '', 'O', '', 'B', '', 'O', '', 'B', ''],
+                ['O', '', 'O', '', 'B', '', 'W', '', 'W', '', 'O', '', 'O', '', 'O', '', 'O'],
+                ['', 'O', '', 'O', '', 'W', '', 'W', '', 'O', '', 'W', '', 'B', '', 'O', ''],
+                ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', ''],
+                ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', ''],
+                ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '']],
+            blackRemoved: 1, whiteRemoved: 5 };
+        var moves = aiService.getPossibleMoves(state, 0);
+        var expectedMove = gameLogic.createMove(state, moves[0][1].set.value, 0);
+        expect(angular.equals(moves[0], expectedMove)).toBe(true);
+    });
     // it("Expect a broadside move by Black", function(){
     //   let state: IState = {board: [
     //     ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'W', '', '', '', '' ],
