@@ -2,8 +2,8 @@ var gameLogic;
 (function (gameLogic) {
     gameLogic.ROWS = 9;
     gameLogic.COLS = 17;
-    gameLogic.DIREC = [{ row: 0, col: 2 }, { row: 0, col: -2 },
-        { row: 1, col: 1 }, { row: -1, col: -1 }, { row: 1, col: -1 }, { row: -1, col: 1 }];
+    gameLogic.DIREC = [{ row: 0, col: 2 }, { row: 1, col: -1 },
+        { row: 1, col: 1 }, { row: 0, col: -2 }, { row: -1, col: 1 }, { row: -1, col: -1 }];
     gameLogic.PLACES = [{ row: 0, col: 4 }, { row: 0, col: 6 }, { row: 0, col: 8 },
         { row: 0, col: 10 }, { row: 0, col: 12 }, { row: 1, col: 3 }, { row: 1, col: 5 }, { row: 1, col: 7 },
         { row: 1, col: 9 }, { row: 1, col: 11 }, { row: 1, col: 13 }, { row: 2, col: 2 }, { row: 2, col: 4 },
@@ -79,6 +79,7 @@ var gameLogic;
             return 'B';
         return '';
     }
+    gameLogic.getWinner = getWinner;
     //Check if a given state is valid
     function isStateValid(state) {
         var board = angular.copy(state.board);

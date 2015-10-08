@@ -22,7 +22,8 @@ module aiService {
        if (board[i][j] !== BorW) {
            continue;
        }
-       for (let direction of gameLogic.DIREC) {
+       for (let k = 0; k < 6; k++) {
+         let direction = gameLogic.DIREC[k];
          let i0 = i;
          let j0 = j;
          let selfMarbles: BoardDelta[] = [delta];
@@ -35,6 +36,7 @@ module aiService {
            selfMarbles.push({row: i0, col: j0});
          }
          let len = selfMarbles.length;
+// First find all valid inline moves
          i0 = i + len * direction.row;
          j0 = j + len * direction.col;
 
@@ -46,7 +48,12 @@ module aiService {
            let action: Action = {isInline: true, direction:  direction,
            selfMarbles: selfMarbles, opponentMarbles: []};
            try {
-             possibleMoves.push(gameLogic.createMove(state, action, turnIndexBeforeMove));
+             let move = gameLogic.createMove(state, action, turnIndexBeforeMove);
+             if (gameLogic.getWinner(move[2].set.value) !== '') {
+                 possibleMoves = [move];
+                 return possibleMoves;
+             }
+             possibleMoves.push(move);
            } catch (e) {}
           }
 
@@ -61,10 +68,43 @@ module aiService {
              let action: Action = {isInline: true, direction:  direction,
              selfMarbles: selfMarbles, opponentMarbles: opponentMarbles};
              try {
-               possibleMoves.push(gameLogic.createMove(state, action, turnIndexBeforeMove));
+               let move = gameLogic.createMove(state, action, turnIndexBeforeMove);
+               if (gameLogic.getWinner(move[2].set.value) !== '') {
+                 possibleMoves = [move];
+                 return possibleMoves;
+               }
+               possibleMoves.push(move);
              } catch (e) {}
          }
-       }
+// Second find all possible broadside moves.
+//It is enough to check 3 directions: [0, 2], [1, -1], [1, 1]
+        if (len <= 1 || k > 2) {
+            continue;
+        }
+        for (let l = 0; l < 5; l++) {
+            if (l === k || l === k + 3) {
+                  continue;
+            }
+            try {
+              let action: Action = {isInline: false, direction:  gameLogic.DIREC[l],
+              selfMarbles: selfMarbles, opponentMarbles: []};;
+              possibleMoves.push(gameLogic.createMove(state, action, turnIndexBeforeMove));
+            } catch (e) {}
+        }
+        if (len === 3) {
+            selfMarbles.pop();
+            for (let l = 0; l < 5; l++) {
+                if (l === k || l === k + 3) {
+                      continue;
+                }
+                try {
+                  let action: Action = {isInline: false, direction:  gameLogic.DIREC[l],
+                  selfMarbles: selfMarbles, opponentMarbles: []};;
+                  possibleMoves.push(gameLogic.createMove(state, action, turnIndexBeforeMove));
+                } catch (e) {}
+            }
+        }
+      }
     }
     return possibleMoves;
   }

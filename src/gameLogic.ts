@@ -20,8 +20,8 @@ interface Action {
 module gameLogic {
   export const ROWS: number = 9;
   export const COLS: number = 17;
-  export const DIREC: BoardDelta[] = [{row: 0, col: 2}, {row: 0, col: -2},
-  {row: 1, col: 1}, {row: -1, col: -1}, {row: 1, col: -1}, {row: -1, col: 1}];
+  export const DIREC: BoardDelta[] = [{row: 0, col: 2}, {row: 1, col: -1},
+  {row: 1, col: 1}, {row: 0, col: -2}, {row: -1, col: 1}, {row: -1, col: -1}];
   export const PLACES: BoardDelta[] = [{row: 0, col: 4}, {row: 0, col: 6}, {row: 0, col: 8},
   {row: 0, col: 10}, {row: 0, col: 12}, {row: 1, col: 3}, {row: 1, col: 5}, {row: 1, col: 7},
   {row: 1, col: 9}, {row: 1, col: 11}, {row: 1, col: 13}, {row: 2, col: 2}, {row: 2, col: 4},
@@ -69,7 +69,7 @@ module gameLogic {
     return board;
   }
 
-  function getWinner(state: IState): string {
+  export function getWinner(state: IState): string {
     if (state.blackRemoved === 6)
       return 'W';
     if (state.whiteRemoved === 6)

@@ -22,12 +22,12 @@ var aiService;
             if (board[i][j] !== BorW) {
                 continue;
             }
-            for (var _b = 0, _c = gameLogic.DIREC; _b < _c.length; _b++) {
-                var direction = _c[_b];
+            for (var k = 0; k < 6; k++) {
+                var direction = gameLogic.DIREC[k];
                 var i0 = i;
                 var j0 = j;
                 var selfMarbles = [delta];
-                for (var k = 0; k < 2; k++) {
+                for (var k_1 = 0; k_1 < 2; k_1++) {
                     i0 += direction.row;
                     j0 += direction.col;
                     if (i0 < 0 || i0 >= gameLogic.ROWS || j0 < 0 || j0 >= gameLogic.COLS
@@ -36,6 +36,7 @@ var aiService;
                     selfMarbles.push({ row: i0, col: j0 });
                 }
                 var len = selfMarbles.length;
+                // First find all valid inline moves
                 i0 = i + len * direction.row;
                 j0 = j + len * direction.col;
                 if (i0 < 0 || i0 >= gameLogic.ROWS || j0 < 0 || j0 >= gameLogic.COLS
@@ -45,7 +46,12 @@ var aiService;
                     var action = { isInline: true, direction: direction,
                         selfMarbles: selfMarbles, opponentMarbles: [] };
                     try {
-                        possibleMoves.push(gameLogic.createMove(state, action, turnIndexBeforeMove));
+                        var move = gameLogic.createMove(state, action, turnIndexBeforeMove);
+                        if (gameLogic.getWinner(move[2].set.value) !== '') {
+                            possibleMoves = [move];
+                            return possibleMoves;
+                        }
+                        possibleMoves.push(move);
                     }
                     catch (e) { }
                 }
@@ -60,9 +66,46 @@ var aiService;
                     var action = { isInline: true, direction: direction,
                         selfMarbles: selfMarbles, opponentMarbles: opponentMarbles };
                     try {
+                        var move = gameLogic.createMove(state, action, turnIndexBeforeMove);
+                        if (gameLogic.getWinner(move[2].set.value) !== '') {
+                            possibleMoves = [move];
+                            return possibleMoves;
+                        }
+                        possibleMoves.push(move);
+                    }
+                    catch (e) { }
+                }
+                // Second find all possible broadside moves.
+                //It is enough to check 3 directions: [0, 2], [1, -1], [1, 1]
+                if (len <= 1 || k > 2) {
+                    continue;
+                }
+                for (var l = 0; l < 5; l++) {
+                    if (l === k || l === k + 3) {
+                        continue;
+                    }
+                    try {
+                        var action = { isInline: false, direction: gameLogic.DIREC[l],
+                            selfMarbles: selfMarbles, opponentMarbles: [] };
+                        ;
                         possibleMoves.push(gameLogic.createMove(state, action, turnIndexBeforeMove));
                     }
                     catch (e) { }
+                }
+                if (len === 3) {
+                    selfMarbles.pop();
+                    for (var l = 0; l < 5; l++) {
+                        if (l === k || l === k + 3) {
+                            continue;
+                        }
+                        try {
+                            var action = { isInline: false, direction: gameLogic.DIREC[l],
+                                selfMarbles: selfMarbles, opponentMarbles: [] };
+                            ;
+                            possibleMoves.push(gameLogic.createMove(state, action, turnIndexBeforeMove));
+                        }
+                        catch (e) { }
+                    }
                 }
             }
         }
