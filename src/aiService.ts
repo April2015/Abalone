@@ -10,7 +10,6 @@ module aiService {
 
   /**
    * Returns all the possible moves for the given board and turnIndexBeforeMove.
-   * Returns an empty array if the game is over.
    */
   export function getPossibleMoves(state: IState, turnIndexBeforeMove: number): IMove[] {
     let possibleMoves: IMove[] = [];
@@ -39,42 +38,41 @@ module aiService {
 // First find all valid inline moves
          i0 = i + len * direction.row;
          j0 = j + len * direction.col;
-
-         if (i0 < 0 || i0 >= gameLogic.ROWS || j0 < 0 || j0 >= gameLogic.COLS
-         || board[i0][j0] === '' || board[i0][j0] === BorW)
-          continue;
-
-         if (board[i0][j0] === 'O') {
-           let action: Action = {isInline: true, direction:  direction,
-           selfMarbles: selfMarbles, opponentMarbles: []};
-           try {
-             let move = gameLogic.createMove(state, action, turnIndexBeforeMove);
-             if (gameLogic.getWinner(move[2].set.value) !== '') {
-                 possibleMoves = [move];
-                 return possibleMoves;
-             }
-             possibleMoves.push(move);
-           } catch (e) {}
-          }
-
-         if (board[i0][j0] === (turnIndexBeforeMove === 0? 'W':'B')) {
-             let opponentMarbles: BoardDelta[] = [{row: i0, col: j0}];
-             i0 += direction.row;
-             j0 += direction.col;
-             if (i0 >= 0 && i0 < gameLogic.ROWS && j0 >= 0 && j0 < gameLogic.COLS
-             && board[i0][j0] === (turnIndexBeforeMove === 0? 'W':'B')) {
-               opponentMarbles.push({row: i0, col: j0});
-             }
+         let marbleOnEdge: boolean = (i0 < 0 || i0 >= gameLogic.ROWS || j0 < 0
+           || j0 >= gameLogic.COLS || board[i0][j0] === '' || board[i0][j0] === BorW);
+         if (!marbleOnEdge) {
+           if (board[i0][j0] === 'O') {
              let action: Action = {isInline: true, direction:  direction,
-             selfMarbles: selfMarbles, opponentMarbles: opponentMarbles};
+             selfMarbles: selfMarbles, opponentMarbles: []};
              try {
                let move = gameLogic.createMove(state, action, turnIndexBeforeMove);
                if (gameLogic.getWinner(move[2].set.value) !== '') {
-                 possibleMoves = [move];
-                 return possibleMoves;
+                   possibleMoves = [move];
+                   return possibleMoves;
                }
                possibleMoves.push(move);
              } catch (e) {}
+            }
+
+           if (board[i0][j0] === (turnIndexBeforeMove === 0? 'W':'B')) {
+               let opponentMarbles: BoardDelta[] = [{row: i0, col: j0}];
+               i0 += direction.row;
+               j0 += direction.col;
+               if (i0 >= 0 && i0 < gameLogic.ROWS && j0 >= 0 && j0 < gameLogic.COLS
+               && board[i0][j0] === (turnIndexBeforeMove === 0? 'W':'B')) {
+                 opponentMarbles.push({row: i0, col: j0});
+               }
+               let action: Action = {isInline: true, direction:  direction,
+               selfMarbles: selfMarbles, opponentMarbles: opponentMarbles};
+               try {
+                 let move = gameLogic.createMove(state, action, turnIndexBeforeMove);
+                 if (gameLogic.getWinner(move[2].set.value) !== '') {
+                   possibleMoves = [move];
+                   return possibleMoves;
+                 }
+                 possibleMoves.push(move);
+               } catch (e) {}
+           }
          }
 // Second find all possible broadside moves.
 //It is enough to check 3 directions: [0, 2], [1, -1], [1, 1]
@@ -87,7 +85,7 @@ module aiService {
             }
             try {
               let action: Action = {isInline: false, direction:  gameLogic.DIREC[l],
-              selfMarbles: selfMarbles, opponentMarbles: []};;
+              selfMarbles: selfMarbles, opponentMarbles: []};
               possibleMoves.push(gameLogic.createMove(state, action, turnIndexBeforeMove));
             } catch (e) {}
         }
