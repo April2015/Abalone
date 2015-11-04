@@ -12,6 +12,7 @@ describe("aiService", function() {
       ['', '', 'O', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'W', '', '', '' ],
       ['', '', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', '', '', '' ] ],
+      isInitialState: true,
     blackRemoved: 0, whiteRemoved: 0};
     let move = aiService.createComputerMove(state, 0, {maxDepth: 1});
     let expectedMove = gameLogic.createMove(state, move[1].set.value, 0);
@@ -29,6 +30,7 @@ describe("aiService", function() {
       ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', '' ],
       ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 1, whiteRemoved: 5};
       let move = aiService.findComputerMove(<IUpdateUI>{
         turnIndexAfterMove: 0, stateAfterMove: state});
@@ -46,6 +48,7 @@ describe("aiService", function() {
         ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', '' ],
         ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '' ]],
+        isInitialState: false,
        blackRemoved: 1, whiteRemoved: 6}}}];
       expect(angular.equals(move, expectedMove)).toBe(true);
       });
@@ -61,6 +64,7 @@ describe("aiService", function() {
       ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', '' ],
       ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '' ]],
+      isInitialState: false,
     blackRemoved: 1, whiteRemoved: 5};
     let move = aiService.createComputerMove(state, 0, {maxDepth: 1});
     let expectedMove = gameLogic.createMove(state, move[1].set.value, 0);
@@ -78,6 +82,7 @@ describe("aiService", function() {
       ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'O', '', '' ],
       ['', '', '', 'O', '', 'B', '', 'W', '', 'W', '', 'W', '', 'B', '', '', '' ],
       ['', '', '', '', 'B', '', 'O', '', 'O', '', 'B', '', 'B', '', '', '', '' ]],
+      isInitialState: false,
     blackRemoved: 0, whiteRemoved: 4};
     let move = aiService.createComputerMove(state, 1, {maxDepth: 1});
     let expectedMove = gameLogic.createMove(state, move[1].set.value, 1);
@@ -95,6 +100,7 @@ describe("aiService", function() {
         ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', '' ],
         ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '' ]],
+        isInitialState: false,
       blackRemoved: 1, whiteRemoved: 5};
     let moves = aiService.getPossibleMoves(state, 0);
     let expectedMove = gameLogic.createMove(state, moves[0][1].set.value, 0);

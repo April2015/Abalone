@@ -31,6 +31,7 @@ var gameLogic;
         for (var _i = 0; _i < gameLogic.PLACES.length; _i++) {
             var place = gameLogic.PLACES[_i];
             var i = place.row;
+            // let i = place['row'];
             var j = place.col;
             board[i][j] = 'O';
         }
@@ -72,6 +73,12 @@ var gameLogic;
         return board;
     }
     gameLogic.getInitialBoard = getInitialBoard;
+    function getInitialState() {
+        var initialBoard = getInitialBoard();
+        var initialState = { board: initialBoard, isInitialState: true, blackRemoved: 0, whiteRemoved: 0 };
+        return initialState;
+    }
+    gameLogic.getInitialState = getInitialState;
     function getWinner(state) {
         if (state.blackRemoved === 6)
             return 'W';
@@ -216,8 +223,7 @@ var gameLogic;
      */
     function createMove(stateBeforeMove, action, turnIndexBeforeMove) {
         if (!stateBeforeMove) {
-            var initialBoard = getInitialBoard();
-            stateBeforeMove = { board: initialBoard, blackRemoved: 0, whiteRemoved: 0 };
+            stateBeforeMove = getInitialState();
         }
         if (!isStateValid(stateBeforeMove))
             throw new Error("The given state is invalid");
@@ -227,6 +233,9 @@ var gameLogic;
         if (!isStepValid(stateBeforeMove, action, turnIndexBeforeMove))
             throw new Error("Action is invalid and game is halted!");
         var stateAfterMove = angular.copy(stateBeforeMove);
+        if (stateAfterMove.isInitialState === true) {
+            stateAfterMove.isInitialState = false;
+        }
         if (!action.isInline) {
             for (var i = 0; i < action.selfMarbles.length; i++) {
                 var row = action.selfMarbles[i].row;

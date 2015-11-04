@@ -29,6 +29,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'W', '', '', ''],
                             ['', '', '', '', 'O', '', 'B', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 0 } } }]);
     });
     it("error in the color of opponent's marbles", function () {
@@ -42,6 +43,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'W', '', '', ''],
                 ['', '', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 0 }, [{ setTurn: { turnIndex: 1 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: -1, col: -1 },
                         selfMarbles: [{ row: 8, col: 4 }, { row: 7, col: 5 }],
@@ -56,6 +58,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'W', '', '', ''],
                             ['', '', '', '', 'O', '', 'B', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 1, whiteRemoved: 0 } } }]);
     });
     it("an inline move with 3 pushing 1 is legal", function () {
@@ -69,6 +72,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 2 }, [{ setTurn: { turnIndex: 0 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: -1, col: -1 },
                         selfMarbles: [{ row: 4, col: 10 }, { row: 3, col: 9 },
@@ -84,6 +88,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 2 } } }]);
     });
     it("an inline 3-0 move to filled is illegal", function () {
@@ -97,6 +102,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 2 }, [{ setTurn: { turnIndex: 0 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: -1, col: -1 },
                         selfMarbles: [{ row: 4, col: 10 }, { row: 3, col: 9 },
@@ -112,6 +118,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 2 } } }]);
     });
     it("pushing your own marbles away is illegal", function () {
@@ -125,6 +132,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 2 }, [{ setTurn: { turnIndex: 0 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: -1, col: -1 },
                         selfMarbles: [{ row: 4, col: 10 }, { row: 3, col: 9 }],
@@ -139,6 +147,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 2 } } }]);
     });
     it("an inline move with 4 pushing 1 is illegal", function () {
@@ -152,6 +161,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 2 }, [{ setTurn: { turnIndex: 0 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: -1, col: -1 },
                         selfMarbles: [{ row: 5, col: 11 }, { row: 4, col: 10 }, { row: 3, col: 9 },
@@ -167,6 +177,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 2 } } }]);
     });
     it("an inline move with 3 pushing 3 is illegal", function () {
@@ -180,6 +191,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 2 }, [{ setTurn: { turnIndex: 0 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: 0, col: 2 },
                         selfMarbles: [{ row: 3, col: 5 }, { row: 3, col: 7 }, { row: 3, col: 9 }],
@@ -194,6 +206,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 1, whiteRemoved: 2 } } }]);
     });
     it("an inline move with 2 pushing 1 to open space is legal", function () {
@@ -207,6 +220,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 0 }, [{ setTurn: { turnIndex: 1 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: 1, col: -1 },
                         selfMarbles: [{ row: 0, col: 12 }, { row: 1, col: 11 }],
@@ -221,6 +235,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 0 } } }]);
     });
     it("an inline move that removes opponent's inside marble is illegal", function () {
@@ -234,6 +249,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 0 }, [{ setTurn: { turnIndex: 1 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: 1, col: -1 },
                         selfMarbles: [{ row: 0, col: 12 }, { row: 1, col: 11 }],
@@ -248,6 +264,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 1 } } }]);
     });
     it("an inline move with 3 pushing 2 off edge is legal", function () {
@@ -261,6 +278,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'W', '', 'W', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 0 }, [{ setTurn: { turnIndex: 1 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: 1, col: 1 },
                         selfMarbles: [{ row: 4, col: 8 }, { row: 5, col: 9 }, { row: 6, col: 10 }],
@@ -275,6 +293,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 1 } } }]);
     });
     it("an inline move with 3 pushing 2 to open space is legal", function () {
@@ -288,6 +307,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 1 }, [{ setTurn: { turnIndex: 0 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: 1, col: 1 },
                         selfMarbles: [{ row: 2, col: 4 }, { row: 3, col: 5 }, { row: 4, col: 6 }],
@@ -302,6 +322,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'W', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 1 } } }]);
     });
     it("an inline 3-2 move with opponent's marbles not properly input is illegal", function () {
@@ -315,6 +336,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 1 }, [{ setTurn: { turnIndex: 0 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: 1, col: 1 },
                         selfMarbles: [{ row: 2, col: 4 }, { row: 3, col: 5 }, { row: 4, col: 6 }],
@@ -329,6 +351,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'W', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 1 } } }]);
     });
     it("an inline 3-2 move with opponent's marbles not adjacent is illegal", function () {
@@ -342,6 +365,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 1 }, [{ setTurn: { turnIndex: 0 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: 1, col: 1 },
                         selfMarbles: [{ row: 2, col: 4 }, { row: 3, col: 5 }, { row: 4, col: 6 }],
@@ -356,6 +380,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'W', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 1 } } }]);
     });
     it("an inline move with 3 pushing 1 blocked by some marble is illegal", function () {
@@ -369,6 +394,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 1 }, [{ setTurn: { turnIndex: 0 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: 1, col: 1 },
                         selfMarbles: [{ row: 2, col: 4 }, { row: 3, col: 5 }, { row: 4, col: 6 }],
@@ -383,6 +409,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'W', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 1 } } }]);
     });
     it("Using opponent's marbles to push yours is illegal", function () {
@@ -396,6 +423,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 0 }, [{ setTurn: { turnIndex: 0 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: 1, col: -1 },
                         selfMarbles: [{ row: 0, col: 12 }, { row: 1, col: 11 }],
@@ -410,6 +438,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 0 } } }]);
     });
     it("an inline move with 2 pushing 1 blocked by some marble is illegal", function () {
@@ -423,6 +452,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'B', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 3 }, [{ setTurn: { turnIndex: 0 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: -1, col: 1 },
                         selfMarbles: [{ row: 7, col: 7 }, { row: 6, col: 8 }],
@@ -437,6 +467,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 3 } } }]);
     });
     it("an inline move with marbles given in the opposite direction is illegal", function () {
@@ -450,6 +481,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 0 }, [{ setTurn: { turnIndex: 0 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: 1, col: 1 },
                         selfMarbles: [{ row: 3, col: 5 }, { row: 2, col: 4 }, { row: 1, col: 3 }],
@@ -464,6 +496,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 0 } } }]);
     });
     it("an inline move with marbles given in the same direction is legal", function () {
@@ -477,6 +510,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 0 }, [{ setTurn: { turnIndex: 0 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: 1, col: 1 },
                         selfMarbles: [{ row: 1, col: 3 }, { row: 2, col: 4 }, { row: 3, col: 5 }],
@@ -491,6 +525,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 0 } } }]);
     });
     it("an inline move ejecting your own marbles  is illegal", function () {
@@ -504,6 +539,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 0 }, [{ setTurn: { turnIndex: 0 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: -1, col: -1 },
                         selfMarbles: [{ row: 3, col: 5 }, { row: 2, col: 4 }, { row: 1, col: 3 }],
@@ -518,6 +554,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 1 } } }]);
     });
     it("a broadside move of 2 marbles to open space is legal", function () {
@@ -531,6 +568,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'B', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 3 }, [{ setTurn: { turnIndex: 1 } },
             { set: { key: 'action', value: { isInline: false, direction: { row: -1, col: -1 },
                         selfMarbles: [{ row: 7, col: 11 }, { row: 7, col: 13 }],
@@ -545,6 +583,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'B', '', 'B', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'O', '', 'O', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 3 } } }]);
     });
     it("a broadside move pushing opponent's marble is illegal", function () {
@@ -558,6 +597,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'B', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 3 }, [{ setTurn: { turnIndex: 1 } },
             { set: { key: 'action', value: { isInline: false, direction: { row: -1, col: -1 },
                         selfMarbles: [{ row: 7, col: 11 }, { row: 7, col: 13 }],
@@ -572,6 +612,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'B', '', 'B', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'O', '', 'O', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 3 } } }]);
     });
     it("a broadside move of 2 marbles to filled space is illegal", function () {
@@ -585,6 +626,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'B', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 3 }, [{ setTurn: { turnIndex: 1 } },
             { set: { key: 'action', value: { isInline: false, direction: { row: -1, col: -1 },
                         selfMarbles: [{ row: 7, col: 9 }, { row: 7, col: 11 }],
@@ -599,6 +641,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'O', '', 'B', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 3 } } }]);
     });
     it("a broadside move of 2 marbles not next to each other is illegal", function () {
@@ -612,6 +655,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'B', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 3 }, [{ setTurn: { turnIndex: 1 } },
             { set: { key: 'action', value: { isInline: false, direction: { row: 0, col: 2 },
                         selfMarbles: [{ row: 7, col: 3 }, { row: 8, col: 8 }],
@@ -626,6 +670,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'O', '', 'B', '', 'W', '', 'B', '', 'B', '', 'B', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 3 } } }]);
     });
     it("pushing off a black marble is legal", function () {
@@ -639,6 +684,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'O', '', ''],
                 ['', '', '', 'O', '', 'B', '', 'W', '', 'W', '', 'W', '', 'B', '', '', ''],
                 ['', '', '', '', 'B', '', 'O', '', 'O', '', 'B', '', 'B', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 4 }, [{ setTurn: { turnIndex: 0 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: 1, col: 1 },
                         selfMarbles: [{ row: 5, col: 7 }, { row: 6, col: 8 }, { row: 7, col: 9 }],
@@ -653,6 +699,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'O', '', ''],
                             ['', '', '', 'O', '', 'B', '', 'W', '', 'W', '', 'W', '', 'B', '', '', ''],
                             ['', '', '', '', 'B', '', 'O', '', 'O', '', 'W', '', 'B', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 1, whiteRemoved: 4 } } }]);
     });
     it("moving 1 marble to open space broadside is legal", function () {
@@ -666,6 +713,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', ''],
                 ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 1, whiteRemoved: 5 }, [{ setTurn: { turnIndex: 0 } },
             { set: { key: 'action', value: { isInline: false, direction: { row: -1, col: -1 },
                         selfMarbles: [{ row: 1, col: 11 }],
@@ -680,6 +728,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', ''],
                             ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 1, whiteRemoved: 5 } } }]);
     });
     it("moving 3 marbles not in the same line is illegal", function () {
@@ -693,6 +742,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', ''],
                 ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 1, whiteRemoved: 5 }, [{ setTurn: { turnIndex: 1 } },
             { set: { key: 'action', value: { isInline: false, direction: { row: -1, col: -1 },
                         selfMarbles: [{ row: 4, col: 4 }, { row: 3, col: 5 }, { row: 3, col: 7 }],
@@ -707,6 +757,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', ''],
                             ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 1, whiteRemoved: 5 } } }]);
     });
     it("moving in a finished game is illegal", function () {
@@ -720,6 +771,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', ''],
                 ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 1, whiteRemoved: 6 }, [{ setTurn: { turnIndex: 1 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: -1, col: 1 },
                         selfMarbles: [{ row: 8, col: 12 }],
@@ -734,6 +786,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', ''],
                             ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'B', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 1, whiteRemoved: 6 } } }]);
     });
     it("an inline move with direction (2, 0) is illegal", function () {
@@ -747,6 +800,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'W', '', 'W', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 0 }, [{ setTurn: { turnIndex: 1 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: 2, col: 0 },
                         selfMarbles: [{ row: 4, col: 8 }, { row: 5, col: 9 }, { row: 6, col: 10 }],
@@ -761,6 +815,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 1 } } }]);
     });
     it("board not correctly represented", function () {
@@ -774,6 +829,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'W', '', 'W', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 0 }, [{ setTurn: { turnIndex: 1 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: 2, col: 0 },
                         selfMarbles: [{ row: 4, col: 8 }, { row: 5, col: 9 }, { row: 6, col: 10 }],
@@ -788,6 +844,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 1 } } }]);
     });
     it("error in places not existing in a physical board", function () {
@@ -801,6 +858,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'W', '', 'W', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 0 }, [{ setTurn: { turnIndex: 1 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: 2, col: 0 },
                         selfMarbles: [{ row: 4, col: 8 }, { row: 5, col: 9 }, { row: 6, col: 10 }],
@@ -815,6 +873,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 1 } } }]);
     });
     it("error in the number of marbles", function () {
@@ -828,6 +887,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'O', '', 'B', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'W', '', 'W', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 0 }, [{ setTurn: { turnIndex: 1 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: 2, col: 0 },
                         selfMarbles: [{ row: 4, col: 8 }, { row: 5, col: 9 }, { row: 6, col: 10 }],
@@ -842,6 +902,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 1 } } }]);
     });
     it("error in the column of the board", function () {
@@ -855,6 +916,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'W', '', 'W', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 0 }, [{ setTurn: { turnIndex: 1 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: 2, col: 0 },
                         selfMarbles: [{ row: 4, col: 8 }, { row: 5, col: 9 }, { row: 6, col: 10 }],
@@ -869,6 +931,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 1 } } }]);
     });
     it("board missing a row", function () {
@@ -881,6 +944,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                 ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'W', '', 'W', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 0, whiteRemoved: 0 }, [{ setTurn: { turnIndex: 1 } },
             { set: { key: 'action', value: { isInline: true, direction: { row: 2, col: 0 },
                         selfMarbles: [{ row: 4, col: 8 }, { row: 5, col: 9 }, { row: 6, col: 10 }],
@@ -895,6 +959,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', ''],
                             ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 0, whiteRemoved: 1 } } }]);
     });
     it("black wins!", function () {
@@ -908,6 +973,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', ''],
                 ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 1, whiteRemoved: 5 }, [{ endMatch: { endMatchScores: [1, 0] } },
             { set: { key: 'action', value: { isInline: true, direction: { row: -1, col: 1 },
                         selfMarbles: [{ row: 2, col: 8 }, { row: 1, col: 9 }],
@@ -922,6 +988,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', ''],
                             ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 1, whiteRemoved: 6 } } }]);
     });
     it("white wins!", function () {
@@ -935,6 +1002,7 @@ describe("In Abalone", function () {
                 ['', '', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'W', '', 'W', '', ''],
                 ['', '', '', 'O', '', 'W', '', 'O', '', 'O', '', 'B', '', 'O', '', '', ''],
                 ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'W', '', '', '', '']],
+            isInitialState: false,
             blackRemoved: 5, whiteRemoved: 1 }, [{ endMatch: { endMatchScores: [0, 1] } },
             { set: { key: 'action', value: { isInline: true, direction: { row: -1, col: 1 },
                         selfMarbles: [{ row: 2, col: 8 }, { row: 1, col: 9 }],
@@ -949,6 +1017,7 @@ describe("In Abalone", function () {
                             ['', '', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'W', '', 'W', '', ''],
                             ['', '', '', 'O', '', 'W', '', 'O', '', 'O', '', 'B', '', 'O', '', '', ''],
                             ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'W', '', '', '', '']],
+                        isInitialState: false,
                         blackRemoved: 6, whiteRemoved: 1 } } }]);
     });
 });

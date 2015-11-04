@@ -6,6 +6,7 @@ interface BoardDelta {
 
 interface IState {
   board?: Board;
+  isInitialState: boolean;
   blackRemoved: number;
   whiteRemoved: number;
 }
@@ -49,6 +50,7 @@ module gameLogic {
     }
     for (let place of PLACES) {
       let i = place.row;
+      // let i = place['row'];
       let j = place.col;
       board[i][j] = 'O';
     }
@@ -67,6 +69,12 @@ module gameLogic {
     board[7][3] = 'B'; board[7][5] = 'B'; board[7][7] = 'B'; board[7][9] = 'W'; board[7][11] = 'W'; board[7][13] = 'W';
     board[8][4] = 'B'; board[8][6] = 'B'; board[8][10] = 'W'; board[8][12] = 'W';
     return board;
+  }
+
+  export function getInitialState(): IState {
+    let initialBoard: Board = getInitialBoard();
+    let initialState: IState = {board: initialBoard, isInitialState: true, blackRemoved : 0, whiteRemoved : 0};
+    return initialState;
   }
 
   export function getWinner(state: IState): string {
@@ -214,8 +222,7 @@ module gameLogic {
   export function createMove(
     stateBeforeMove: IState, action: Action, turnIndexBeforeMove: number): IMove {
     if (!stateBeforeMove) {
-      let initialBoard: Board = getInitialBoard();
-      stateBeforeMove = {board: initialBoard, blackRemoved : 0, whiteRemoved : 0};
+      stateBeforeMove = getInitialState();
     }
     if (!isStateValid(stateBeforeMove))
       throw new Error("The given state is invalid");
@@ -227,6 +234,9 @@ module gameLogic {
       throw new Error("Action is invalid and game is halted!");
 
     let stateAfterMove = angular.copy(stateBeforeMove);
+    if (stateAfterMove.isInitialState === true) {
+      stateAfterMove.isInitialState = false;
+    }
     if (!action.isInline) {
       for (let i = 0; i < action.selfMarbles.length; i++) {
           let row = action.selfMarbles[i].row;

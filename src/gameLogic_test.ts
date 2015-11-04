@@ -35,6 +35,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'W', '', '', '' ],
         ['', '', '', '', 'O', '', 'B', '', 'O', '', 'W', '', 'W', '', '', '', '' ] ],
+        isInitialState: false,
       blackRemoved: 0, whiteRemoved: 0}}}]);
   });
 
@@ -49,6 +50,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'W', '', '', '' ],
       ['', '', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', '', '', '' ] ],
+      isInitialState: false,
     blackRemoved: 0, whiteRemoved: 0},
       [{setTurn: {turnIndex : 1}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: -1, col:-1},
@@ -64,6 +66,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'W', '', '', '' ],
         ['', '', '', '', 'O', '', 'B', '', 'O', '', 'W', '', 'W', '', '', '', '' ] ],
+        isInitialState: false,
       blackRemoved: 1, whiteRemoved: 0}}}]);
   });
 
@@ -78,6 +81,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
      blackRemoved: 0, whiteRemoved: 2},
       [{setTurn: {turnIndex : 0}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: -1, col:-1},
@@ -94,6 +98,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
        blackRemoved: 0, whiteRemoved: 2}}}]);
   });
 
@@ -108,6 +113,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
      blackRemoved: 0, whiteRemoved: 2},
       [{setTurn: {turnIndex : 0}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: -1, col:-1},
@@ -124,6 +130,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
        blackRemoved: 0, whiteRemoved: 2}}}]);
   });
 
@@ -139,6 +146,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
      blackRemoved: 0, whiteRemoved: 2},
       [{setTurn: {turnIndex : 0}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: -1, col:-1},
@@ -154,6 +162,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
        blackRemoved: 0, whiteRemoved: 2}}}]);
   });
 
@@ -168,6 +177,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
      blackRemoved: 0, whiteRemoved: 2},
       [{setTurn: {turnIndex : 0}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: -1, col:-1},
@@ -184,6 +194,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
        blackRemoved: 0, whiteRemoved: 2}}}]);
   });
 
@@ -200,6 +211,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
      blackRemoved: 0, whiteRemoved: 2},
       [{setTurn: {turnIndex : 0}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: 0, col: 2},
@@ -215,6 +227,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'B', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
        blackRemoved: 1, whiteRemoved: 2}}}]);
   });
 
@@ -229,6 +242,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'W', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 0, whiteRemoved: 0},
       [{setTurn: {turnIndex : 1}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: 1, col:-1},
@@ -244,6 +258,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'W', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
        blackRemoved: 0, whiteRemoved: 0}}}]);
   });
 
@@ -258,6 +273,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'W', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
      blackRemoved: 0, whiteRemoved: 0},
       [{setTurn: {turnIndex : 1}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: 1, col:-1},
@@ -273,6 +289,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'W', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
        blackRemoved: 0, whiteRemoved: 1}}}]);
   });
 
@@ -287,6 +304,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'W', '', 'W', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 0, whiteRemoved: 0},
       [{setTurn: {turnIndex : 1}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: 1, col:1},
@@ -302,6 +320,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
        blackRemoved: 0, whiteRemoved: 1}}}]);
   });
 
@@ -316,6 +335,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
      blackRemoved: 0, whiteRemoved: 1},
       [{setTurn: {turnIndex : 0}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: 1, col:1},
@@ -331,6 +351,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'W', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
         blackRemoved: 0, whiteRemoved: 1}}}]);
   });
 
@@ -345,6 +366,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
      blackRemoved: 0, whiteRemoved: 1},
       [{setTurn: {turnIndex : 0}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: 1, col:1},
@@ -360,6 +382,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'W', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
         blackRemoved: 0, whiteRemoved: 1}}}]);
   });
 
@@ -374,6 +397,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
      blackRemoved: 0, whiteRemoved: 1},
       [{setTurn: {turnIndex : 0}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: 1, col:1},
@@ -389,6 +413,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'W', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
         blackRemoved: 0, whiteRemoved: 1}}}]);
   });
 
@@ -403,6 +428,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 0, whiteRemoved: 1},
       [{setTurn: {turnIndex : 0}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: 1, col:1},
@@ -418,6 +444,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'W', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
        blackRemoved: 0, whiteRemoved: 1}}}]);
   });
 
@@ -432,6 +459,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'W', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
      blackRemoved: 0, whiteRemoved: 0},
       [{setTurn: {turnIndex : 0}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: 1, col:-1},
@@ -447,6 +475,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'W', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
         blackRemoved: 0, whiteRemoved: 0}}}]);
   });
 
@@ -462,6 +491,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'B', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 0, whiteRemoved: 3},
       [{setTurn: {turnIndex : 0}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: -1, col:1},
@@ -477,6 +507,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
         blackRemoved: 0, whiteRemoved: 3}}}]);
   });
 
@@ -491,6 +522,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 0, whiteRemoved: 0},
       [{setTurn: {turnIndex : 0}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: 1, col:1},
@@ -506,6 +538,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
         blackRemoved: 0, whiteRemoved: 0}}}]);
   });
 
@@ -520,6 +553,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 0, whiteRemoved: 0},
       [{setTurn: {turnIndex : 0}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: 1, col:1},
@@ -535,6 +569,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
         blackRemoved: 0, whiteRemoved: 0}}}]);
   });
 
@@ -549,6 +584,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 0, whiteRemoved: 0},
       [{setTurn: {turnIndex : 0}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: -1, col:-1},
@@ -564,6 +600,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
         blackRemoved: 0, whiteRemoved: 1}}}]);
   });
 
@@ -579,6 +616,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'B', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 0, whiteRemoved: 3},
       [{setTurn: {turnIndex : 1}},
        {set: {key: 'action', value: {isInline: false, direction:  {row: -1, col:-1},
@@ -594,6 +632,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'B', '', 'B', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'O', '', 'O', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
         blackRemoved: 0, whiteRemoved: 3}}}]);
   });
 
@@ -609,6 +648,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'B', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 0, whiteRemoved: 3},
       [{setTurn: {turnIndex : 1}},
        {set: {key: 'action', value: {isInline: false, direction:  {row: -1, col:-1},
@@ -624,6 +664,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'B', '', 'B', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'O', '', 'O', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
         blackRemoved: 0, whiteRemoved: 3}}}]);
   });
 
@@ -638,6 +679,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'B', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 0, whiteRemoved: 3},
       [{setTurn: {turnIndex : 1}},
        {set: {key: 'action', value: {isInline: false, direction:  {row: -1, col:-1},
@@ -653,6 +695,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'O', '', 'B', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
         blackRemoved: 0, whiteRemoved: 3}}}]);
   });
 
@@ -669,6 +712,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'W', '', 'B', '', 'B', '', 'B', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'B', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 0, whiteRemoved: 3},
       [{setTurn: {turnIndex : 1}},
        {set: {key: 'action', value: {isInline: false, direction:  {row: 0, col:2},
@@ -684,6 +728,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'W', '', 'O', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'O', '', 'B', '', 'W', '', 'B', '', 'B', '', 'B', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
         blackRemoved: 0, whiteRemoved: 3}}}]);
   });
 
@@ -698,6 +743,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'O', '', '' ],
       ['', '', '', 'O', '', 'B', '', 'W', '', 'W', '', 'W', '', 'B', '', '', '' ],
       ['', '', '', '', 'B', '', 'O', '', 'O', '', 'B', '', 'B', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 0, whiteRemoved: 4},
       [{setTurn: {turnIndex : 0}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: 1, col: 1},
@@ -713,6 +759,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'W', '', 'O', '', '' ],
         ['', '', '', 'O', '', 'B', '', 'W', '', 'W', '', 'W', '', 'B', '', '', '' ],
         ['', '', '', '', 'B', '', 'O', '', 'O', '', 'W', '', 'B', '', '', '', '' ]],
+        isInitialState: false,
        blackRemoved: 1, whiteRemoved: 4}}}]);
   });
 
@@ -727,6 +774,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', '' ],
       ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 1, whiteRemoved: 5},
       [{setTurn: {turnIndex : 0}},
        {set: {key: 'action', value: {isInline: false, direction:  {row: -1, col: -1},
@@ -742,6 +790,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', '' ],
         ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '' ]],
+        isInitialState: false,
        blackRemoved: 1, whiteRemoved: 5}}}]);
   });
 
@@ -756,6 +805,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', '' ],
       ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 1, whiteRemoved: 5},
       [{setTurn: {turnIndex : 1}},
        {set: {key: 'action', value: {isInline: false, direction:  {row: -1, col: -1},
@@ -771,6 +821,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', '' ],
         ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '' ]],
+        isInitialState: false,
         blackRemoved: 1, whiteRemoved: 5}}}]);
   });
 
@@ -785,6 +836,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', '' ],
       ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 1, whiteRemoved: 6},
       [{setTurn: {turnIndex : 1}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: -1, col: 1},
@@ -800,6 +852,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', '' ],
         ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'B', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', '' ]],
+        isInitialState: false,
         blackRemoved: 1, whiteRemoved: 6}}}]);
   });
 
@@ -814,6 +867,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'W', '', 'W', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 0, whiteRemoved: 0},
       [{setTurn: {turnIndex : 1}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: 2, col:0},
@@ -829,6 +883,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
        blackRemoved: 0, whiteRemoved: 1}}}]);
   });
 
@@ -843,6 +898,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'W', '', 'W', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 0, whiteRemoved: 0},
       [{setTurn: {turnIndex : 1}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: 2, col:0},
@@ -858,6 +914,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
        blackRemoved: 0, whiteRemoved: 1}}}]);
   });
 
@@ -872,6 +929,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'W', '', 'W', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 0, whiteRemoved: 0},
       [{setTurn: {turnIndex : 1}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: 2, col:0},
@@ -887,6 +945,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
        blackRemoved: 0, whiteRemoved: 1}}}]);
   });
 
@@ -901,6 +960,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'O', '', 'B', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'W', '', 'W', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 0, whiteRemoved: 0},
       [{setTurn: {turnIndex : 1}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: 2, col:0},
@@ -916,6 +976,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
        blackRemoved: 0, whiteRemoved: 1}}}]);
   });
 
@@ -930,6 +991,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'W', '', 'W', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 0, whiteRemoved: 0},
       [{setTurn: {turnIndex : 1}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: 2, col:0},
@@ -945,6 +1007,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
        blackRemoved: 0, whiteRemoved: 1}}}]);
   });
 
@@ -958,6 +1021,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
       ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'W', '', 'W', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 0, whiteRemoved: 0},
       [{setTurn: {turnIndex : 1}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: 2, col:0},
@@ -973,6 +1037,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
         ['', '', '', 'B', '', 'O', '', 'W', '', 'O', '', 'B', '', 'W', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'W', '', 'O', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
        blackRemoved: 0, whiteRemoved: 1}}}]);
   });
 
@@ -988,6 +1053,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', '' ],
       ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 1, whiteRemoved: 5},
       [{endMatch: {endMatchScores: [1, 0]}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: -1, col: 1},
@@ -1003,6 +1069,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', '' ],
         ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '' ]],
+        isInitialState: false,
        blackRemoved: 1, whiteRemoved: 6}}}]);
   });
   it("white wins!", function() {
@@ -1016,6 +1083,7 @@ describe("In Abalone", function() {
       ['', '', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'W', '', 'W', '', '' ],
       ['', '', '', 'O', '', 'W', '', 'O', '', 'O', '', 'B', '', 'O', '', '', '' ],
       ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'W', '', '', '', '' ]],
+      isInitialState: false,
       blackRemoved: 5, whiteRemoved: 1},
       [{endMatch: {endMatchScores: [0, 1]}},
        {set: {key: 'action', value: {isInline: true, direction:  {row: -1, col: 1},
@@ -1031,6 +1099,7 @@ describe("In Abalone", function() {
         ['', '', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'W', '', 'W', '', '' ],
         ['', '', '', 'O', '', 'W', '', 'O', '', 'O', '', 'B', '', 'O', '', '', '' ],
         ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'W', '', '', '', '' ]],
+        isInitialState: false,
        blackRemoved: 6, whiteRemoved: 1}}}]);
   });
 

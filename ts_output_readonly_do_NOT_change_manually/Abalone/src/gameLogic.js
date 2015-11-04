@@ -1,219 +1,263 @@
 var gameLogic;
 (function (gameLogic) {
+    gameLogic.ROWS = 9;
+    gameLogic.COLS = 17;
+    gameLogic.DIREC = [{ row: 0, col: 2 }, { row: 1, col: -1 },
+        { row: 1, col: 1 }, { row: 0, col: -2 }, { row: -1, col: 1 }, { row: -1, col: -1 }];
+    gameLogic.PLACES = [{ row: 0, col: 4 }, { row: 0, col: 6 }, { row: 0, col: 8 },
+        { row: 0, col: 10 }, { row: 0, col: 12 }, { row: 1, col: 3 }, { row: 1, col: 5 }, { row: 1, col: 7 },
+        { row: 1, col: 9 }, { row: 1, col: 11 }, { row: 1, col: 13 }, { row: 2, col: 2 }, { row: 2, col: 4 },
+        { row: 2, col: 6 }, { row: 2, col: 8 }, { row: 2, col: 10 }, { row: 2, col: 12 }, { row: 2, col: 14 },
+        { row: 3, col: 1 }, { row: 3, col: 3 }, { row: 3, col: 5 }, { row: 3, col: 7 },
+        { row: 3, col: 9 }, { row: 3, col: 11 }, { row: 3, col: 13 }, { row: 3, col: 15 },
+        { row: 4, col: 0 }, { row: 4, col: 2 }, { row: 4, col: 4 }, { row: 4, col: 6 }, { row: 4, col: 8 },
+        { row: 4, col: 10 }, { row: 4, col: 12 }, { row: 4, col: 14 }, { row: 4, col: 16 },
+        { row: 5, col: 1 }, { row: 5, col: 3 }, { row: 5, col: 5 }, { row: 5, col: 7 },
+        { row: 5, col: 9 }, { row: 5, col: 11 }, { row: 5, col: 13 }, { row: 5, col: 15 },
+        { row: 6, col: 2 }, { row: 6, col: 4 }, { row: 6, col: 6 }, { row: 6, col: 8 }, { row: 6, col: 10 },
+        { row: 6, col: 12 }, { row: 6, col: 14 },
+        { row: 7, col: 3 }, { row: 7, col: 5 }, { row: 7, col: 7 },
+        { row: 7, col: 9 }, { row: 7, col: 11 }, { row: 7, col: 13 },
+        { row: 8, col: 4 }, { row: 8, col: 6 }, { row: 8, col: 8 },
+        { row: 8, col: 10 }, { row: 8, col: 12 }];
+    function getEmptyBoard() {
+        var board = [];
+        for (var i = 0; i < gameLogic.ROWS; i++) {
+            board[i] = [];
+            for (var j = 0; j < gameLogic.COLS; j++) {
+                board[i][j] = '';
+            }
+        }
+        for (var _i = 0; _i < gameLogic.PLACES.length; _i++) {
+            var place = gameLogic.PLACES[_i];
+            var i = place.row;
+            // let i = place['row'];
+            var j = place.col;
+            board[i][j] = 'O';
+        }
+        return board;
+    }
     /** Returns the initial Abalone board called Belgian daisy, which is a 9x17 matrix
     containing 14 'B's(belonging to the black party), 14 'W's(belonging to the white party),
     'O' (open space that 'B' and 'W' can moved to), ''(space that does not exist in a physical board). */
     function getInitialBoard() {
-        return [['', '', '', '', 'W', '', 'W', '', 'O', '', 'B', '', 'B', '', '', '', ''],
-            ['', '', '', 'W', '', 'W', '', 'W', '', 'B', '', 'B', '', 'B', '', '', ''],
-            ['', '', 'O', '', 'W', '', 'W', '', 'O', '', 'B', '', 'B', '', 'O', '', ''],
-            ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', ''],
-            ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O'],
-            ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', ''],
-            ['', '', 'O', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', 'O', '', ''],
-            ['', '', '', 'B', '', 'B', '', 'B', '', 'W', '', 'W', '', 'W', '', '', ''],
-            ['', '', '', '', 'B', '', 'B', '', 'O', '', 'W', '', 'W', '', '', '', '']];
+        var board = getEmptyBoard();
+        board[0][4] = 'W';
+        board[0][6] = 'W';
+        board[0][10] = 'B';
+        board[0][12] = 'B';
+        board[1][3] = 'W';
+        board[1][5] = 'W';
+        board[1][7] = 'W';
+        board[1][9] = 'B';
+        board[1][11] = 'B';
+        board[1][13] = 'B';
+        board[2][4] = 'W';
+        board[2][6] = 'W';
+        board[2][10] = 'B';
+        board[2][12] = 'B';
+        board[6][4] = 'B';
+        board[6][6] = 'B';
+        board[6][10] = 'W';
+        board[6][12] = 'W';
+        board[7][3] = 'B';
+        board[7][5] = 'B';
+        board[7][7] = 'B';
+        board[7][9] = 'W';
+        board[7][11] = 'W';
+        board[7][13] = 'W';
+        board[8][4] = 'B';
+        board[8][6] = 'B';
+        board[8][10] = 'W';
+        board[8][12] = 'W';
+        return board;
     }
     gameLogic.getInitialBoard = getInitialBoard;
     function getWinner(state) {
-        if (state.removedMarbles.black === 6)
+        if (state.blackRemoved === 6)
             return 'W';
-        if (state.removedMarbles.white === 6)
+        if (state.whiteRemoved === 6)
             return 'B';
         return '';
     }
-    function abs(a) {
-        if (a >= 0)
-            return a;
-        return -a;
-    }
-    // Check if a given state is valid
+    gameLogic.getWinner = getWinner;
+    //Check if a given state is valid
     function isStateValid(state) {
-        var board = state.board;
+        var board = angular.copy(state.board);
         var numOfBs = 0, numOfWs = 0;
-        var row = board.length;
-        if (row !== 9)
+        if (board.length !== gameLogic.ROWS) {
             return false;
-        for (var i = 0; i < row; i++) {
-            if (board[i].length !== 17)
-                return false;
-            for (var j = abs(i - 4); j < 17 - abs(i - 4);) {
-                var c = board[i][j];
-                if (c !== 'O' || c !== 'B' || c !== 'W')
-                    return false;
-                if (c === 'B')
-                    numOfBs++;
-                if (c === 'W')
-                    numOfWs++;
-                board[i][j] = 'O';
-                j += 2;
-            }
         }
-        if (numOfBs + state.removedMarbles.black !== 14
-            || numOfWs + state.removedMarbles.white !== 14)
+        for (var i = 0; i < gameLogic.ROWS; i++) {
+            if (board[i].length !== gameLogic.COLS)
+                return false;
+        }
+        for (var _i = 0; _i < gameLogic.PLACES.length; _i++) {
+            var place = gameLogic.PLACES[_i];
+            var i = place.row;
+            var j = place.col;
+            var cell = board[i][j];
+            if (cell !== 'O' && cell !== 'B' && cell !== 'W') {
+                return false;
+            }
+            if (cell === 'B')
+                numOfBs++;
+            if (cell === 'W')
+                numOfWs++;
+            board[i][j] = 'O';
+        }
+        if (numOfBs + state.blackRemoved !== 14
+            || numOfWs + state.whiteRemoved !== 14)
             return false;
-        var board_const = [
-            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', ''],
-            ['', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', ''],
-            ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', ''],
-            ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', ''],
-            ['O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O'],
-            ['', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', ''],
-            ['', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', ''],
-            ['', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', ''],
-            ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', '']];
-        if (board !== board_const)
+        var emptyboard = getEmptyBoard();
+        if (!angular.equals(board, emptyboard))
             return false;
         return true;
     }
     function isDirectionValid(direction) {
-        var directionSet = [{ row: 0, col: 2 }, { row: 0, col: -2 },
-            { row: 1, col: 1 }, { row: -1, col: -1 }, { row: 1, col: -1 }, { row: -1, col: 1 }];
-        for (var i = 0; i < directionSet.length; i++) {
-            if (direction === directionSet[i])
+        for (var _i = 0; _i < gameLogic.DIREC.length; _i++) {
+            var direction_pattern = gameLogic.DIREC[_i];
+            if (angular.equals(direction, direction_pattern))
                 return true;
         }
         return false;
     }
-    function isStepValid(board, step, turnIndexBeforeMove) {
-        if (step.selfMarbles.length > 3 || step.selfMarbles.length === 0) {
-            throw new Error("You should move 1, 2, 3 marbles!");
-        }
-        if (step.selfMarbles.length <= step.opponentMarbles.length) {
-            throw new Error("You can only push away less of your opponent's marbles than yours!");
-        }
-        if (!isDirectionValid(step.direction))
-            throw new Error("The direction is wrong!");
+    function isStepValid(stateBeforeMove, action, turnIndexBeforeMove) {
+        var board = stateBeforeMove.board;
+        if (action.selfMarbles.length > 3 || action.selfMarbles.length === 0)
+            return false;
+        if (action.selfMarbles.length <= action.opponentMarbles.length)
+            return false;
+        if (!isDirectionValid(action.direction))
+            return false;
         // check the color of the marbles to be moved
-        for (var i = 0; i < step.selfMarbles.length; i++) {
-            var row = step.selfMarbles[i].row;
-            var col = step.selfMarbles[i].col;
-            if (row < 0 || row > 8 || col < 0 || col > 16 ||
-                board[row][col] !== (turnIndexBeforeMove === 0 ? 'B' : 'W'))
-                throw new Error("You should move your own marbles!");
+        for (var i = 0; i < action.selfMarbles.length; i++) {
+            var row = action.selfMarbles[i].row;
+            var col = action.selfMarbles[i].col;
+            if (row < 0 || row >= gameLogic.ROWS || col < 0 || col >= gameLogic.COLS
+                || board[row][col] !== (turnIndexBeforeMove === 0 ? 'B' : 'W'))
+                return false;
         }
-        for (var i = 0; i < step.opponentMarbles.length; i++) {
-            var row = step.opponentMarbles[i].row;
-            var col = step.opponentMarbles[i].col;
-            if (row < 0 || row > 8 || col < 0 || col > 16 ||
-                board[row][col] !== (turnIndexBeforeMove === 0 ? 'W' : 'B'))
-                throw new Error("You should push away your opponent's marbles!");
+        for (var i = 0; i < action.opponentMarbles.length; i++) {
+            var row = action.opponentMarbles[i].row;
+            var col = action.opponentMarbles[i].col;
+            if (row < 0 || row >= gameLogic.ROWS || col < 0 || col >= gameLogic.COLS
+                || board[row][col] !== (turnIndexBeforeMove === 0 ? 'W' : 'B'))
+                return false;
         }
         /* Check if the marbles to be moved are aligned in the same line and next to each other.
             Moreover, if it is an in-line move, we require that selfMarbles[0],selfMarbles[1],
-            selfMarbles[2], opponentMarbles[0],opponentMarbles[1],removingMarble[0]
-            are aligned along the moving direction.
+            selfMarbles[2], opponentMarbles[0],opponentMarbles[1] are aligned along
+            the moving direction.
         */
-        if (!step.isInline) {
-            if (step.opponentMarbles.length !== 0)
-                throw new Error("Your cannot push away your opponent's marbles in a broadside move!");
-            for (var i = 1; i < step.selfMarbles.length; i++) {
-                var row_delta = step.selfMarbles[i].row - step.selfMarbles[i - 1].row;
-                var col_delta = step.selfMarbles[i].col - step.selfMarbles[i - 1].col;
-                var temp_direc = { row: row_delta, col: col_delta };
-                if (!isDirectionValid(temp_direc))
-                    throw new Error("Marbles should be neighbors to each other!");
+        if (!action.isInline) {
+            if (action.opponentMarbles.length !== 0)
+                return false;
+            for (var i = 0; i < action.selfMarbles.length; i++) {
+                var row = action.selfMarbles[i].row + action.direction.row;
+                var col = action.selfMarbles[i].col + action.direction.col;
+                if (row < 0 || row >= gameLogic.ROWS || col < 0 || col >= gameLogic.COLS || board[row][col] !== 'O')
+                    return false;
             }
-            for (var i = 0; i < step.selfMarbles.length; i++) {
-                var row = step.selfMarbles[i].row + step.direction.row;
-                var col = step.selfMarbles[i].col + step.direction.col;
-                if (row < 0 || row > 8 || col < 0 || col > 16 || board[row][col] !== 'O')
-                    throw new Error("You should move your marbles to open space!");
+            var temp_direc1;
+            if (action.selfMarbles.length > 1) {
+                var row_delta1 = action.selfMarbles[1].row - action.selfMarbles[0].row;
+                var col_delta1 = action.selfMarbles[1].col - action.selfMarbles[0].col;
+                temp_direc1 = { row: row_delta1, col: col_delta1 };
+                if (!isDirectionValid(temp_direc1))
+                    return false;
+            }
+            if (action.selfMarbles.length === 3) {
+                var row_delta2 = action.selfMarbles[2].row - action.selfMarbles[1].row;
+                var col_delta2 = action.selfMarbles[2].col - action.selfMarbles[1].col;
+                var temp_direc2 = { row: row_delta2, col: col_delta2 };
+                if (temp_direc1 !== temp_direc2)
+                    return false;
             }
         }
-        if (step.isInline) {
-            for (var i = 1; i < step.selfMarbles.length; i++) {
-                var row = step.selfMarbles[i - 1].row + step.direction.row;
-                var col = step.selfMarbles[i - 1].col + step.direction.col;
-                if (row !== step.selfMarbles[i].row
-                    || col !== step.selfMarbles[i].col)
-                    throw new Error("Marbles should be neighbors to each other!");
+        if (action.isInline) {
+            for (var i = 1; i < action.selfMarbles.length; i++) {
+                var row_1 = action.selfMarbles[i - 1].row + action.direction.row;
+                var col_1 = action.selfMarbles[i - 1].col + action.direction.col;
+                if (row_1 !== action.selfMarbles[i].row
+                    || col_1 !== action.selfMarbles[i].col)
+                    return false;
             }
-            var len = step.selfMarbles.length;
-            var row = step.selfMarbles[len - 1].row + step.direction.row;
-            var col = step.selfMarbles[len - 1].col + step.direction.col;
-            if (row < 0 || row > 8 || col < 0 || col > 16)
-                throw new Error("You cannot eject your own marbles!");
-            len = step.opponentMarbles.length;
-            if (len === 0 && board[row][col] !== 'O')
-                throw new Error("You should move your marbles to open space!");
+            var len = action.selfMarbles.length;
+            var row = action.selfMarbles[len - 1].row + action.direction.row;
+            var col = action.selfMarbles[len - 1].col + action.direction.col;
+            len = action.opponentMarbles.length;
+            if (row < 0 || row >= gameLogic.ROWS || col < 0 || col >= gameLogic.COLS ||
+                (len === 0 && board[row][col] !== 'O'))
+                return false;
             if (len > 0 &&
-                (step.opponentMarbles[0].row !== row || step.opponentMarbles[0].col !== col)) {
-                throw new Error("Marbles should be neighbors to each other!");
+                (action.opponentMarbles[0].row !== row || action.opponentMarbles[0].col !== col)) {
+                return false;
             }
             if (len === 2) {
-                var row_delta = step.opponentMarbles[1].row - step.opponentMarbles[0].row;
-                var col_delta = step.opponentMarbles[1].col - step.opponentMarbles[0].col;
-                if (row_delta !== step.direction.row
-                    || col_delta !== step.direction.col)
-                    throw new Error("Marbles should be neighbors to each other!");
+                var row_delta = action.opponentMarbles[1].row - action.opponentMarbles[0].row;
+                var col_delta = action.opponentMarbles[1].col - action.opponentMarbles[0].col;
+                if (row_delta !== action.direction.row || col_delta !== action.direction.col)
+                    return false;
             }
             if (len > 0) {
-                row = step.opponentMarbles[len - 1].row + step.direction.row;
-                col = step.opponentMarbles[len - 1].col + step.direction.col;
-                if (row >= 0 && row <= 8 && col >= 0 && col <= 16
-                    && board[row][col] !== 'O') {
-                    throw new Error("You should push marbles to open space or off edge!");
-                }
+                var row_2 = action.opponentMarbles[len - 1].row + action.direction.row;
+                var col_2 = action.opponentMarbles[len - 1].col + action.direction.col;
+                if (row_2 >= 0 && row_2 < gameLogic.ROWS && col_2 >= 0 && col_2 < gameLogic.COLS
+                    && board[row_2][col_2] !== 'O')
+                    return false;
             }
         }
         return true;
     }
+    gameLogic.isStepValid = isStepValid;
     /**
      * Returns the move that should be performed when player
      * with index turnIndexBeforeMove makes a move in cell row X col.
      */
-    function createMove(stateBeforeMove, step, turnIndexBeforeMove) {
+    function createMove(stateBeforeMove, action, turnIndexBeforeMove) {
         if (!stateBeforeMove) {
-            // Initially (at the beginning of the match), the board in state is undefined.
-            stateBeforeMove.board = getInitialBoard();
-            stateBeforeMove.removedMarbles = { black: 0, white: 0 };
+            var initialBoard = getInitialBoard();
+            stateBeforeMove = { board: initialBoard, blackRemoved: 0, whiteRemoved: 0 };
         }
         if (!isStateValid(stateBeforeMove))
             throw new Error("The given state is invalid");
         if (getWinner(stateBeforeMove) === 'B'
             || getWinner(stateBeforeMove) === 'W')
             throw new Error("Can only make a move if the game is not over!");
-        if (!isStepValid(stateBeforeMove.board, step, turnIndexBeforeMove))
-            throw new Error("step is invalid and game is halted!");
+        if (!isStepValid(stateBeforeMove, action, turnIndexBeforeMove))
+            throw new Error("Action is invalid and game is halted!");
         var stateAfterMove = angular.copy(stateBeforeMove);
-        if (!step.isInline) {
-            for (var i = 0; i < step.selfMarbles.length; i++) {
-                var row = step.selfMarbles[i].row;
-                var col = step.selfMarbles[i].col;
+        if (!action.isInline) {
+            for (var i = 0; i < action.selfMarbles.length; i++) {
+                var row = action.selfMarbles[i].row;
+                var col = action.selfMarbles[i].col;
                 stateAfterMove.board[row][col] = 'O';
-                row += step.direction.row;
-                col += step.direction.col;
-                stateAfterMove.board[row][col] = turnIndexBeforeMove === 0 ? 'B' : 'W';
+                row += action.direction.row;
+                col += action.direction.col;
+                stateAfterMove.board[row][col] = (turnIndexBeforeMove === 0 ? 'B' : 'W');
             }
         }
-        if (step.isInline) {
-            var row = step.selfMarbles[0].row;
-            var col = step.selfMarbles[0].col;
+        if (action.isInline) {
+            var row = action.selfMarbles[0].row;
+            var col = action.selfMarbles[0].col;
             stateAfterMove.board[row][col] = 'O';
-            for (var i = 0; i < step.selfMarbles.length; i++) {
-                row = step.selfMarbles[i].row + step.direction.row;
-                col = step.selfMarbles[i].col + step.direction.col;
-                stateAfterMove.board[row][col] = turnIndexBeforeMove === 0 ? 'B' : 'W';
-            }
-            var len = step.opponentMarbles.length;
+            var len = action.selfMarbles.length;
+            row = action.selfMarbles[len - 1].row + action.direction.row;
+            col = action.selfMarbles[len - 1].col + action.direction.col;
+            stateAfterMove.board[row][col] = (turnIndexBeforeMove === 0 ? 'B' : 'W');
+            len = action.opponentMarbles.length;
             if (len > 0) {
-                row = step.opponentMarbles[len - 1].row + step.direction.row;
-                col = step.opponentMarbles[len - 1].col + step.direction.col;
-                if (row < 0 || row > 8 || col < 0 || col > 16) {
-                    if (turnIndexBeforeMove === 0) {
-                        stateAfterMove.removedMarbles.white++;
-                    }
+                var row_3 = action.opponentMarbles[len - 1].row + action.direction.row;
+                var col_3 = action.opponentMarbles[len - 1].col + action.direction.col;
+                if (row_3 < 0 || row_3 >= gameLogic.ROWS || col_3 < 0 || col_3 >= gameLogic.COLS) {
+                    if (turnIndexBeforeMove === 0)
+                        stateAfterMove.whiteRemoved++;
                     else
-                        stateAfterMove.removedMarbles.black++;
+                        stateAfterMove.blackRemoved++;
                 }
                 else {
-                    stateAfterMove.board[row][col] = turnIndexBeforeMove === 0 ? 'W' : 'B';
-                }
-                if (len === 2) {
-                    row = step.opponentMarbles[1].row;
-                    col = step.opponentMarbles[1].col;
-                    stateAfterMove.board[row][col] = turnIndexBeforeMove === 0 ? 'W' : 'B';
+                    stateAfterMove.board[row_3][col_3] = (turnIndexBeforeMove === 0 ? 'W' : 'B');
                 }
             }
         }
@@ -227,9 +271,10 @@ var gameLogic;
             // Game continues. Now it's the opponent's turn (the turn switches from 0 to 1 and 1 to 0).
             firstOperation = { setTurn: { turnIndex: 1 - turnIndexBeforeMove } };
         }
-        return [firstOperation,
-            { set: { key: 'step', value: step } },
+        var move = [firstOperation,
+            { set: { key: 'action', value: action } },
             { set: { key: 'state', value: stateAfterMove } }];
+        return move;
     }
     gameLogic.createMove = createMove;
     function isMoveOk(params) {
@@ -237,26 +282,22 @@ var gameLogic;
         var turnIndexBeforeMove = params.turnIndexBeforeMove;
         var stateBeforeMove = params.stateBeforeMove;
         // The state and turn after move are not needed in Abalone (or in any game where all state is public).
-        //var turnIndexAfterMove = params.turnIndexAfterMove;
-        //var stateAfterMove = params.stateAfterMove;
+        //let turnIndexAfterMove = params.turnIndexAfterMove;
+        //let stateAfterMove = params.stateAfterMove;
         // We can assume that turnIndexBeforeMove and stateBeforeMove are legal, and we need
         // to verify that move is legal.
         try {
-            // Example move:
-            // [{setTurn: {turnIndex : 1},
-            //  {set: {key: 'board', value: [['X', '', ''], ['', '', ''], ['', '', '']]}},
-            //  {set: {key: 'delta', value: {row: 0, col: 0}}}]
-            var step = move[1].set.value;
-            var expectedMove = createMove(stateBeforeMove, step, turnIndexBeforeMove);
-            if (!angular.equals(move, expectedMove)) {
-                return false;
+            var action = move[1].set.value;
+            var expectedMove = createMove(stateBeforeMove, action, turnIndexBeforeMove);
+            if (angular.equals(move, expectedMove)) {
+                return true;
             }
         }
         catch (e) {
             // if there are any exceptions then the move is illegal
             return false;
         }
-        return true;
+        return false;
     }
     gameLogic.isMoveOk = isMoveOk;
 })(gameLogic || (gameLogic = {}));

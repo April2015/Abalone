@@ -5,6 +5,23 @@
   border-bottom: 4pt solid black;
 }
 
+.piece {
+  background-size: 84% 100%;
+  background-position: center;
+}
+
+.black {
+  background-image: url(imgs/black.png);
+  background-size: 84% 100%;
+  background-position: center;
+}
+
+.white {
+  background-image: url(imgs/white.png);
+  background-size: 84% 100%;
+  background-position: center;
+}
+
 .slowlyAppear {
 	-webkit-animation: slowlyAppear 0.5s linear;
 	-moz-animation: slowlyAppear 0.5s linear;
