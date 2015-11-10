@@ -93,6 +93,10 @@ module game {
     }
     try {
       if(clickCounter === 0) {
+        // deltaFrom.row = -1;
+        // deltaFrom.col = -1;
+        // direction.row = 0;
+        // direction.col = 0;
         action = null;
         deltaFrom.row = row;
         deltaFrom.col = row % 2 + 2 * col;
@@ -110,10 +114,7 @@ module game {
         canMakeMove = false; // to prevent making another move
         gameService.makeMove(move);
 
-        deltaFrom.row = -1;
-        deltaFrom.col = -1;
-        direction.row = 0;
-        direction.col = 0;
+
       }else {
         throw new Error("something is wrong");
       }

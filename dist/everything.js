@@ -222,7 +222,7 @@ var gameLogic;
      * with index turnIndexBeforeMove makes a move in cell row X col.
      */
     function createMove(stateBeforeMove, action, turnIndexBeforeMove) {
-        if (!stateBeforeMove) {
+        if (!stateBeforeMove || Object.keys(stateBeforeMove).length === 0) {
             stateBeforeMove = getInitialState();
         }
         if (!isStateValid(stateBeforeMove))
@@ -396,6 +396,10 @@ var gameLogic;
         }
         try {
             if (clickCounter === 0) {
+                // deltaFrom.row = -1;
+                // deltaFrom.col = -1;
+                // direction.row = 0;
+                // direction.col = 0;
                 action = null;
                 deltaFrom.row = row;
                 deltaFrom.col = row % 2 + 2 * col;
@@ -412,10 +416,6 @@ var gameLogic;
                 var move = gameLogic.createMove(state, action, lastUpdateUI.turnIndexAfterMove);
                 canMakeMove = false; // to prevent making another move
                 gameService.makeMove(move);
-                deltaFrom.row = -1;
-                deltaFrom.col = -1;
-                direction.row = 0;
-                direction.col = 0;
             }
             else {
                 throw new Error("something is wrong");

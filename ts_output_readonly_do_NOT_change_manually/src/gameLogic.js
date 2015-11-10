@@ -222,7 +222,7 @@ var gameLogic;
      * with index turnIndexBeforeMove makes a move in cell row X col.
      */
     function createMove(stateBeforeMove, action, turnIndexBeforeMove) {
-        if (!stateBeforeMove) {
+        if (!stateBeforeMove || Object.keys(stateBeforeMove).length === 0) {
             stateBeforeMove = getInitialState();
         }
         if (!isStateValid(stateBeforeMove))

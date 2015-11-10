@@ -221,7 +221,7 @@ module gameLogic {
    */
   export function createMove(
     stateBeforeMove: IState, action: Action, turnIndexBeforeMove: number): IMove {
-    if (!stateBeforeMove) {
+    if (!stateBeforeMove || Object.keys(stateBeforeMove).length === 0) {
       stateBeforeMove = getInitialState();
     }
     if (!isStateValid(stateBeforeMove))
