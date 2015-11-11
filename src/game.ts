@@ -148,17 +148,19 @@ module game {
         shouldShowImage(row, col);
   }
 
+  function getPieceKind(piece: string): string {
+    if(piece === 'B') return 'imgs/black.png';
+    if(piece === 'W') return 'imgs/white.png';
+    return '';
+  }
+
  export function getImageSrc(row: number, col: number){
    let j: number = row % 2 + 2 * col;
    let cell = state.board[row][j];
    return getPieceKind(cell);
  }
 
- function getPieceKind(piece: string): string {
-   if(piece === 'B') return 'imgs/black.png';
-   if(piece === 'W') return 'imgs/white.png';
-   return '';
- }
+
 }
 
 angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])

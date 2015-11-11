@@ -6,9 +6,10 @@ interface BoardDelta {
 
 interface IState {
   board?: Board;
-  isInitialState: boolean;
-  blackRemoved: number;
-  whiteRemoved: number;
+  isInitialState?: boolean;
+  blackRemoved?: number;
+  whiteRemoved?: number;
+  action?: Action;
 }
 
 interface Action {
@@ -214,6 +215,25 @@ module gameLogic {
     }
     return true;
   }
+
+// Convert what is clicked on to an Action
+export function clickToAction(isInline: boolean, marbles: BoardDelta[],
+  direction: BoardDelta, stateBeforeMove: IState, turnIndexBeforeMove: number) : Action {
+    if (!stateBeforeMove || Object.keys(stateBeforeMove).length === 0) {
+      stateBeforeMove = getInitialState();
+    }
+   let selfMarbles: BoardDelta[] = [];
+   let opponentMarbles: BoardDelta[] = [];
+   let currentPlayer: string = (turnIndexBeforeMove === 0)? 'B' : 'W';
+   for (let i = 0; i < marbles.length; i++) {
+     if (stateBeforeMove.board[marbles[i].row][marbles[i].col] === currentPlayer)
+      selfMarbles.push(marbles[i]);
+    else opponentMarbles.push(marbles[i]);
+   }
+   let action : Action = {isInline: isInline, direction: direction, selfMarbles: selfMarbles, opponentMarbles: opponentMarbles};
+   return action;
+}
+
 
   /**
    * Returns the move that should be performed when player

@@ -140,12 +140,6 @@ var game;
             shouldShowImage(row, col);
     }
     game.shouldSlowlyAppear = shouldSlowlyAppear;
-    function getImageSrc(row, col) {
-        var j = row % 2 + 2 * col;
-        var cell = state.board[row][j];
-        return getPieceKind(cell);
-    }
-    game.getImageSrc = getImageSrc;
     function getPieceKind(piece) {
         if (piece === 'B')
             return 'imgs/black.png';
@@ -153,6 +147,12 @@ var game;
             return 'imgs/white.png';
         return '';
     }
+    function getImageSrc(row, col) {
+        var j = row % 2 + 2 * col;
+        var cell = state.board[row][j];
+        return getPieceKind(cell);
+    }
+    game.getImageSrc = getImageSrc;
 })(game || (game = {}));
 angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])
     .run(function () {

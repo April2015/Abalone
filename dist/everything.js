@@ -217,6 +217,24 @@ var gameLogic;
         return true;
     }
     gameLogic.isStepValid = isStepValid;
+    // Convert what is clicked on to an Action
+    function clickToAction(isInline, marbles, direction, stateBeforeMove, turnIndexBeforeMove) {
+        if (!stateBeforeMove || Object.keys(stateBeforeMove).length === 0) {
+            stateBeforeMove = getInitialState();
+        }
+        var selfMarbles = [];
+        var opponentMarbles = [];
+        var currentPlayer = (turnIndexBeforeMove === 0) ? 'B' : 'W';
+        for (var i = 0; i < marbles.length; i++) {
+            if (stateBeforeMove.board[marbles[i].row][marbles[i].col] === currentPlayer)
+                selfMarbles.push(marbles[i]);
+            else
+                opponentMarbles.push(marbles[i]);
+        }
+        var action = { isInline: isInline, direction: direction, selfMarbles: selfMarbles, opponentMarbles: opponentMarbles };
+        return action;
+    }
+    gameLogic.clickToAction = clickToAction;
     /**
      * Returns the move that should be performed when player
      * with index turnIndexBeforeMove makes a move in cell row X col.
@@ -451,12 +469,6 @@ var gameLogic;
             shouldShowImage(row, col);
     }
     game.shouldSlowlyAppear = shouldSlowlyAppear;
-    function getImageSrc(row, col) {
-        var j = row % 2 + 2 * col;
-        var cell = state.board[row][j];
-        return getPieceKind(cell);
-    }
-    game.getImageSrc = getImageSrc;
     function getPieceKind(piece) {
         if (piece === 'B')
             return 'imgs/black.png';
@@ -464,6 +476,12 @@ var gameLogic;
             return 'imgs/white.png';
         return '';
     }
+    function getImageSrc(row, col) {
+        var j = row % 2 + 2 * col;
+        var cell = state.board[row][j];
+        return getPieceKind(cell);
+    }
+    game.getImageSrc = getImageSrc;
 })(game || (game = {}));
 angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])
     .run(function () {
