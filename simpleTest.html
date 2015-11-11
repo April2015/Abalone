@@ -5,10 +5,32 @@
   <script src="ts_output_readonly_do_NOT_change_manually/src/gameLogic.js"></script>
   <script>
   angular.module('myApp', []);
-  var move = gameLogic.createMove(undefined, 0, 0, 0);
+  var move = gameLogic.createMove({board: [
+    ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', '' ],
+    ['', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', '', '' ],
+    ['', '', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
+    ['', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'B', '', 'B', '', 'O', '' ],
+    ['O', '', 'O', '', 'B', '', 'W', '', 'W', '', 'O', '', 'O', '', 'O', '', 'O' ],
+    ['', 'O', '', 'O', '', 'W', '', 'W', '', 'O', '', 'W', '', 'B', '', 'O', '' ],
+    ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', '' ],
+    ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', '' ],
+    ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '' ]],
+    blackRemoved: 1, whiteRemoved: 5},
+    {isInline: false, direction:  {row: -1, col: -1}, selfMarbles: [{row: 1, col: 11}],
+     opponentMarbles: []}, 1);
   console.log("move=", move);
-  var params = {turnIndexBeforeMove: 0,
-    stateBeforeMove: {},
+  var params = {turnIndexBeforeMove: 1,
+    stateBeforeMove: {board: [
+      ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'O', '', '', '', '' ],
+      ['', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'W', '', 'O', '', '', '' ],
+      ['', '', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
+      ['', 'O', '', 'O', '', 'B', '', 'B', '', 'B', '', 'B', '', 'B', '', 'O', '' ],
+      ['O', '', 'O', '', 'B', '', 'W', '', 'W', '', 'O', '', 'O', '', 'O', '', 'O' ],
+      ['', 'O', '', 'O', '', 'W', '', 'W', '', 'O', '', 'W', '', 'B', '', 'O', '' ],
+      ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', '' ],
+      ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', '' ],
+      ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '' ]],
+      blackRemoved: 1, whiteRemoved: 5},
     move: move};
   var res = gameLogic.isMoveOk(params);
   console.log("params=", params, "result=", res);
