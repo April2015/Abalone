@@ -11,7 +11,7 @@ var game;
     var isBroadside = false;
     var deltas = [];
     var movedDeltas = [];
-    var action = null;
+    // let action: Action = null;
     function init() {
         console.log("Translation of 'RULES_OF_ABALONE' is " + translate('RULES_OF_ABALONE'));
         resizeGameAreaService.setWidthToHeight(6 / 5);
@@ -99,9 +99,9 @@ var game;
             }
             if (row == 9 && col == 3) {
                 movedDeltas = [];
-                var action_1 = clickToAction();
-                if (gameLogic.isStepValid(state, action_1, turnIndex)) {
-                    var move = gameLogic.createMove(state, action_1, turnIndex);
+                var action = clickToAction();
+                if (gameLogic.isStepValid(state, action, turnIndex)) {
+                    var move = gameLogic.createMove(state, action, turnIndex);
                     canMakeMove = false;
                     gameService.makeMove(move);
                 }
@@ -185,6 +185,10 @@ var game;
         return turnIndex === 0;
     }
     game.isBsTurn = isBsTurn;
+    function blackWin() {
+        return state.whiteRemoved === 6;
+    }
+    game.blackWin = blackWin;
     function blackRemoved() {
         return state.blackRemoved;
     }
@@ -198,6 +202,10 @@ var game;
         return turnIndex === 1;
     }
     game.isWsTurn = isWsTurn;
+    function whiteWin() {
+        return state.blackRemoved === 6;
+    }
+    game.whiteWin = whiteWin;
     function whiteRemoved() {
         return state.whiteRemoved;
     }

@@ -266,7 +266,7 @@ module gameLogic {
       if (len > 0) {
            let row = action.opponentMarbles[len-1].row + action.direction.row;
            let col = action.opponentMarbles[len-1].col + action.direction.col;
-           if (row < 0 || row >= ROWS || col < 0 || col >= COLS || stateBeforeMove.board[row][col] === 'O') {
+           if (row >= 0 && row < ROWS && col >= 0 && col < COLS && stateBeforeMove.board[row][col] === 'O') {
              stateAfterMove.board[row][col] = (turnIndexBeforeMove === 0? 'W' : 'B');
            } else {
              if (turnIndexBeforeMove === 0)

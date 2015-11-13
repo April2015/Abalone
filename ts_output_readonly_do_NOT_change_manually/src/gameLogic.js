@@ -258,7 +258,7 @@ var gameLogic;
             if (len > 0) {
                 var row_3 = action.opponentMarbles[len - 1].row + action.direction.row;
                 var col_3 = action.opponentMarbles[len - 1].col + action.direction.col;
-                if (row_3 < 0 || row_3 >= gameLogic.ROWS || col_3 < 0 || col_3 >= gameLogic.COLS || stateBeforeMove.board[row_3][col_3] === 'O') {
+                if (row_3 >= 0 && row_3 < gameLogic.ROWS && col_3 >= 0 && col_3 < gameLogic.COLS && stateBeforeMove.board[row_3][col_3] === 'O') {
                     stateAfterMove.board[row_3][col_3] = (turnIndexBeforeMove === 0 ? 'W' : 'B');
                 }
                 else {

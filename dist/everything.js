@@ -177,7 +177,7 @@ var gameLogic;
                 var row_delta2 = action.selfMarbles[2].row - action.selfMarbles[1].row;
                 var col_delta2 = action.selfMarbles[2].col - action.selfMarbles[1].col;
                 var temp_direc2 = { row: row_delta2, col: col_delta2 };
-                if (temp_direc1 !== temp_direc2)
+                if (!angular.equals(temp_direc1, temp_direc2))
                     return false;
             }
         }
@@ -230,8 +230,8 @@ var gameLogic;
         if (getWinner(stateBeforeMove) === 'B'
             || getWinner(stateBeforeMove) === 'W')
             throw new Error("Can only make a move if the game is not over!");
-        // if(!isStepValid(stateBeforeMove, action, turnIndexBeforeMove))
-        //   throw new Error("Action is invalid and game is halted!");
+        if (!isStepValid(stateBeforeMove, action, turnIndexBeforeMove))
+            throw new Error("Action is invalid and game is halted!");
         var stateAfterMove = angular.copy(stateBeforeMove);
         if (stateAfterMove.isInitialState === true) {
             stateAfterMove.isInitialState = false;
@@ -258,7 +258,7 @@ var gameLogic;
             if (len > 0) {
                 var row_3 = action.opponentMarbles[len - 1].row + action.direction.row;
                 var col_3 = action.opponentMarbles[len - 1].col + action.direction.col;
-                if (row_3 < 0 || row_3 >= gameLogic.ROWS || col_3 < 0 || col_3 >= gameLogic.COLS || stateBeforeMove.board[row_3][col_3] === 'O') {
+                if (row_3 >= 0 && row_3 < gameLogic.ROWS && col_3 >= 0 && col_3 < gameLogic.COLS && stateBeforeMove.board[row_3][col_3] === 'O') {
                     stateAfterMove.board[row_3][col_3] = (turnIndexBeforeMove === 0 ? 'W' : 'B');
                 }
                 else {
@@ -325,7 +325,7 @@ var gameLogic;
     var isBroadside = false;
     var deltas = [];
     var movedDeltas = [];
-    var action = null;
+    // let action: Action = null;
     function init() {
         console.log("Translation of 'RULES_OF_ABALONE' is " + translate('RULES_OF_ABALONE'));
         resizeGameAreaService.setWidthToHeight(6 / 5);
@@ -413,9 +413,9 @@ var gameLogic;
             }
             if (row == 9 && col == 3) {
                 movedDeltas = [];
-                var action_1 = clickToAction();
-                if (gameLogic.isStepValid(state, action_1, turnIndex)) {
-                    var move = gameLogic.createMove(state, action_1, turnIndex);
+                var action = clickToAction();
+                if (gameLogic.isStepValid(state, action, turnIndex)) {
+                    var move = gameLogic.createMove(state, action, turnIndex);
                     canMakeMove = false;
                     gameService.makeMove(move);
                 }
@@ -499,6 +499,14 @@ var gameLogic;
         return turnIndex === 0;
     }
     game.isBsTurn = isBsTurn;
+    function blackWin() {
+        return state.whiteRemoved === 6;
+    }
+    game.blackWin = blackWin;
+    function blackRemoved() {
+        return state.blackRemoved;
+    }
+    game.blackRemoved = blackRemoved;
     function isPieceW(row, col) {
         var j = row % 2 + 2 * col;
         return state.board[row][j] === 'W';
@@ -508,6 +516,14 @@ var gameLogic;
         return turnIndex === 1;
     }
     game.isWsTurn = isWsTurn;
+    function whiteWin() {
+        return state.blackRemoved === 6;
+    }
+    game.whiteWin = whiteWin;
+    function whiteRemoved() {
+        return state.whiteRemoved;
+    }
+    game.whiteRemoved = whiteRemoved;
     function shouldSlowlyAppear(row, col) {
         var flag = false;
         var j = row % 2 + 2 * col;
@@ -539,10 +555,10 @@ angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])
     $rootScope['game'] = game;
     translate.setLanguage('en', {
         RULES_OF_ABALONE: "Rules of Abalone",
-        RULES_SLIDE1: "Each side has 14 marbles and takes turns to move; whoever first removes 6 of the opponent's marbles wins.",
+        RULES_SLIDE1: "Each side has 14 marbles and takes turns to move; whoever first scores 6 points wins. Only in an inline move can one score 1 point by pushing the other's marble off board",
         RULES_SLIDE2: "Inline: Marbles in a line can be moved along the line by 1 step; at most 3 of your own marbles and less of your opponent's can be moved.",
-        INLINE_MOVE: "Click on 'Inline Move' button; click on a marble to start and the next marble/position along moving direction; submit move;",
-        RULES_SLIDE3: "Broadside: Two to Three of your own marbles in a line can be moved to empty positions in a neighbor parallel line. ",
+        INLINE_MOVE: "Click on 'Inline Move' button; click on a marble to start and the next marble/position along the moving direction; submit move;",
+        RULES_SLIDE3: "Broadside: Two to Three of your own marbles in a line can be moved to empty positions in a neighboring parallel line. ",
         BROADSIDE: "Click on 'Broad-side' button; for each marble to be moved, first click on the marble and then its new position; submit move;",
         CLOSE: "Close"
     });

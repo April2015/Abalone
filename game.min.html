@@ -147,10 +147,17 @@
       </div>
     </div>
 
-    <div ng-repeat="row in [0]" style="position:absolute; top:0%; left:91%; width:9%; height:9%;">
+    <div ng-repeat="row in [0]" style="position:absolute; top:0%; left:0%; width:9%; height:9%;">
       <div ng-repeat="col in [9]" style="position:absolute; top:0; left:0; width:100%; height:100%;" id="{{'div_' + row + 'x' + col}}">
         <img ng-if="game.isBsTurn()" src="imgs/black.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;">
         <img ng-if="game.isWsTurn()" src="imgs/white.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;">
+      </div>
+    </div>
+
+    <div ng-repeat="row in [0]" style="position:absolute; top:9%; left:0%; width:12%; height:9%;">
+      <div ng-repeat="col in [10]" style="position:absolute; top:0; left:0; width:100%; height:100%;" id="{{'div_' + row + 'x' + col}}">
+         <font face="verdana" color="green"> B:{{game.whiteRemoved()}}</font> ;
+         <font face="verdana" color="purple"> W:{{game.blackRemoved()}} </font>
       </div>
     </div>
 

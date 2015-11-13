@@ -11,8 +11,7 @@ module game {
   let isBroadside: boolean = false;
   let deltas: BoardDelta[] = [];
   let movedDeltas: BoardDelta[] = [];
-  let action: Action = null;
-
+  // let action: Action = null;
 
   export function init() {
     console.log("Translation of 'RULES_OF_ABALONE' is " + translate('RULES_OF_ABALONE'));
@@ -191,6 +190,10 @@ module game {
     return turnIndex === 0;
   }
 
+  export function blackWin(): boolean {
+    return state.whiteRemoved === 6;
+  }
+
   export function blackRemoved(): number {
     return state.blackRemoved;
   }
@@ -202,6 +205,9 @@ module game {
 
   export function isWsTurn(): boolean {
     return turnIndex === 1;
+  }
+  export function whiteWin(): boolean {
+    return state.blackRemoved === 6;
   }
 
   export function whiteRemoved(): number {
