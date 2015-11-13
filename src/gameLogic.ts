@@ -220,25 +220,6 @@ module gameLogic {
     return true;
   }
 
-// Convert what is clicked on to an Action
-export function clickToAction(isInline: boolean, marbles: BoardDelta[],
-  direction: BoardDelta, stateBeforeMove: IState, turnIndexBeforeMove: number) : Action {
-    if (!stateBeforeMove || Object.keys(stateBeforeMove).length === 0) {
-      stateBeforeMove = getInitialState();
-    }
-   let selfMarbles: BoardDelta[] = [];
-   let opponentMarbles: BoardDelta[] = [];
-   let currentPlayer: string = (turnIndexBeforeMove === 0)? 'B' : 'W';
-   for (let i = 0; i < marbles.length; i++) {
-     if (stateBeforeMove.board[marbles[i].row][marbles[i].col] === currentPlayer)
-      selfMarbles.push(marbles[i]);
-    else opponentMarbles.push(marbles[i]);
-   }
-   let action : Action = {isInline: isInline, direction: direction, selfMarbles: selfMarbles, opponentMarbles: opponentMarbles};
-   return action;
-}
-
-
   /**
    * Returns the move that should be performed when player
    * with index turnIndexBeforeMove makes a move in cell row X col.
@@ -248,14 +229,14 @@ export function clickToAction(isInline: boolean, marbles: BoardDelta[],
     if (!stateBeforeMove || Object.keys(stateBeforeMove).length === 0) {
       stateBeforeMove = getInitialState();
     }
-    if (!isStateValid(stateBeforeMove))
-      throw new Error("The given state is invalid");
+    // if (!isStateValid(stateBeforeMove))
+    //   throw new Error("The given state is invalid");
     if (getWinner(stateBeforeMove) === 'B'
       || getWinner(stateBeforeMove) === 'W')
       throw new Error("Can only make a move if the game is not over!");
 
-    if(!isStepValid(stateBeforeMove, action, turnIndexBeforeMove))
-      throw new Error("Action is invalid and game is halted!");
+    // if(!isStepValid(stateBeforeMove, action, turnIndexBeforeMove))
+    //   throw new Error("Action is invalid and game is halted!");
 
     let stateAfterMove = angular.copy(stateBeforeMove);
     if (stateAfterMove.isInitialState === true) {
@@ -324,7 +305,7 @@ export function clickToAction(isInline: boolean, marbles: BoardDelta[],
     // We can assume that turnIndexBeforeMove and stateBeforeMove are legal, and we need
     // to verify that move is legal.
     try {
-      let action: Action = move[1].set.value;
+      let action: Action = move[5].set.value;
       let expectedMove = createMove(stateBeforeMove, action, turnIndexBeforeMove);
       if (angular.equals(move, expectedMove)) {
         return true;

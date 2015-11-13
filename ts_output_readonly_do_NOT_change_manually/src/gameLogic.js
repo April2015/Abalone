@@ -217,24 +217,6 @@ var gameLogic;
         return true;
     }
     gameLogic.isStepValid = isStepValid;
-    // Convert what is clicked on to an Action
-    function clickToAction(isInline, marbles, direction, stateBeforeMove, turnIndexBeforeMove) {
-        if (!stateBeforeMove || Object.keys(stateBeforeMove).length === 0) {
-            stateBeforeMove = getInitialState();
-        }
-        var selfMarbles = [];
-        var opponentMarbles = [];
-        var currentPlayer = (turnIndexBeforeMove === 0) ? 'B' : 'W';
-        for (var i = 0; i < marbles.length; i++) {
-            if (stateBeforeMove.board[marbles[i].row][marbles[i].col] === currentPlayer)
-                selfMarbles.push(marbles[i]);
-            else
-                opponentMarbles.push(marbles[i]);
-        }
-        var action = { isInline: isInline, direction: direction, selfMarbles: selfMarbles, opponentMarbles: opponentMarbles };
-        return action;
-    }
-    gameLogic.clickToAction = clickToAction;
     /**
      * Returns the move that should be performed when player
      * with index turnIndexBeforeMove makes a move in cell row X col.
@@ -243,13 +225,13 @@ var gameLogic;
         if (!stateBeforeMove || Object.keys(stateBeforeMove).length === 0) {
             stateBeforeMove = getInitialState();
         }
-        if (!isStateValid(stateBeforeMove))
-            throw new Error("The given state is invalid");
+        // if (!isStateValid(stateBeforeMove))
+        //   throw new Error("The given state is invalid");
         if (getWinner(stateBeforeMove) === 'B'
             || getWinner(stateBeforeMove) === 'W')
             throw new Error("Can only make a move if the game is not over!");
-        if (!isStepValid(stateBeforeMove, action, turnIndexBeforeMove))
-            throw new Error("Action is invalid and game is halted!");
+        // if(!isStepValid(stateBeforeMove, action, turnIndexBeforeMove))
+        //   throw new Error("Action is invalid and game is halted!");
         var stateAfterMove = angular.copy(stateBeforeMove);
         if (stateAfterMove.isInitialState === true) {
             stateAfterMove.isInitialState = false;
@@ -316,7 +298,7 @@ var gameLogic;
         // We can assume that turnIndexBeforeMove and stateBeforeMove are legal, and we need
         // to verify that move is legal.
         try {
-            var action = move[1].set.value;
+            var action = move[5].set.value;
             var expectedMove = createMove(stateBeforeMove, action, turnIndexBeforeMove);
             if (angular.equals(move, expectedMove)) {
                 return true;

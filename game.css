@@ -5,6 +5,22 @@
   border-bottom: 4pt solid black;
 }
 
+.inline {
+    color: purple;
+}
+
+.broadside {
+    color: blue;
+}
+
+.cancel {
+    color: red;
+}
+
+.submit {
+    color: green;
+}
+
 .piece {
   background-size: 84% 100%;
   background-position: center;
