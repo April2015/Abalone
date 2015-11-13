@@ -181,11 +181,19 @@ var game;
         return state.board[row][j] === 'B';
     }
     game.isPieceB = isPieceB;
+    function isBsTurn() {
+        return turnIndex === 0;
+    }
+    game.isBsTurn = isBsTurn;
     function isPieceW(row, col) {
         var j = row % 2 + 2 * col;
         return state.board[row][j] === 'W';
     }
     game.isPieceW = isPieceW;
+    function isWsTurn() {
+        return turnIndex === 1;
+    }
+    game.isWsTurn = isWsTurn;
     function shouldSlowlyAppear(row, col) {
         var flag = false;
         var j = row % 2 + 2 * col;

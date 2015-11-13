@@ -187,9 +187,17 @@ module game {
     return state.board[row][j] === 'B';
   }
 
+  export function isBsTurn(): boolean {
+    return turnIndex === 0;
+  }
+
   export function isPieceW(row: number, col: number): boolean {
     let j: number = row % 2 + 2 * col;
     return state.board[row][j] === 'W';
+  }
+
+  export function isWsTurn(): boolean {
+    return turnIndex === 1;
   }
 
   export function shouldSlowlyAppear(row: number, col: number): boolean {
