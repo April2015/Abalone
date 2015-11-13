@@ -10,11 +10,8 @@ module game {
   let isInline: boolean = false;
   let isBroadside: boolean = false;
   let deltas: BoardDelta[] = [];
+  let movedDeltas: BoardDelta[] = [];
   let action: Action = null;
-  // let setMove: boolean = false;
-  // let clickCounter: number = 0;
-  // let deltaFrom: BoardDelta = {row: 1, col: -1};
-  // let direction: BoardDelta = {row: 0, col: 0};
 
 
   export function init() {
@@ -109,6 +106,7 @@ module game {
         deltas = [];
       }
       if (row == 9 && col == 3) {
+        movedDeltas = [];
         let action: Action = clickToAction();
         if (gameLogic.isStepValid(state, action, turnIndex)) {
           let move = gameLogic.createMove (state, action, turnIndex);
@@ -147,6 +145,10 @@ module game {
        let col_next = deltas[1].col;
        while(row_next >= 0 && row_next <= 8 && col_next >= 0 && col_next <= 16) {
          let pos: BoardDelta = {row: row_next, col: col_next};
+         movedDeltas.push(pos);
+         if (state.board[row_next][col_next] === '') {
+           movedDeltas.pop();
+         }
          if(state.board[row_next][col_next] == currentPlayer) {
            action.selfMarbles.push(pos);
            row_next += action.direction.row;
@@ -165,6 +167,7 @@ module game {
        let i = 0;
        while (i + 2 <= deltas.length) {
          action.selfMarbles.push(deltas[i]);
+         movedDeltas.push(deltas[i+1]);
          i += 2;
        }
      }
@@ -190,9 +193,15 @@ module game {
   }
 
   export function shouldSlowlyAppear(row: number, col: number): boolean {
-    return !animationEnded &&
-        state.blackRemoved &&
-        shouldShowImage(row, col);
+    let flag: boolean = false;
+    let j: number = row % 2 + 2 * col;
+    for (let i = 0; i < movedDeltas.length; i++) {
+      if(movedDeltas[i].row === row && movedDeltas[i].col === j) {
+        flag = true;
+        break;
+      }
+    }
+    return !animationEnded && flag && shouldShowImage(row, col);
   }
 
   function getPieceKind(piece: string): string {

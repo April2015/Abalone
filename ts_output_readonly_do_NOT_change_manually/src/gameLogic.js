@@ -210,7 +210,7 @@ var gameLogic;
                 var row_2 = action.opponentMarbles[len - 1].row + action.direction.row;
                 var col_2 = action.opponentMarbles[len - 1].col + action.direction.col;
                 if (row_2 >= 0 && row_2 < gameLogic.ROWS && col_2 >= 0 && col_2 < gameLogic.COLS
-                    && board[row_2][col_2] !== 'O')
+                    && (board[row_2][col_2] === 'B' || board[row_2][col_2] === 'W'))
                     return false;
             }
         }
@@ -258,14 +258,14 @@ var gameLogic;
             if (len > 0) {
                 var row_3 = action.opponentMarbles[len - 1].row + action.direction.row;
                 var col_3 = action.opponentMarbles[len - 1].col + action.direction.col;
-                if (row_3 < 0 || row_3 >= gameLogic.ROWS || col_3 < 0 || col_3 >= gameLogic.COLS) {
+                if (row_3 < 0 || row_3 >= gameLogic.ROWS || col_3 < 0 || col_3 >= gameLogic.COLS || stateBeforeMove.board[row_3][col_3] === 'O') {
+                    stateAfterMove.board[row_3][col_3] = (turnIndexBeforeMove === 0 ? 'W' : 'B');
+                }
+                else {
                     if (turnIndexBeforeMove === 0)
                         stateAfterMove.whiteRemoved++;
                     else
                         stateAfterMove.blackRemoved++;
-                }
-                else {
-                    stateAfterMove.board[row_3][col_3] = (turnIndexBeforeMove === 0 ? 'W' : 'B');
                 }
             }
         }

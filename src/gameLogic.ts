@@ -213,7 +213,7 @@ module gameLogic {
            let row = action.opponentMarbles[len-1].row + action.direction.row;
            let col = action.opponentMarbles[len-1].col + action.direction.col;
            if (row >= 0 && row < ROWS && col >= 0 && col < COLS
-             && board[row][col] !== 'O')
+             && (board[row][col] === 'B' ||board[row][col] === 'W'))
                return false;
       }
     }
@@ -266,12 +266,12 @@ module gameLogic {
       if (len > 0) {
            let row = action.opponentMarbles[len-1].row + action.direction.row;
            let col = action.opponentMarbles[len-1].col + action.direction.col;
-           if (row < 0 || row >= ROWS || col < 0 || col >= COLS) {
-             if (turnIndexBeforeMove === 0)
-                 stateAfterMove.whiteRemoved ++;
-             else stateAfterMove.blackRemoved++;
-           } else {
+           if (row < 0 || row >= ROWS || col < 0 || col >= COLS || stateBeforeMove.board[row][col] === 'O') {
              stateAfterMove.board[row][col] = (turnIndexBeforeMove === 0? 'W' : 'B');
+           } else {
+             if (turnIndexBeforeMove === 0)
+                 stateAfterMove.whiteRemoved++;
+             else stateAfterMove.blackRemoved++;
            }
       }
     }

@@ -10,11 +10,8 @@ var game;
     var isInline = false;
     var isBroadside = false;
     var deltas = [];
+    var movedDeltas = [];
     var action = null;
-    // let setMove: boolean = false;
-    // let clickCounter: number = 0;
-    // let deltaFrom: BoardDelta = {row: 1, col: -1};
-    // let direction: BoardDelta = {row: 0, col: 0};
     function init() {
         console.log("Translation of 'RULES_OF_ABALONE' is " + translate('RULES_OF_ABALONE'));
         resizeGameAreaService.setWidthToHeight(6 / 5);
@@ -101,6 +98,7 @@ var game;
                 deltas = [];
             }
             if (row == 9 && col == 3) {
+                movedDeltas = [];
                 var action_1 = clickToAction();
                 if (gameLogic.isStepValid(state, action_1, turnIndex)) {
                     var move = gameLogic.createMove(state, action_1, turnIndex);
@@ -139,6 +137,10 @@ var game;
             var col_next = deltas[1].col;
             while (row_next >= 0 && row_next <= 8 && col_next >= 0 && col_next <= 16) {
                 var pos = { row: row_next, col: col_next };
+                movedDeltas.push(pos);
+                if (state.board[row_next][col_next] === '') {
+                    movedDeltas.pop();
+                }
                 if (state.board[row_next][col_next] == currentPlayer) {
                     action.selfMarbles.push(pos);
                     row_next += action.direction.row;
@@ -159,6 +161,7 @@ var game;
             var i = 0;
             while (i + 2 <= deltas.length) {
                 action.selfMarbles.push(deltas[i]);
+                movedDeltas.push(deltas[i + 1]);
                 i += 2;
             }
         }
@@ -184,9 +187,15 @@ var game;
     }
     game.isPieceW = isPieceW;
     function shouldSlowlyAppear(row, col) {
-        return !animationEnded &&
-            state.blackRemoved &&
-            shouldShowImage(row, col);
+        var flag = false;
+        var j = row % 2 + 2 * col;
+        for (var i = 0; i < movedDeltas.length; i++) {
+            if (movedDeltas[i].row === row && movedDeltas[i].col === j) {
+                flag = true;
+                break;
+            }
+        }
+        return !animationEnded && flag && shouldShowImage(row, col);
     }
     game.shouldSlowlyAppear = shouldSlowlyAppear;
     function getPieceKind(piece) {

@@ -210,7 +210,7 @@ var gameLogic;
                 var row_2 = action.opponentMarbles[len - 1].row + action.direction.row;
                 var col_2 = action.opponentMarbles[len - 1].col + action.direction.col;
                 if (row_2 >= 0 && row_2 < gameLogic.ROWS && col_2 >= 0 && col_2 < gameLogic.COLS
-                    && board[row_2][col_2] !== 'O')
+                    && (board[row_2][col_2] === 'B' || board[row_2][col_2] === 'W'))
                     return false;
             }
         }
@@ -258,14 +258,14 @@ var gameLogic;
             if (len > 0) {
                 var row_3 = action.opponentMarbles[len - 1].row + action.direction.row;
                 var col_3 = action.opponentMarbles[len - 1].col + action.direction.col;
-                if (row_3 < 0 || row_3 >= gameLogic.ROWS || col_3 < 0 || col_3 >= gameLogic.COLS) {
+                if (row_3 < 0 || row_3 >= gameLogic.ROWS || col_3 < 0 || col_3 >= gameLogic.COLS || stateBeforeMove.board[row_3][col_3] === 'O') {
+                    stateAfterMove.board[row_3][col_3] = (turnIndexBeforeMove === 0 ? 'W' : 'B');
+                }
+                else {
                     if (turnIndexBeforeMove === 0)
                         stateAfterMove.whiteRemoved++;
                     else
                         stateAfterMove.blackRemoved++;
-                }
-                else {
-                    stateAfterMove.board[row_3][col_3] = (turnIndexBeforeMove === 0 ? 'W' : 'B');
                 }
             }
         }
@@ -324,11 +324,8 @@ var gameLogic;
     var isInline = false;
     var isBroadside = false;
     var deltas = [];
+    var movedDeltas = [];
     var action = null;
-    // let setMove: boolean = false;
-    // let clickCounter: number = 0;
-    // let deltaFrom: BoardDelta = {row: 1, col: -1};
-    // let direction: BoardDelta = {row: 0, col: 0};
     function init() {
         console.log("Translation of 'RULES_OF_ABALONE' is " + translate('RULES_OF_ABALONE'));
         resizeGameAreaService.setWidthToHeight(6 / 5);
@@ -415,6 +412,7 @@ var gameLogic;
                 deltas = [];
             }
             if (row == 9 && col == 3) {
+                movedDeltas = [];
                 var action_1 = clickToAction();
                 if (gameLogic.isStepValid(state, action_1, turnIndex)) {
                     var move = gameLogic.createMove(state, action_1, turnIndex);
@@ -453,6 +451,10 @@ var gameLogic;
             var col_next = deltas[1].col;
             while (row_next >= 0 && row_next <= 8 && col_next >= 0 && col_next <= 16) {
                 var pos = { row: row_next, col: col_next };
+                movedDeltas.push(pos);
+                if (state.board[row_next][col_next] === '') {
+                    movedDeltas.pop();
+                }
                 if (state.board[row_next][col_next] == currentPlayer) {
                     action.selfMarbles.push(pos);
                     row_next += action.direction.row;
@@ -473,6 +475,7 @@ var gameLogic;
             var i = 0;
             while (i + 2 <= deltas.length) {
                 action.selfMarbles.push(deltas[i]);
+                movedDeltas.push(deltas[i + 1]);
                 i += 2;
             }
         }
@@ -498,9 +501,15 @@ var gameLogic;
     }
     game.isPieceW = isPieceW;
     function shouldSlowlyAppear(row, col) {
-        return !animationEnded &&
-            state.blackRemoved &&
-            shouldShowImage(row, col);
+        var flag = false;
+        var j = row % 2 + 2 * col;
+        for (var i = 0; i < movedDeltas.length; i++) {
+            if (movedDeltas[i].row === row && movedDeltas[i].col === j) {
+                flag = true;
+                break;
+            }
+        }
+        return !animationEnded && flag && shouldShowImage(row, col);
     }
     game.shouldSlowlyAppear = shouldSlowlyAppear;
     function getPieceKind(piece) {
@@ -523,9 +532,9 @@ angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])
     translate.setLanguage('en', {
         RULES_OF_ABALONE: "Rules of Abalone",
         RULES_SLIDE1: "Each side has 14 marbles and takes turns to move; whoever first removes 6 of the opponent's marbles wins.",
-        RULES_SLIDE2: "Marbles in a line can be moved along the line by 1 step; at most 3 of your own marbles and less of your opponent's can be moved.",
+        RULES_SLIDE2: "Inline: Marbles in a line can be moved along the line by 1 step; at most 3 of your own marbles and less of your opponent's can be moved.",
         INLINE_MOVE: "Click on 'Inline Move' button; click on a marble to start and the next marble/position along moving direction; submit move;",
-        RULES_SLIDE3: "You can also move 2~3 of your own marbles in a line to open space in a neighbor parallel line. ",
+        RULES_SLIDE3: "Broadside: Two to Three of your own marbles in a line can be moved to empty positions in a neighbor parallel line. ",
         BROADSIDE: "Click on 'Broad-side' button; for each marble to be moved, first click on the marble and then its new position; submit move;",
         CLOSE: "Close"
     });
