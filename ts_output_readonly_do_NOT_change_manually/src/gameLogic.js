@@ -298,8 +298,11 @@ var gameLogic;
             firstOperation = { setTurn: { turnIndex: 1 - turnIndexBeforeMove } };
         }
         var move = [firstOperation,
-            { set: { key: 'action', value: action } },
-            { set: { key: 'state', value: stateAfterMove } }];
+            { set: { key: 'board', value: stateAfterMove.board } },
+            { set: { key: 'isInitialState', value: stateAfterMove.isInitialState } },
+            { set: { key: 'blackRemoved', value: stateAfterMove.blackRemoved } },
+            { set: { key: 'whiteRemoved', value: stateAfterMove.whiteRemoved } },
+            { set: { key: 'action', value: action } }];
         return move;
     }
     gameLogic.createMove = createMove;
