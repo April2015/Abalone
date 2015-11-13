@@ -177,7 +177,7 @@ var gameLogic;
                 var row_delta2 = action.selfMarbles[2].row - action.selfMarbles[1].row;
                 var col_delta2 = action.selfMarbles[2].col - action.selfMarbles[1].col;
                 var temp_direc2 = { row: row_delta2, col: col_delta2 };
-                if (temp_direc1 !== temp_direc2)
+                if (!angular.equals(temp_direc1, temp_direc2))
                     return false;
             }
         }
@@ -230,8 +230,8 @@ var gameLogic;
         if (getWinner(stateBeforeMove) === 'B'
             || getWinner(stateBeforeMove) === 'W')
             throw new Error("Can only make a move if the game is not over!");
-        // if(!isStepValid(stateBeforeMove, action, turnIndexBeforeMove))
-        //   throw new Error("Action is invalid and game is halted!");
+        if (!isStepValid(stateBeforeMove, action, turnIndexBeforeMove))
+            throw new Error("Action is invalid and game is halted!");
         var stateAfterMove = angular.copy(stateBeforeMove);
         if (stateAfterMove.isInitialState === true) {
             stateAfterMove.isInitialState = false;
