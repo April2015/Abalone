@@ -11,14 +11,12 @@
   <script crossorigin="anonymous" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.js"></script>
   <script crossorigin="anonymous" src="http://yoav-zibin.github.io/emulator/dist/turnBasedServices.3.js"></script>
   <script>
-    angular.module('myApp', []).run(function () { resizeGameAreaService.setWidthToHeight(1); });
+    angular.module('myApp', []).run(function () { resizeGameAreaService.setWidthToHeight(1.2); });
   </script>
 </head>
 <body>
-<div id="gameArea">
-  <div style="position:absolute; top:2%; left:0%; width:100%; height:84%;">
+<div id="gameArea" >
   <img src="imgs/board.png" width="100%" height="100%">
-  <!-- <img src="imgs/board.png" style="position:absolute; top:0%; left:0%; width:100%; height:84%;"> -->
 
 <!-- 1st row -->
 <div style="position:absolute; top:9.1%; left:9.5%; width:81%; height:9%;">
@@ -362,40 +360,29 @@
     </div>
 
     <div style="position:absolute; top:0%; left:88.5%; width:11%; height:100%;">
+
     </div>
   </div>
-</div>
 
-<div style="position:absolute; top:88%; left:0%; width:100%; height:10%;">
-    <div style="position:absolute; top:0%; left:0%; width:15%; height:100%;">
-      <input type="image" src="imgs/inline.png"  alt="Inline" width="100%" height="100%"/>
-      <!-- <img src="imgs/inline.png"  style="position:absolute; top:0%; left:0%; width:100%; height:100%;"> -->
-    </div>
-    <div style="position:absolute; top:0%; left:20%; width:15%; height:100%;">
-      <input type="image" src="imgs/broadside.png"  alt="Broadside" width="100%" height="100%"/>
-     <!-- <img src="imgs/broadside.png"  style="position:absolute; top:0%; left:0%; width:100%; height:100%;"> -->
-    </div>
-    <div   style="position:absolute; top:0%; left:40%; width:20%; height:100%;">
-      <div   style="position:absolute; top:0%; left:0%; width:100%; height:50%;">
-         B:W
-      </div>
-      <div   style="position:absolute; top:50%; left:0%; width:100%; height:50%;">
-         0:0
-      </div>
-    </div>
-
-    <div   style="position:absolute; top:0%; left:65%; width:15%; height:100%;">
-      <input type="image" src="imgs/cancel.png"  alt="cancel" width="100%" height="100%"/>
-     <!-- <img src="imgs/cancel.png"  style="position:absolute; top:0%; left:0%; width:100%; height:100%;"> -->
-    </div>
-    <div  style="position:absolute; top:0%; left:85%; width:15%; height:100%;">
-     <!-- <img src="imgs/submit.png"  style="position:absolute; top:0%; left:0%; width:100%; height:100%;"> -->
-     <input type="image" src="imgs/submit.png"  alt="Inline" width="100%" height="100%"/>
-     <button name="button">
+  <!-- exchange-button -->
+  <div style="position:absolute; top:91%; left:0%; width:100%; height:9%;">
+    <div style="position:absolute; top:0%; left:0%; width:9%; height:9%;">
+     <button name="button"> Inline Move
      </button>
     </div>
-</div>
-
+    <div style="position:absolute; top:0%; left:11%; width:9%; height:9%;">
+     <button name="button"> Broadside move
+     </button>
+    </div>
+    <div style="position:absolute; top:0%; left:80%; width:9%; height:9%;">
+     <button name="button"> Cancel Move
+     </button>
+    </div>
+    <div style="position:absolute; top:0%; left:91%; width:9%; height:9%;">
+     <button name="button"> Submit Move
+     </button>
+    </div>
+  </div>
 </div>
 </body>
 </html>

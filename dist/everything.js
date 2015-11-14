@@ -328,7 +328,7 @@ var gameLogic;
     // let action: Action = null;
     function init() {
         console.log("Translation of 'RULES_OF_ABALONE' is " + translate('RULES_OF_ABALONE'));
-        resizeGameAreaService.setWidthToHeight(6 / 5);
+        resizeGameAreaService.setWidthToHeight(1);
         gameService.setGame({
             minNumberOfPlayers: 2,
             maxNumberOfPlayers: 2,
