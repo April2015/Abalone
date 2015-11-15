@@ -143,6 +143,7 @@
         <img ng-if="game.isPieceW(row, col)" src="imgs/white.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;"> -->
         <input type="image" ng-if="game.isPieceB(row, col)" ng-src="imgs/black.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;"/>
         <input type="image" ng-if="game.isPieceW(row, col)" ng-src="imgs/white.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;"/>
+        <!-- <input type="image" ng-if="game.isEmpty(row, col)" ng-src="imgs/empty.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;"/> -->
         </div>
       </div>
     </div>
@@ -155,6 +156,7 @@
           ng-if="game.shouldShowImage(row, col)">
           <input type="image" ng-if="game.isPieceB(row, col)" ng-src="imgs/black.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;"/>
           <input type="image" ng-if="game.isPieceW(row, col)" ng-src="imgs/white.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;"/>
+          <!-- <input type="image" ng-if="game.isEmpty(row, col)" ng-src="imgs/empty.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;"/> -->
         </div>
       </div>
     </div>

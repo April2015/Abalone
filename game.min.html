@@ -123,15 +123,11 @@
         <div style="width:100%; height: 100%"
           ng-class="{slowlyAppear: game.shouldSlowlyAppear(row, col)}"
           ng-if="game.shouldShowImage(row, col)">
-        <img ng-if="game.isPieceB(row, col)" src="imgs/black.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;">
-        <img ng-if="game.isPieceW(row, col)" src="imgs/white.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;">
-       <!-- "{black: game.isPieceB(row, col), white: game.isPieceW(row, col)}" -->
-       <!-- "{piece: true}" -->
-       <!-- ng-click="game.cellClicked(row, col)" -->
-       <!-- <img ng-class="{piece: true}"
-                     ng-show="game.shouldShowImage(row, col)"
-                     ng-src="{{game.getImageSrc(row, col)}}"
-                     id="{{'img_' + row + 'x' + col}}"> -->
+        <!-- <img ng-if="game.isPieceB(row, col)" src="imgs/black.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;">
+        <img ng-if="game.isPieceW(row, col)" src="imgs/white.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;"> -->
+        <input type="image" ng-if="game.isPieceB(row, col)" ng-src="imgs/black.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;"/>
+        <input type="image" ng-if="game.isPieceW(row, col)" ng-src="imgs/white.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;"/>
+        <!-- <input type="image" ng-if="game.isEmpty(row, col)" ng-src="imgs/empty.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;"/> -->
         </div>
       </div>
     </div>
@@ -142,8 +138,9 @@
         <div style="width:100%; height: 100%"
           ng-class="{slowlyAppear: game.shouldSlowlyAppear(row, col)}"
           ng-if="game.shouldShowImage(row, col)">
-          <img ng-if="game.isPieceB(row, col)" src="imgs/black.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;">
-          <img ng-if="game.isPieceW(row, col)" src="imgs/white.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;">
+          <input type="image" ng-if="game.isPieceB(row, col)" ng-src="imgs/black.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;"/>
+          <input type="image" ng-if="game.isPieceW(row, col)" ng-src="imgs/white.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;"/>
+          <!-- <input type="image" ng-if="game.isEmpty(row, col)" ng-src="imgs/empty.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;"/> -->
         </div>
       </div>
     </div>
@@ -154,38 +151,55 @@
         <img ng-if="game.isWsTurn()" src="imgs/white.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;">
       </div>
     </div>
-
-    <div ng-repeat="row in [0]" style="position:absolute; top:9%; left:0%; width:12%; height:9%;">
-      <div ng-repeat="col in [10]" style="position:absolute; top:0; left:0; width:100%; height:100%;" id="{{'div_' + row + 'x' + col}}">
-         <font face="verdana" color="green"> B:{{game.whiteRemoved()}}</font> ;
-         <font face="verdana" color="purple"> W:{{game.blackRemoved()}} </font>
-      </div>
-    </div>
-
-    <div ng-repeat="row in [9]" style="position:absolute; top:91%; left:0%; width:100%; height:9%;">
-      <div ng-repeat = "col in [0]" class="inline" style="position:absolute; top:0%; left:0%; width:9%; height:100%;"
-      ng-click="game.cellClicked(row, col)" id="{{'div_' + row + 'x' + col}}">
-        <button name="button"> Inline Move
-        </button>
-      </div>
-      <div ng-repeat = "col in [1]" class="broadside" style="position:absolute; top:0%; left:11%; width:9%; height:100%;"
-      ng-click="game.cellClicked(row, col)" id="{{'div_' + row + 'x' + col}}">
-        <button name="button"> Broad -side
-        </button>
-      </div>
-      <div ng-repeat = "col in [2]" class="cancel" style="position:absolute; top:0%; left:80%; width:9%; height:100%;"
-      ng-click="game.cellClicked(row, col)" id="{{'div_' + row + 'x' + col}}">
-        <button name="button"> Cancel Move
-        </button>
-      </div>
-      <div ng-repeat = "col in [3]" class="submit" style="position:absolute; top:0%; left:91%; width:9%; height:100%;"
-      ng-click="game.cellClicked(row, col)" id="{{'div_' + row + 'x' + col}}">
-        <button name="button"> Submit Move
-        </button>
-      </div>
-    </div>
   </div>
 
+  <div style="position:absolute; top:88%; left:0%; width:100%; height:10%;">
+    <div ng-repeat="row in [9]" style="position:absolute; top:0%; left:0%; width:100%; height:100%;">
+
+      <div ng-repeat = "col in [0]" style="position:absolute; top:0%; left:0%; width:15%; height:100%;"
+      ng-click="game.cellClicked(row, col)" id="{{'div_' + row + 'x' + col}}">
+      <input type="image" ng-src="imgs/inline.png"  alt="inline" width="100%" height="100%"/>
+        <!-- <img ng-src="imgs/inline.png"  width="100%" height="100%"> -->
+      </div>
+
+      <div ng-repeat = "col in [1]" style="position:absolute; top:0%; left:20%; width:15%; height:100%;"
+      ng-click="game.cellClicked(row, col)" id="{{'div_' + row + 'x' + col}}">
+        <input type="image" ng-src="imgs/broadside.png"  alt="broadside" width="100%" height="100%"/>
+      </div>
+
+      <div  ng-repeat="col in [4]"  style="position:absolute; top:0%; left:40%; width:20%; height:100%;">
+        <div   style="position:absolute; top:0%; left:0%; width:100%; height:45%;">
+           <input type="image" ng-src="imgs/b-w.png"  alt="b-w" style="position:absolute; top:0%; left:25%; width:50%; height:100%;"/>
+        </div>
+        <div   style="position:absolute; top:50%; left:30%; width:25%; height:50%;">
+          <table border="1">
+          <tr>
+          <th><font face="verdana"   color="brown">  {{game.whiteRemoved()}}</font></th>
+          </tr>
+        </table>
+        </div>
+
+        <div   style="position:absolute; top:50%; left:55%; width:25%; height:50%;">
+          <table border="1">
+          <tr>
+          <th><font face="verdana"   color="purple">  {{game.blackRemoved()}} </font></th>
+          </tr>
+        </table>
+        </div>
+      </div>
+
+      <div ng-repeat = "col in [2]" style="position:absolute; top:0%; left:65%; width:15%; height:100%;"
+      ng-click="game.cellClicked(row, col)" id="{{'div_' + row + 'x' + col}}">
+      <input type="image" ng-src="imgs/cancel.png"  alt="cancel" width="100%" height="100%"/>
+      </div>
+
+      <div ng-repeat = "col in [3]" style="position:absolute; top:0%; left:85%; width:15%; height:100%;"
+      ng-click="game.cellClicked(row, col)" id="{{'div_' + row + 'x' + col}}">
+        <input type="image" ng-src="imgs/submit.png"  alt="submit" width="100%" height="100%"/>
+      </div>
+
+    </div>
+  </div>
   </div>
 
 </body>

@@ -94,10 +94,12 @@ module game {
       if (row == 9 && col == 0) {
         isInline = true;
         isBroadside = false;
+        deltas = [];
       }
       if (row == 9 && col == 1) {
         isBroadside = true;
         isInline = false;
+        deltas = [];
       }
       if (row == 9 && col == 2) {
         isInline = false;
@@ -184,6 +186,11 @@ module game {
   export function isPieceB(row: number, col: number): boolean {
     let j: number = row % 2 + 2 * col;
     return state.board[row][j] === 'B';
+  }
+
+  export function isEmpty(row: number, col: number): boolean {
+    let j: number = row % 2 + 2 * col;
+    return state.board[row][j] === 'O';
   }
 
   export function isBsTurn(): boolean {

@@ -401,10 +401,12 @@ var gameLogic;
             if (row == 9 && col == 0) {
                 isInline = true;
                 isBroadside = false;
+                deltas = [];
             }
             if (row == 9 && col == 1) {
                 isBroadside = true;
                 isInline = false;
+                deltas = [];
             }
             if (row == 9 && col == 2) {
                 isInline = false;
@@ -495,6 +497,11 @@ var gameLogic;
         return state.board[row][j] === 'B';
     }
     game.isPieceB = isPieceB;
+    function isEmpty(row, col) {
+        var j = row % 2 + 2 * col;
+        return state.board[row][j] === 'O';
+    }
+    game.isEmpty = isEmpty;
     function isBsTurn() {
         return turnIndex === 0;
     }
