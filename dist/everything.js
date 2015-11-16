@@ -494,6 +494,9 @@ var gameLogic;
                 isInline = true;
             }
         }
+        else if (isInline === true) {
+            selfMarbles = [selfMarbles[len - 1]];
+        }
     }
     function submitMove() {
         if (!canMakeMove) {

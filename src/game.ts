@@ -204,6 +204,8 @@ function setDirection(row: number, col: number): void {
     } else {
       isInline = true;
     }
+  } else if (isInline === true) {
+    selfMarbles = [selfMarbles[len - 1]];
   }
 }
 
