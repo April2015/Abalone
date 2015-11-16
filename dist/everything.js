@@ -423,7 +423,9 @@ var gameLogic;
         }
         if (row < 9) {
             // draggingLines.style.display = "inline";
-            clickToDragPiece.style.display = "inline";
+            if (isValidMarblePosition(row, col)) {
+                clickToDragPiece.style.display = "inline";
+            }
             var centerXY = getSquareCenterXY(row, col);
             verticalDraggingLine.setAttribute("x1", centerXY.width.toString());
             verticalDraggingLine.setAttribute("x2", centerXY.width.toString());
@@ -453,7 +455,7 @@ var gameLogic;
             }
             if (row === 9 && col === 9 && readyToSubmit === true) {
                 submitMove();
-                log.info(["submitMove at row, col:", row, col]);
+                // log.info(["submitMove at row, col:", row, col]);
                 readyToSubmit = false;
             }
         }
@@ -604,6 +606,12 @@ var gameLogic;
         if (row < 0 || row > 8 || j < 0 || j > 16)
             return false;
         return state.board[row][j] === (turnIndex === 0 ? 'B' : 'W');
+    }
+    function isValidMarblePosition(row, col) {
+        var j = row % 2 + 2 * col;
+        if (row < 0 || row > 8 || j < 0 || j > 16 || state.board[row][j] === '')
+            return false;
+        return true;
     }
     function shouldShowImage(row, col) {
         var j = row % 2 + 2 * col;

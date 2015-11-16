@@ -131,7 +131,9 @@ module game {
 
     if (row < 9){
       // draggingLines.style.display = "inline";
-      clickToDragPiece.style.display = "inline";
+      if (isValidMarblePosition(row, col)) {
+        clickToDragPiece.style.display = "inline";
+      }
       let centerXY = getSquareCenterXY(row, col);
       verticalDraggingLine.setAttribute("x1",  centerXY.width.toString());
       verticalDraggingLine.setAttribute("x2",  centerXY.width.toString());
@@ -315,6 +317,12 @@ function submitMove(): void {
     return state.board[row][j] === (turnIndex === 0? 'B' : 'W');
   }
 
+  function isValidMarblePosition(row: number, col: number): boolean {
+    let j: number = row % 2 + 2 * col;
+    if (row < 0 || row > 8 || j < 0 || j > 16 || state.board[row][j] === '')
+      return false;
+    return true;
+  }
   export function shouldShowImage(row: number, col: number): boolean {
     let j: number = row % 2 + 2 * col;
     let cell = state.board[row][j];
