@@ -5,6 +5,12 @@
   border-bottom: 4pt solid black;
 }
 
+.selected {
+  background-color: #9b59b6;
+  box-shadow: 0 0 12px #9b59b6 !important;
+  border-color: #9b59b6;
+}
+
 .inline {
     color: purple;
 }

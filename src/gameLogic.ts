@@ -229,8 +229,8 @@ module gameLogic {
     if (!stateBeforeMove || Object.keys(stateBeforeMove).length === 0) {
       stateBeforeMove = getInitialState();
     }
-    // if (!isStateValid(stateBeforeMove))
-    //   throw new Error("The given state is invalid");
+    if (!isStateValid(stateBeforeMove))
+      throw new Error("The given state is invalid");
     if (getWinner(stateBeforeMove) === 'B'
       || getWinner(stateBeforeMove) === 'W')
       throw new Error("Can only make a move if the game is not over!");

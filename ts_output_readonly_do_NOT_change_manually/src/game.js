@@ -10,13 +10,14 @@ var game;
     var isInline = null;
     // let isBroadside: boolean = false;
     var direction = { row: 10, col: 0 };
-    var deltas = [];
+    var selfMarbles = [];
     var movedDeltas = [];
     // let action: Action = null;
     var gameArea;
     var draggingLines;
     var verticalDraggingLine;
     var horizontalDraggingLine;
+    var clickToDragPiece;
     function init() {
         console.log("Translation of 'RULES_OF_ABALONE' is " + translate('RULES_OF_ABALONE'));
         resizeGameAreaService.setWidthToHeight(6 / 5);
@@ -81,11 +82,13 @@ var game;
         draggingLines = document.getElementById("draggingLines");
         verticalDraggingLine = document.getElementById("verticalDraggingLine");
         horizontalDraggingLine = document.getElementById("horizontalDraggingLine");
+        clickToDragPiece = document.getElementById("clickToDragPiece");
         var x = clientX - gameArea.offsetLeft;
         var y = clientY - gameArea.offsetTop;
         // is outside gameArea?
         if (x < 0 || y < 0 || x >= gameArea.clientWidth || y >= gameArea.clientHeight) {
             draggingLines.style.display = "none";
+            clickToDragPiece.style.display = "none";
             return;
         }
         // Inside gameArea. Let's find the containing board's row and col
@@ -101,86 +104,133 @@ var game;
             col = 9;
         }
         if (row >= 9) {
-            draggingLines.style.display = "none";
+            draggingLines.style.display = "none"; // submit button
         }
         else {
-            draggingLines.style.display = "inline";
+            // draggingLines.style.display = "inline";
+            clickToDragPiece.style.display = "inline";
             var centerXY = getSquareCenterXY(row, col);
             verticalDraggingLine.setAttribute("x1", centerXY.width.toString());
             verticalDraggingLine.setAttribute("x2", centerXY.width.toString());
             horizontalDraggingLine.setAttribute("y1", centerXY.height.toString());
             horizontalDraggingLine.setAttribute("y2", centerXY.height.toString());
-        }
-        if (type === "touchstart") {
-            if (row < 9 && row >= 0) {
-                var delta = { row: row, col: row % 2 + 2 * col };
-                deltas.push(delta);
+            //  clickToDragPiece.style.left = topLeft.left + "px";
+            var top_1 = 9.1 * (row + 1);
+            clickToDragPiece.style.top = top_1.toString() + "%";
+            // clickToDragPiece.setAttribute("top", top.toString() +"%");
+            var left = 9.5 + 9 * col;
+            if (row % 2 === 1) {
+                left += 4.5;
             }
+            clickToDragPiece.style.left = left.toString() + "%";
         }
-        if (type === "touchend") {
+        if (type === "touchstart" && isValidStartPosition(row, col)) {
+            var delta = { row: row, col: row % 2 + 2 * col };
+            selfMarbles.push(delta);
+        }
+        else if (type === "touchend") {
             if (row < 9) {
-                var j = row % 2 + 2 * col;
-                if (deltas.length === 0)
-                    return;
-                if (direction.row !== 10) {
-                    deltas.push({ row: row, col: j });
-                }
-                else {
-                    var row_1 = row - deltas[0].row;
-                    var col_1 = j - deltas[0].col;
-                    var scalar = (abs(row_1) + abs(col_1)) / 2;
-                    if (row_1 % scalar !== 0 || col_1 % scalar !== 0) {
-                        deltas = [];
-                        return;
-                    }
-                    direction.row = row_1 / scalar;
-                    direction.col = col_1 / scalar;
-                    row_1 = deltas[0].row + direction.row;
-                    col_1 = deltas[0].col + direction.col;
-                    if (state.board[row_1][col_1] === 'O') {
-                        isInline = false;
-                    }
-                    else {
-                        isInline = true;
-                    }
-                    deltas.push({ row: row_1, col: col_1 });
-                }
+                setDirection(row, col);
             }
             if (row === 9 && col === 9) {
-                if (!canMakeMove) {
-                    return;
-                }
-                try {
-                    movedDeltas = [];
-                    var action = touchToAction();
-                    //  log.info(["try to make a move"]);
-                    if (gameLogic.isStepValid(state, action, turnIndex)) {
-                        var move = gameLogic.createMove(state, action, turnIndex);
-                        canMakeMove = false;
-                        gameService.makeMove(move);
-                    }
-                    isInline = null;
-                    direction = { row: 10, col: 0 };
-                    deltas = [];
-                }
-                catch (e) {
-                    log.info(["Illegal movement from", row, col]);
-                    return;
-                }
+                submitMove();
             }
         }
         if (type === "touchend" || type === "touchcancel" || type === "touchleave" || type === "mouseup") {
             draggingLines.style.display = "none";
-            log.info(["touch end at", row, col]);
+            clickToDragPiece.style.display = "none";
         }
     }
     game.handleDragEvent = handleDragEvent;
+    function setDirection(row, col) {
+        var j = row % 2 + 2 * col;
+        if (selfMarbles.length === 0)
+            return;
+        var len = selfMarbles.length;
+        var row_1 = row - selfMarbles[len - 1].row;
+        var col_1 = j - selfMarbles[len - 1].col;
+        var scalar = (abs(row_1) + abs(col_1)) / 2;
+        // the touch direction is invalid
+        if (row_1 % scalar !== 0 || col_1 % scalar !== 0) {
+            selfMarbles.pop();
+            return;
+        }
+        row_1 = row_1 / scalar;
+        col_1 = col_1 / scalar;
+        if (row_1 !== direction.row || col_1 !== direction.col) {
+            var currStart = selfMarbles[len - 1];
+            selfMarbles = [currStart];
+            direction = { row: row_1, col: col_1 };
+            row_1 = selfMarbles[0].row + direction.row;
+            col_1 = selfMarbles[0].col + direction.col;
+            if (state.board[row_1][col_1] === 'O') {
+                isInline = false;
+            }
+            else {
+                isInline = true;
+            }
+        }
+    }
+    function submitMove() {
+        if (!canMakeMove) {
+            return;
+        }
+        try {
+            movedDeltas = [];
+            var action = touchToAction();
+            //  log.info(["try to make a move"]);
+            var move = gameLogic.createMove(state, action, turnIndex);
+            canMakeMove = false;
+            gameService.makeMove(move);
+        }
+        catch (e) {
+            if (isInline === true && selfMarbles.length > 0) {
+                log.info(["Illegal inline movement from", selfMarbles[0].row, selfMarbles[0].col]);
+            }
+            else if (isInline === false && selfMarbles.length > 0) {
+                log.info(["Illegal broadside movement from", selfMarbles[0].row, selfMarbles[0].col]);
+            }
+            else
+                log.info(["Illegal movement"]);
+        }
+        isInline = null;
+        direction = { row: 10, col: 0 };
+        selfMarbles = [];
+    }
+    // function submitMove(): void {
+    //   if (!canMakeMove) {
+    //     return;
+    //   }
+    //   try {
+    //    movedDeltas = [];
+    //    let action: Action = touchToAction();
+    //   //  log.info(["try to make a move"]);
+    //    if (gameLogic.isStepValid(state, action, turnIndex)) {
+    //      let move = gameLogic.createMove (state, action, turnIndex);
+    //      canMakeMove = false;
+    //      gameService.makeMove(move);
+    //    }
+    //    isInline = null;
+    //    direction = {row: 10, col: 0};
+    //    selfMarbles = [];
+    //  }catch (e) {
+    //   //  log.info(["Illegal movement from", row, col]);
+    //    return;
+    //  }
+    // }
     function getSquareCenterXY(row, col) {
         var boardHeight = gameArea.clientHeight;
         var boardWidth = gameArea.clientWidth;
         var height = 0.091 * boardHeight * (row + 1) + boardHeight * 0.045;
         var width = 0.14 * boardWidth + 0.09 * boardWidth * col + 0.045 * boardWidth * (row % 2);
         return { width: width, height: height };
+    }
+    function getSquareTopLeft(row, col) {
+        var boardHeight = gameArea.clientHeight;
+        var boardWidth = gameArea.clientWidth;
+        var height = 0.091 * boardHeight * (row + 1);
+        var width = 0.095 * boardWidth + 0.09 * boardWidth * col + 0.045 * boardWidth * (row % 2);
+        return { top: width, left: height };
     }
     function abs(i) {
         if (i >= 0)
@@ -192,10 +242,10 @@ var game;
         var currentOpponent = (turnIndex === 0) ? 'W' : 'B';
         var action = { isInline: isInline, direction: direction,
             selfMarbles: [], opponentMarbles: [] };
-        if (isInline === true && deltas.length > 1) {
-            action.selfMarbles.push(deltas[0]);
-            var row_next = deltas[0].row + direction.row;
-            var col_next = deltas[0].col + direction.col;
+        if (isInline === true && selfMarbles.length > 0) {
+            action.selfMarbles.push(selfMarbles[0]);
+            var row_next = selfMarbles[0].row + direction.row;
+            var col_next = selfMarbles[0].col + direction.col;
             while (row_next >= 0 && row_next <= 8 && col_next >= 0 && col_next <= 16) {
                 var pos = { row: row_next, col: col_next };
                 movedDeltas.push(pos);
@@ -216,19 +266,23 @@ var game;
                     break;
             }
         }
-        if (isInline === false && deltas.length > 1) {
-            var i = 0;
-            while (i + 2 <= deltas.length) {
-                action.selfMarbles.push(deltas[i]);
-                var row_next = deltas[i].row + direction.row;
-                var col_next = deltas[i].col + direction.col;
+        if (isInline === false && selfMarbles.length > 0) {
+            for (var i = 0; i < selfMarbles.length; i++) {
+                action.selfMarbles.push(selfMarbles[i]);
+                var row_next = selfMarbles[i].row + direction.row;
+                var col_next = selfMarbles[i].col + direction.col;
                 movedDeltas.push({ row: row_next, col: col_next });
-                i += 2;
             }
         }
         return action;
     }
     game.touchToAction = touchToAction;
+    function isValidStartPosition(row, col) {
+        var j = row % 2 + 2 * col;
+        if (row < 0 || row > 8 || j < 0 || j > 16)
+            return false;
+        return state.board[row][j] === (turnIndex === 0 ? 'B' : 'W');
+    }
     function shouldShowImage(row, col) {
         var j = row % 2 + 2 * col;
         var cell = state.board[row][j];
@@ -288,19 +342,6 @@ var game;
         return !animationEnded && flag && shouldShowImage(row, col);
     }
     game.shouldSlowlyAppear = shouldSlowlyAppear;
-    function getPieceKind(piece) {
-        if (piece === 'B')
-            return 'imgs/black.png';
-        if (piece === 'W')
-            return 'imgs/white.png';
-        return '';
-    }
-    function getImageSrc(row, col) {
-        var j = row % 2 + 2 * col;
-        var cell = state.board[row][j];
-        return getPieceKind(cell);
-    }
-    game.getImageSrc = getImageSrc;
 })(game || (game = {}));
 angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])
     .run(function () {
