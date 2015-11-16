@@ -22,12 +22,14 @@ module game {
   let selfMarbles: BoardDelta[] = [];
   let movedDeltas: BoardDelta[] = [];
   // let action: Action = null;
+  let readyToSubmit: boolean = false;
 
   let gameArea: HTMLElement;
   let draggingLines: HTMLElement;
   let verticalDraggingLine: HTMLElement;
   let horizontalDraggingLine: HTMLElement;
   let clickToDragPiece: HTMLElement;
+  let clickToSubmit: HTMLElement;
 
 
   export function init() {
@@ -103,6 +105,7 @@ module game {
     verticalDraggingLine = document.getElementById("verticalDraggingLine");
     horizontalDraggingLine = document.getElementById("horizontalDraggingLine");
     clickToDragPiece = document.getElementById("clickToDragPiece");
+    clickToSubmit = document.getElementById("clickToSubmit");
 
     var x = clientX - gameArea.offsetLeft;
     var y = clientY - gameArea.offsetTop;
@@ -111,6 +114,7 @@ module game {
     if (x < 0 || y < 0 || x >= gameArea.clientWidth || y >= gameArea.clientHeight) {
       draggingLines.style.display = "none";
       clickToDragPiece.style.display = "none";
+      clickToSubmit.style.display = "none";
       return;
     }
 
@@ -125,9 +129,7 @@ module game {
       col = 9;
     }
 
-    if (row >= 9) {
-      draggingLines.style.display = "none"; // submit button
-    } else {
+    if (row < 9){
       // draggingLines.style.display = "inline";
       clickToDragPiece.style.display = "inline";
       let centerXY = getSquareCenterXY(row, col);
@@ -146,24 +148,30 @@ module game {
       }
       clickToDragPiece.style.left = left.toString() + "%";
             // clickToDragPiece.setAttribute("left", left.toString() +"%");
+    } else if (row == 9 && col == 9) {
+      readyToSubmit = true;
+      clickToSubmit.style.display = "inline";
+
     }
 
     if (type === "touchstart" && isValidStartPosition(row, col)) {
         let delta: BoardDelta = {row: row, col: row % 2 + 2 * col};
         selfMarbles.push(delta);
     } else if (type === "touchend") {
-
       if (row < 9) {
         setDirection(row, col);
       }
-      if (row === 9 && col === 9) {
+      if (row === 9 && col === 9 && readyToSubmit === true) {
         submitMove();
+        // log.info(["submitMove at row, col:", row, col]);
+        readyToSubmit = false;
       }
     }
 
   if (type === "touchend" || type === "touchcancel" || type === "touchleave" || type === "mouseup") {
     draggingLines.style.display = "none";
     clickToDragPiece.style.display = "none";
+    clickToSubmit.style.display = "none";
     // log.info(["touch end at", row, col]);
    }
  }

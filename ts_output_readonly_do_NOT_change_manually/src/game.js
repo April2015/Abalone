@@ -13,11 +13,13 @@ var game;
     var selfMarbles = [];
     var movedDeltas = [];
     // let action: Action = null;
+    var readyToSubmit = false;
     var gameArea;
     var draggingLines;
     var verticalDraggingLine;
     var horizontalDraggingLine;
     var clickToDragPiece;
+    var clickToSubmit;
     function init() {
         console.log("Translation of 'RULES_OF_ABALONE' is " + translate('RULES_OF_ABALONE'));
         resizeGameAreaService.setWidthToHeight(6 / 5);
@@ -83,12 +85,14 @@ var game;
         verticalDraggingLine = document.getElementById("verticalDraggingLine");
         horizontalDraggingLine = document.getElementById("horizontalDraggingLine");
         clickToDragPiece = document.getElementById("clickToDragPiece");
+        clickToSubmit = document.getElementById("clickToSubmit");
         var x = clientX - gameArea.offsetLeft;
         var y = clientY - gameArea.offsetTop;
         // is outside gameArea?
         if (x < 0 || y < 0 || x >= gameArea.clientWidth || y >= gameArea.clientHeight) {
             draggingLines.style.display = "none";
             clickToDragPiece.style.display = "none";
+            clickToSubmit.style.display = "none";
             return;
         }
         // Inside gameArea. Let's find the containing board's row and col
@@ -103,10 +107,7 @@ var game;
         else if (x > 0.91 * gameArea.clientWidth) {
             col = 9;
         }
-        if (row >= 9) {
-            draggingLines.style.display = "none"; // submit button
-        }
-        else {
+        if (row < 9) {
             // draggingLines.style.display = "inline";
             clickToDragPiece.style.display = "inline";
             var centerXY = getSquareCenterXY(row, col);
@@ -124,6 +125,10 @@ var game;
             }
             clickToDragPiece.style.left = left.toString() + "%";
         }
+        else if (row == 9 && col == 9) {
+            readyToSubmit = true;
+            clickToSubmit.style.display = "inline";
+        }
         if (type === "touchstart" && isValidStartPosition(row, col)) {
             var delta = { row: row, col: row % 2 + 2 * col };
             selfMarbles.push(delta);
@@ -132,13 +137,16 @@ var game;
             if (row < 9) {
                 setDirection(row, col);
             }
-            if (row === 9 && col === 9) {
+            if (row === 9 && col === 9 && readyToSubmit === true) {
                 submitMove();
+                // log.info(["submitMove at row, col:", row, col]);
+                readyToSubmit = false;
             }
         }
         if (type === "touchend" || type === "touchcancel" || type === "touchleave" || type === "mouseup") {
             draggingLines.style.display = "none";
             clickToDragPiece.style.display = "none";
+            clickToSubmit.style.display = "none";
         }
     }
     game.handleDragEvent = handleDragEvent;
