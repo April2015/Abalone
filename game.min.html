@@ -62,7 +62,7 @@
                     {{ 'RULES_SLIDE2' | translate }}
                   </td>
                   <td>
-                    <img src="imgs/HelpSlide2.png" style="height:100px;">
+                    <img src="imgs/HelpSlide1.png" style="height:100px;">
                   </td>
                 </tr>
               </table>
@@ -72,6 +72,18 @@
                 <tr>
                   <td>
                     {{ 'RULES_SLIDE3' | translate }}
+                  </td>
+                  <td>
+                    <img src="imgs/HelpSlide2.png" style="height:100px;">
+                  </td>
+                </tr>
+              </table>
+            </slide>
+            <slide>
+              <table>
+                <tr>
+                  <td>
+                    {{ 'RULES_SLIDE4' | translate }}
                   </td>
                   <td>
                     <img src="imgs/HelpSlide3.png" style="height:100px;">
@@ -117,8 +129,8 @@
             ng-if="game.shouldShowImage(row, col)">
             <!-- <img ng-if="game.isPieceB(row, col)" src="imgs/black.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;">
             <img ng-if="game.isPieceW(row, col)" src="imgs/white.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;"> -->
-            <input type="image" ng-if="game.isPieceB(row, col)" ng-src="imgs/black.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;"/>
-            <input type="image" ng-if="game.isPieceW(row, col)" ng-src="imgs/white.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;"/>
+            <input type="image" ng-if="game.isPieceB(row, col)" ng-src="imgs/black.png"  style="position:absolute; top:0%; left:6.5%; width:87%; height:100%;"/>
+            <input type="image" ng-if="game.isPieceW(row, col)" ng-src="imgs/white.png"  style="position:absolute; top:0%; left:6.5%; width:87%; height:100%;"/>
             <!-- <input type="image" ng-if="game.isEmpty(row, col)" ng-src="imgs/empty.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;"/> -->
           </div>
         </div>
@@ -130,8 +142,8 @@
         <div style="width:100%; height: 100%"
           ng-class="{slowlyAppear: game.shouldSlowlyAppear(row, col)}"
           ng-if="game.shouldShowImage(row, col)">
-          <input type="image" ng-if="game.isPieceB(row, col)" ng-src="imgs/black.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;"/>
-          <input type="image" ng-if="game.isPieceW(row, col)" ng-src="imgs/white.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;"/>
+          <input type="image" ng-if="game.isPieceB(row, col)" ng-src="imgs/black.png"  style="position:absolute; top:0%; left:6.5%; width:87%; height:100%;"/>
+          <input type="image" ng-if="game.isPieceW(row, col)" ng-src="imgs/white.png"  style="position:absolute; top:0%; left:6.5%; width:87%; height:100%;"/>
           <!-- <input type="image" ng-if="game.isEmpty(row, col)" ng-src="imgs/empty.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;"/> -->
         </div>
       </div>
@@ -139,8 +151,8 @@
 
     <div ng-repeat="row in [0]" style="position:absolute; top:0%; left:0%; width:9%; height:9%;">
       <div ng-repeat="col in [9]" style="position:absolute; top:0; left:0; width:100%; height:100%;" id="{{'div_' + row + 'x' + col}}">
-        <img ng-if="game.isBsTurn()" src="imgs/black.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;">
-        <img ng-if="game.isWsTurn()" src="imgs/white.png"  style="position:absolute; top:0%; left:8%; width:84%; height:100%;">
+        <img ng-if="game.isBsTurn()" src="imgs/black.png"  style="position:absolute; top:0%; left:7%; width:86%; height:100%;">
+        <img ng-if="game.isWsTurn()" src="imgs/white.png"  style="position:absolute; top:0%; left:7%; width:86%; height:100%;">
       </div>
     </div>
     <div  ng-repeat="row in [0]"  style="position:absolute; top:10%; left:0%; width:9%; height:9%;">

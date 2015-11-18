@@ -367,9 +367,10 @@ angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])
     $rootScope['game'] = game;
     translate.setLanguage('en', {
         RULES_OF_ABALONE: "Rules of Abalone",
-        RULES_SLIDE1: "Each side has 14 marbles and takes turns to move; whoever first scores 6 points wins. Only in an inline move can one score 1 point by pushing the other's marble off board",
-        RULES_SLIDE2: "Inline: You can use n (= 2,3) of your marbles to push against m < n of your opponent's; all moved pieces are required to be neighbors in a line. If you push your opponent's piece off board, you score 1 point.",
-        RULES_SLIDE3: "Broadside: You can move 1 to 3 of your marbles that are neighbors in a line to empty positions in a neighboring parallel line. ",
+        RULES_SLIDE1: "Each side has 14 marbles and takes turns to move with the black moving first. Whoever first pushes six of the opponent's marbles off board wins.",
+        RULES_SLIDE2: "For each move, a player moves a line of one, two or three marbles one space. The move can be either broadside (parallel to the line of marbles) or in-line (serial in respect to the line of marbles)",
+        RULES_SLIDE3: "Inline: With an in-line move one can push the opponent′s marbles in an adjacent space to their own; push is valid only if the pushing line has more marbles than the pushed line; marbles must be pushed into an open space or off the board. ",
+        RULES_SLIDE4: "Broadside: You can move a line of 1-3 of your marbles parallelly to open space in a neighboring line. ",
         CLOSE: "Close"
     });
     game.init();
