@@ -125,7 +125,7 @@ module game {
       col = Math.floor((x - 0.095 * gameArea.clientWidth)/ (0.09 * gameArea.clientWidth));
     } else if (row < 9) {
       col = Math.floor((x - 0.14 * gameArea.clientWidth)/ (0.09 * gameArea.clientWidth));
-    } else if (x > 0.91 * gameArea.clientWidth) {
+    } else if (x > 0.85 * gameArea.clientWidth) {
       col = 9;
     }
 
