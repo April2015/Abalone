@@ -121,10 +121,12 @@ module aiService {
   }
 
   function getNextStates(move: IMove, playerIndex: number): IMove[] {
-    return getPossibleMoves(move[2].set.value, playerIndex);
+    let stateAfterMove: IState = {board: move[1].set.value, isInitialState: move[2].set.value,
+    blackRemoved: move[3].set.value, whiteRemoved:move[4].set.value, action: move[5].set.value};
+    return getPossibleMoves(stateAfterMove, playerIndex);
   }
 
   function getDebugStateToString(move: IMove): string {
-    return "\n" + move[2].set.value.board.join("\n") + "\n";
+    return "\n" + move[1].set.value.join("\n") + "\n";
   }
 }

@@ -684,7 +684,7 @@ angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])
         RULES_SLIDE1: "Each side has 14 marbles and takes turns to move with the black moving first. Whoever first pushes six of the opponent's marbles off board wins.",
         RULES_SLIDE2: "For each move, a player moves a line of one, two or three marbles one space. The move can be either broadside (parallel to the line of marbles) or in-line (serial in respect to the line of marbles)",
         RULES_SLIDE3: "Inline: With an in-line move one can push the opponent′s marbles in an adjacent space to their own; push is valid only if the pushing line has more marbles than the pushed line; marbles must be pushed into an open space or off the board. ",
-        RULES_SLIDE4: "Broadside: You can move 1 to 3 of your marbles that are neighbors in a line to empty positions in a neighboring parallel line. ",
+        RULES_SLIDE4: "Broadside: You can move a line of 1-3 of your marbles parallelly to open space in a neighboring line. ",
         CLOSE: "Close"
     });
     game.init();
@@ -1073,9 +1073,11 @@ angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])
         return 0;
     }
     function getNextStates(move, playerIndex) {
-        return getPossibleMoves(move[2].set.value, playerIndex);
+        var stateAfterMove = { board: move[1].set.value, isInitialState: move[2].set.value,
+            blackRemoved: move[3].set.value, whiteRemoved: move[4].set.value, action: move[5].set.value };
+        return getPossibleMoves(stateAfterMove, playerIndex);
     }
     function getDebugStateToString(move) {
-        return "\n" + move[2].set.value.board.join("\n") + "\n";
+        return "\n" + move[1].set.value.join("\n") + "\n";
     }
 })(aiService || (aiService = {}));

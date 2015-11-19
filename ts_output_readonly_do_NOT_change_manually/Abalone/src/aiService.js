@@ -118,11 +118,8 @@ var aiService;
         return 0;
     }
     function getNextStates(move, playerIndex) {
-        var stateAfterMove = { board: move[1].set.value, isInitialState: move[2].set.value,
+        var stateAftermove = { board: move[1].set.value, isInitialState: move[2].set.value,
             blackRemoved: move[3].set.value, whiteRemoved: move[4].set.value, action: move[5].set.value };
         return getPossibleMoves(stateAfterMove, playerIndex);
-    }
-    function getDebugStateToString(move) {
-        return "\n" + move[1].set.value.join("\n") + "\n";
     }
 })(aiService || (aiService = {}));
