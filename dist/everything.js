@@ -468,7 +468,7 @@ var gameLogic;
     game.handleDragEvent = handleDragEvent;
     function setDirection(row, col) {
         var j = row % 2 + 2 * col;
-        if (selfMarbles.length === 0)
+        if (selfMarbles.length === 0 || !state)
             return;
         var len = selfMarbles.length;
         var row_1 = row - selfMarbles[len - 1].row;
