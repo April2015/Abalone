@@ -181,7 +181,8 @@ module game {
 
 function setDirection(row: number, col: number): void {
   let j = row % 2 + 2 * col;
-  if (selfMarbles.length === 0 || !state) return;
+  if (selfMarbles.length === 0 || !state || !state.board)
+    return;
   let len = selfMarbles.length;
   let row_1 = row - selfMarbles[len - 1].row;
   let col_1 = j - selfMarbles[len - 1].col;

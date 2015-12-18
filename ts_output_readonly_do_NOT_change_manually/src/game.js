@@ -154,7 +154,7 @@ var game;
     game.handleDragEvent = handleDragEvent;
     function setDirection(row, col) {
         var j = row % 2 + 2 * col;
-        if (selfMarbles.length === 0 || !state)
+        if (selfMarbles.length === 0 || !state || !state.board)
             return;
         var len = selfMarbles.length;
         var row_1 = row - selfMarbles[len - 1].row;
