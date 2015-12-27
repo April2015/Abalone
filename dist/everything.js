@@ -956,12 +956,13 @@ angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])
 ;var aiService;
 (function (aiService) {
     /** Returns the move that the computer player should do for the given updateUI. */
-    function findComputerMove(updateUI) {
-        return createComputerMove(updateUI.stateAfterMove, updateUI.turnIndexAfterMove, 
-        // at most 1 second for the AI to choose a move (but might be much quicker)
-        { millisecondsLimit: 1000 });
-    }
-    aiService.findComputerMove = findComputerMove;
+    // export function findComputerMove(updateUI: IUpdateUI): IMove {
+    //   return createComputerMove(
+    //       updateUI.stateAfterMove,
+    //       updateUI.turnIndexAfterMove,
+    //       // at most 1 second for the AI to choose a move (but might be much quicker)
+    //       {millisecondsLimit: 1000})
+    // }
     function getPossibleMoves(state, turnIndexBeforeMove) {
         var possibleMoves = [];
         var board = state.board;
@@ -1057,27 +1058,39 @@ angular.module('myApp', ['ngTouch', 'ui.bootstrap', 'gameServices'])
      * and it has either a millisecondsLimit or maxDepth field:
      * millisecondsLimit is a time limit, and maxDepth is a depth limit.
      */
+    // export function createComputerMove(
+    //     state: IState, playerIndex: number, alphaBetaLimits: IAlphaBetaLimits): IMove {
+    //   return alphaBetaService.alphaBetaDecision(
+    //       [null, null, {set: {key: 'state', value: state}}],
+    //       playerIndex, getNextStates, getStateScoreForIndex0,
+    //       // If you want to see debugging output in the console, then surf to index.html?debug
+    //       window.location.search === '?debug' ? getDebugStateToString : null,
+    //       alphaBetaLimits);
+    // }
     function createComputerMove(state, playerIndex, alphaBetaLimits) {
-        return alphaBetaService.alphaBetaDecision([null, null, { set: { key: 'state', value: state } }], playerIndex, getNextStates, getStateScoreForIndex0, 
-        // If you want to see debugging output in the console, then surf to index.html?debug
-        window.location.search === '?debug' ? getDebugStateToString : null, alphaBetaLimits);
+        var moves = getPossibleMoves(state, playerIndex);
+        var len = moves.length;
+        if (len == 0)
+            return moves[0];
+        var i = Math.floor(Math.random() * len);
+        return moves[i];
     }
     aiService.createComputerMove = createComputerMove;
-    function getStateScoreForIndex0(move, playerIndex) {
-        if (move[0].endMatch) {
-            var endMatchScores = move[0].endMatch.endMatchScores;
-            return endMatchScores[0] > endMatchScores[1] ? Number.POSITIVE_INFINITY
-                : endMatchScores[0] < endMatchScores[1] ? Number.NEGATIVE_INFINITY
-                    : 0;
-        }
-        return 0;
-    }
+    // function getStateScoreForIndex0(move: IMove, playerIndex: number): number {
+    //   if (move[0].endMatch) {
+    //     let endMatchScores = move[0].endMatch.endMatchScores;
+    //     return endMatchScores[0] > endMatchScores[1] ? Number.POSITIVE_INFINITY
+    //         : endMatchScores[0] < endMatchScores[1] ? Number.NEGATIVE_INFINITY
+    //         : 0;
+    //   }
+    //   return 0;
+    // }
     function getNextStates(move, playerIndex) {
         var stateAfterMove = { board: move[1].set.value, isInitialState: move[2].set.value,
             blackRemoved: move[3].set.value, whiteRemoved: move[4].set.value, action: move[5].set.value };
         return getPossibleMoves(stateAfterMove, playerIndex);
     }
     function getDebugStateToString(move) {
-        return "\n" + move[1].set.value.join("\n") + "\n";
+        return "\n" + move[4].set.value.join("\n") + "\n";
     }
 })(aiService || (aiService = {}));

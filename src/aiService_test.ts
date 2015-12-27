@@ -19,41 +19,6 @@ describe("aiService", function() {
     expect(angular.equals(move, expectedMove)).toBe(true);
   });
 
-  it("Black finds an immediate winning move in less than a second", function() {
-    let state: IState = {board: [
-      ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'W', '', '', '', '' ],
-      ['', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'O', '', '', '' ],
-      ['', '', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'O', '', 'O', '', '' ],
-      ['', 'O', '', 'O', '', 'B', '', 'B', '', 'O', '', 'O', '', 'B', '', 'O', '' ],
-      ['O', '', 'O', '', 'B', '', 'W', '', 'W', '', 'O', '', 'O', '', 'O', '', 'O' ],
-      ['', 'O', '', 'O', '', 'W', '', 'W', '', 'O', '', 'W', '', 'B', '', 'O', '' ],
-      ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', '' ],
-      ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', '' ],
-      ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '' ]],
-      isInitialState: false,
-      blackRemoved: 1, whiteRemoved: 5};
-      let move = aiService.findComputerMove(<IUpdateUI>{
-        turnIndexAfterMove: 0, stateAfterMove: state});
-      let expectedMove = [{endMatch: {endMatchScores: [1, 0]}},
-        {set: {key: 'board', value: [
-          ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '' ],
-          ['', '', '', 'O', '', 'O', '', 'O', '', 'B', '', 'B', '', 'O', '', '', '' ],
-          ['', '', 'O', '', 'O', '', 'O', '', 'B', '', 'O', '', 'O', '', 'O', '', '' ],
-          ['', 'O', '', 'O', '', 'B', '', 'B', '', 'O', '', 'O', '', 'B', '', 'O', '' ],
-          ['O', '', 'O', '', 'B', '', 'W', '', 'W', '', 'O', '', 'O', '', 'O', '', 'O' ],
-          ['', 'O', '', 'O', '', 'W', '', 'W', '', 'O', '', 'W', '', 'B', '', 'O', '' ],
-          ['', '', 'O', '', 'O', '', 'O', '', 'W', '', 'W', '', 'B', '', 'B', '', '' ],
-          ['', '', '', 'O', '', 'B', '', 'O', '', 'O', '', 'W', '', 'O', '', '', '' ],
-          ['', '', '', '', 'O', '', 'O', '', 'O', '', 'O', '', 'B', '', '', '', '' ]]}},
-        {set: {key: 'isInitialState', value: false}},
-        {set: {key: 'blackRemoved', value: 1}},
-        {set: {key: 'whiteRemoved', value: 6}},
-       {set: {key: 'action', value: {isInline: true, direction:  {row: -1, col:1},
-        selfMarbles: [{row: 2, col: 10}, {row: 1, col: 11}],
-        opponentMarbles: [{row: 0, col: 12}]}}}];
-
-      expect(angular.equals(move, expectedMove)).toBe(true);
-      });
 
   it("Expect a broadside move by Black", function(){
     let state: IState = {board: [

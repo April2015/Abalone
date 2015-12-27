@@ -1,12 +1,12 @@
 module aiService {
   /** Returns the move that the computer player should do for the given updateUI. */
-  export function findComputerMove(updateUI: IUpdateUI): IMove {
-    return createComputerMove(
-        updateUI.stateAfterMove,
-        updateUI.turnIndexAfterMove,
-        // at most 1 second for the AI to choose a move (but might be much quicker)
-        {millisecondsLimit: 1000})
-  }
+  // export function findComputerMove(updateUI: IUpdateUI): IMove {
+  //   return createComputerMove(
+  //       updateUI.stateAfterMove,
+  //       updateUI.turnIndexAfterMove,
+  //       // at most 1 second for the AI to choose a move (but might be much quicker)
+  //       {millisecondsLimit: 1000})
+  // }
 
   export function getPossibleMoves(state: IState, turnIndexBeforeMove: number): IMove[] {
     let possibleMoves: IMove[] = [];
@@ -100,33 +100,43 @@ module aiService {
    * and it has either a millisecondsLimit or maxDepth field:
    * millisecondsLimit is a time limit, and maxDepth is a depth limit.
    */
+  // export function createComputerMove(
+  //     state: IState, playerIndex: number, alphaBetaLimits: IAlphaBetaLimits): IMove {
+  //   return alphaBetaService.alphaBetaDecision(
+  //       [null, null, {set: {key: 'state', value: state}}],
+  //       playerIndex, getNextStates, getStateScoreForIndex0,
+  //       // If you want to see debugging output in the console, then surf to index.html?debug
+  //       window.location.search === '?debug' ? getDebugStateToString : null,
+  //       alphaBetaLimits);
+  // }
+
   export function createComputerMove(
       state: IState, playerIndex: number, alphaBetaLimits: IAlphaBetaLimits): IMove {
-    return alphaBetaService.alphaBetaDecision(
-        [null, null, {set: {key: 'state', value: state}}],
-        playerIndex, getNextStates, getStateScoreForIndex0,
-        // If you want to see debugging output in the console, then surf to index.html?debug
-        window.location.search === '?debug' ? getDebugStateToString : null,
-        alphaBetaLimits);
-  }
+          let moves: IMove[] = getPossibleMoves(state, playerIndex);
+          let len: number = moves.length;
+          if (len == 0)
+            return moves[0];
+          let i = Math.floor(Math.random() * len);
+          return moves[i];
+      }
 
-  function getStateScoreForIndex0(move: IMove, playerIndex: number): number {
-    if (move[0].endMatch) {
-      let endMatchScores = move[0].endMatch.endMatchScores;
-      return endMatchScores[0] > endMatchScores[1] ? Number.POSITIVE_INFINITY
-          : endMatchScores[0] < endMatchScores[1] ? Number.NEGATIVE_INFINITY
-          : 0;
-    }
-    return 0;
-  }
+  // function getStateScoreForIndex0(move: IMove, playerIndex: number): number {
+  //   if (move[0].endMatch) {
+  //     let endMatchScores = move[0].endMatch.endMatchScores;
+  //     return endMatchScores[0] > endMatchScores[1] ? Number.POSITIVE_INFINITY
+  //         : endMatchScores[0] < endMatchScores[1] ? Number.NEGATIVE_INFINITY
+  //         : 0;
+  //   }
+  //   return 0;
+  // }
 
   function getNextStates(move: IMove, playerIndex: number): IMove[] {
     let stateAfterMove: IState = {board: move[1].set.value, isInitialState: move[2].set.value,
-    blackRemoved: move[3].set.value, whiteRemoved:move[4].set.value, action: move[5].set.value};
+    blackRemoved: move[3].set.value, whiteRemoved: move[4].set.value, action: move[5].set.value};
     return getPossibleMoves(stateAfterMove, playerIndex);
   }
 
   function getDebugStateToString(move: IMove): string {
-    return "\n" + move[1].set.value.join("\n") + "\n";
+    return "\n" + move[4].set.value.join("\n") + "\n";
   }
 }
