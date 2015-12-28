@@ -360,6 +360,10 @@ var gameLogic;
         });
     }
     function sendComputerMove() {
+        if (!isComputerTurn) {
+            return;
+        }
+        isComputerTurn = false;
         gameService.makeMove(aiService.createComputerMove(state, turnIndex, { millisecondsLimit: 1000 }));
     }
     function updateUI(params) {

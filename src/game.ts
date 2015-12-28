@@ -62,6 +62,10 @@ module game {
   }
 
   function sendComputerMove() {
+    if(!isComputerTurn) {
+      return;
+    }
+    isComputerTurn = false;
     gameService.makeMove(
       aiService.createComputerMove(state, turnIndex, {millisecondsLimit: 1000}));
   }
